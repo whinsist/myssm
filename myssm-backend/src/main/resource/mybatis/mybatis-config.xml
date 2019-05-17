@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 将数据库字段命名规则A_COLUMN转换为Java使用的驼峰式命名规则aCloumn -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+
+    <!-- 插件配置  -->
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor" >
+            <property name="supportMethodsArguments" value="true"/>
+            <property name="params" value="pageNum=pageNum;pageSize=pageSize;"/>
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+        <!--<plugin interceptor="cn.com.cloudstar.rightcloud.common.mybatis.interceptor.DataScopeInterceptor"/>-->
+        <!--<plugin interceptor="cn.com.cloudstar.rightcloud.framework.common.mybatis.interceptor.MyInterceptor">
+            <property name="hello" value="world"/>
+        </plugin>-->
+
+        <!--<plugin interceptor="cn.com.cloudstar.rightcloud.framework.common.mybatis.interceptor.PrepareInterceptor"/>
+        <plugin interceptor="cn.com.cloudstar.rightcloud.framework.common.mybatis.interceptor.ResultInterceptor" />
+-->
+    </plugins>
+
+    <mappers>
+        <mapper resource="mybatis/common_SqlMap.xml"/>
+    </mappers>
+
+
+</configuration>

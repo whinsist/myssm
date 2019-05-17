@@ -1,0 +1,117 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<div id="sidebar" class="sidebar responsive">
+
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+	</script>
+		
+	<ul class="nav nav-list">	
+		<li class="active">
+			<a href="${pageContext.request.contextPath}/v1/back/page/main/index">
+				<i class="menu-icon fa fa-tachometer"></i>
+				<span class="menu-text"> 后台管理 </span>
+			</a>
+			<b class="arrow"></b>
+		</li>
+		
+		<li <c:if test="${!empty menuKey && fn:contains('userList,userAdd',menuKey)}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list"></i>
+				<span class="menu-text">用户管理</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<li <c:if test="${!empty menuKey && fn:contains('userList', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/userinfo/userinfo_list"><i class="menu-icon fa fa-caret-right"></i>用户列表</a>
+					<b class="arrow"></b>
+				</li>
+				<li <c:if test="${!empty menuKey && fn:contains('userAdd', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/userinfo/userinfo_add"><i class="menu-icon fa fa-caret-right"></i>用户增加</a>
+					<b class="arrow"></b>
+				</li> 
+			</ul>	
+		</li>
+		
+		 
+		<li <c:if test="${!empty menuKey && fn:contains('decItemList,decItemAdd',menuKey)}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list"></i>
+				<span class="menu-text"> 商品管理</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<li <c:if test="${!empty menuKey && fn:contains('decItemList', menuKey)}">class="active"</c:if>>
+					<a href="/admin/decItem/list.do">
+						<i class="menu-icon fa fa-caret-right"></i>
+						商品查询
+					</a>
+					<b class="arrow"></b>
+				</li>
+				<li <c:if test="${!empty menuKey && fn:contains('decItemAdd', menuKey)}">class="active"</c:if>>
+					<a href="/admin/decItem/add.do">
+						<i class="menu-icon fa fa-caret-right"></i>
+						商品添加
+					</a>
+					<b class="arrow"></b>
+				</li>
+			</ul>	
+		</li>
+		
+		
+		
+		<li class="">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list"></i>
+				<span class="menu-text"> 订单管理</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<li class="">
+					<a href="/admin/decoration/decorationList">
+						<i class="menu-icon fa fa-caret-right"></i>
+						订单列表
+					</a>
+					<b class="arrow"></b>
+				</li>
+			</ul>	
+		</li>
+		
+		<!-- 部门导航栏 -->
+		<li <c:if test="${!empty menuKey && fn:contains('departmentList',menuKey)}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list"></i>
+				<span class="menu-text">部门管理</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<li <c:if test="${!empty menuKey && fn:contains('departmentList', menuKey)}">class="active"</c:if>>
+					<a href="/admin/department/list.do"><i class="menu-icon fa fa-caret-right"></i>部门列表</a>
+					<b class="arrow"></b>
+				</li>
+			</ul>	
+		</li>
+		
+		 
+		
+		 
+		 
+		 
+		 
+	</ul>
+	
+	<!-- #收缩菜单 -->
+	<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+		<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+	</div>
+
+	<!-- /section:basics/sidebar.layout.minimize -->
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+	</script>
+</div>

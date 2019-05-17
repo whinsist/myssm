@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>myssm</artifactId>
+        <groupId>com.test</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>db-service</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${org.flywaydb.version}</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <!--<version>5.1.1</version>-->
+                <version>${org.flywaydb.version}</version>
+                <configuration>
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <url>jdbc:mysql://192.168.93.132:3306/myssm?useUnicode=true&amp;characterEncoding=utf-8</url>
+                    <user>root</user>
+                    <password>123456</password>
+                    <!-- 设置接受flyway进行版本管理的数据库，多个数据库以逗号分隔 -->
+                    <schemas>myssm</schemas>
+                    <!-- 设置存放flyway metadata数据的表名 -->
+                    <table>schema_version</table>
+                    <!-- 设置flyway扫描sql升级脚本、java升级脚本的目录路径或包路径 -->
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migrations</location>
+                    </locations>
+                    <!-- 设置sql脚本文件的编码 -->
+                    <encoding>UTF-8</encoding>
+                    <outOfOrder>true</outOfOrder>
+                    <ignoreMissingMigrations>true</ignoreMissingMigrations>
+                    <placeholderReplacement>true</placeholderReplacement>
+                    <placeholderPrefix>#[</placeholderPrefix>
+                    <placeholderSuffix>]</placeholderSuffix>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-core</artifactId>
+                        <version>${org.flywaydb.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.connector.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

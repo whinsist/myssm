@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd   http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+       default-lazy-init="true">
+
+    <context:property-placeholder order="1" ignore-unresolvable="true"
+                                  location="classpath:upload.properties"/>
+
+    <aop:aspectj-autoproxy/>
+    <context:annotation-config/>
+    <context:component-scan base-package="cn.com.cloudstar.rightcloud"/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <ref bean="jsonConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <mvc:default-servlet-handler/>
+    <!--  swagger静态文件路径 -->
+    <mvc:resources mapping="/swagger/**" location="/WEB-INF/views/swagger/" cache-period="31556926"/>
+
+    <websocket:message-broker application-destination-prefix="/app">
+        <websocket:stomp-endpoint path="/ws" allowed-origins="*">
+            <websocket:sockjs/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/topic"/>
+    </websocket:message-broker>
+
+    <task:executor id="cloudExecutor" queue-capacity="100" pool-size="50-1000" keep-alive="10"/>
+    <task:annotation-driven executor="cloudExecutor"
+                            exception-handler="globalAsyncUncaughtExceptionHandler"/>
+
+    <bean id="globalAsyncUncaughtExceptionHandler"
+          class="cn.com.cloudstar.rightcloud.framework.common.exception.GlobalAsyncUncaughtExceptionHandler"/>
+
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"></property>
+        <property name="suffix" value=".html"></property>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+    </bean>-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--除了使用注解来定义序列化行为以外，我们还需要使用Jackson来提供JSON的序列化操作-->
+    <bean id="jsonConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper">
+            <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                <property name="dateFormat">
+                    <bean class="java.text.SimpleDateFormat">
+                        <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5000000"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- 检测用户是否登录的拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/test/**"/>
+            <bean class="cn.com.cloudstar.rightcloud.framework.interceptor.UserLoginHandlerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <import resource="classpath:applicationContext.xml"/>
+    <!--<import resource="classpath:rightcloud-system-context.xml"/>-->
+
+</beans>

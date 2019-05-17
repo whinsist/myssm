@@ -1,0 +1,94 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+    <style>
+      html
+      {
+        box-sizing: border-box;
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+      }
+
+      *,
+      *:before,
+      *:after
+      {
+        box-sizing: inherit;
+      }
+
+      body
+      {
+        margin:0;
+        background: #fafafa;
+      }
+      .export{
+        width: 150px;
+        float: right;
+        margin-bottom: 50px;
+        margin-right: 10px;
+        font-size: 15px;
+        height: 45px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        appearance: button;
+        -moz-appearance: button;
+        -webkit-appearance: button;
+        color: #fff;
+        background-color: #79B51D;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="swagger-ui"></div>
+    <input type="button" id="export" class="export" value="导出文档" onclick="downloadMarkdown()">
+
+    <script src="./swagger-ui-bundle.js"> </script>
+    <script src="./swagger-ui-standalone-preset.js"> </script>
+    <script>
+        var url ='/api/v1/swagger/groups';
+        var xhr = new XMLHttpRequest();
+
+        window.onload = function() {
+          xhr.open('GET', url, true);
+          xhr.onreadystatechange = function() {
+
+            if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+                var response = xhr.responseText;
+                const ui = SwaggerUIBundle({
+                    url: "/api/v1/v2/api-docs?group=audit",
+                    urls: JSON.parse(response),
+                    // urls: [{url:"/api/v1/v2/api-docs?group=11",name:"11"},{url:"/api/v1/v2/api-docs?group=22",name:"22"}],
+                    dom_id: '#swagger-ui',
+                    deepLinking: true,
+                    presets: [
+                        SwaggerUIBundle.presets.apis,
+                        SwaggerUIStandalonePreset
+                    ],
+                    plugins: [
+                        SwaggerUIBundle.plugins.DownloadUrl
+                    ],
+                    layout: "StandaloneLayout",
+                    validatorUrl: false
+                });
+
+                window.ui = ui
+            }
+          };
+          xhr.send();
+      }
+      function downloadMarkdown() {
+          var groupPath = document.getElementById('select').options[document.getElementById('select').selectedIndex].value.replace('/api/v1/v2/api-docs?group=', '')
+          window.open('/api/v1/swagger/download/'+groupPath)
+        }
+  </script>
+  </body>
+</html>

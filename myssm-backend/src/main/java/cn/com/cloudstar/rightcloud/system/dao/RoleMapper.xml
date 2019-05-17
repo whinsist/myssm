@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.pojo.Role" >
+    <id column="role_sid" property="roleSid" jdbcType="BIGINT" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+    <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="role_type" property="roleType" jdbcType="VARCHAR" />
+    <result column="data_scope" property="dataScope" jdbcType="CHAR" />
+    <result column="is_sys" property="isSys" jdbcType="CHAR" />
+    <result column="org_sid" property="orgSid" jdbcType="BIGINT" />
+    <result column="module_category" property="moduleCategory" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.roleName != null" >
+         and role_name = #{condition.roleName}
+      </if>
+      <if test="condition.roleCode != null" >
+         and role_code = #{condition.roleCode}
+      </if>
+      <if test="condition.roleDesc != null" >
+         and role_desc = #{condition.roleDesc}
+      </if>
+      <if test="condition.status != null" >
+         and status = #{condition.status}
+      </if>
+      <if test="condition.roleType != null" >
+         and role_type = #{condition.roleType}
+      </if>
+      <if test="condition.dataScope != null" >
+         and data_scope = #{condition.dataScope}
+      </if>
+      <if test="condition.isSys != null" >
+         and is_sys = #{condition.isSys}
+      </if>
+      <if test="condition.orgSid != null" >
+         and org_sid = #{condition.orgSid}
+      </if>
+      <if test="condition.moduleCategory != null" >
+         and module_category = #{condition.moduleCategory}
+      </if>
+      <if test="condition.createdBy != null" >
+         and created_by = #{condition.createdBy}
+      </if>
+      <if test="condition.createdDt != null" >
+         and created_dt = #{condition.createdDt}
+      </if>
+      <if test="condition.updatedBy != null" >
+         and updated_by = #{condition.updatedBy}
+      </if>
+      <if test="condition.updatedDt != null" >
+         and updated_dt = #{condition.updatedDt}
+      </if>
+      <if test="condition.version != null" >
+         and version = #{condition.version}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    A.role_sid, A.role_name, A.role_code, A.role_desc, A.status, A.role_type, A.data_scope, A.is_sys,
+    A.org_sid, A.module_category, A.created_by, A.created_dt, A.updated_by, A.updated_dt, A.version
+  </sql>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_m_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_m_role
+    where role_sid = #{roleSid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_m_role
+    where role_sid = #{roleSid}
+  </delete>
+  <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    delete from sys_m_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Role" >
+    insert into sys_m_role (role_sid, role_name, role_code, role_desc, status, role_type, 
+      data_scope, is_sys, org_sid, module_category, created_by, created_dt, 
+      updated_by, updated_dt, version)
+    values (#{roleSid}, #{roleName}, #{roleCode}, #{roleDesc}, #{status}, #{roleType}, 
+      #{dataScope}, #{isSys}, #{orgSid}, #{moduleCategory}, #{createdBy}, #{createdDt}, 
+      #{updatedBy}, #{updatedDt}, #{version})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Role" >
+    insert into sys_m_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleSid != null" >
+        role_sid,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleCode != null" >
+        role_code,
+      </if>
+      <if test="roleDesc != null" >
+        role_desc,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="roleType != null" >
+        role_type,
+      </if>
+      <if test="dataScope != null" >
+        data_scope,
+      </if>
+      <if test="isSys != null" >
+        is_sys,
+      </if>
+      <if test="orgSid != null" >
+        org_sid,
+      </if>
+      <if test="moduleCategory != null" >
+        module_category,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdDt != null" >
+        created_dt,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleSid != null" >
+        #{roleSid},
+      </if>
+      <if test="roleName != null" >
+        #{roleName},
+      </if>
+      <if test="roleCode != null" >
+        #{roleCode},
+      </if>
+      <if test="roleDesc != null" >
+        #{roleDesc},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="roleType != null" >
+        #{roleType},
+      </if>
+      <if test="dataScope != null" >
+        #{dataScope},
+      </if>
+      <if test="isSys != null" >
+        #{isSys},
+      </if>
+      <if test="orgSid != null" >
+        #{orgSid},
+      </if>
+      <if test="moduleCategory != null" >
+        #{moduleCategory},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        #{updatedDt},
+      </if>
+      <if test="version != null" >
+        #{version},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sys_m_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update sys_m_role
+    <set >
+      <if test="record.roleSid != null" >
+        role_sid = #{record.roleSid},
+      </if>
+      <if test="record.roleName != null" >
+        role_name = #{record.roleName},
+      </if>
+      <if test="record.roleCode != null" >
+        role_code = #{record.roleCode},
+      </if>
+      <if test="record.roleDesc != null" >
+        role_desc = #{record.roleDesc},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status},
+      </if>
+      <if test="record.roleType != null" >
+        role_type = #{record.roleType},
+      </if>
+      <if test="record.dataScope != null" >
+        data_scope = #{record.dataScope},
+      </if>
+      <if test="record.isSys != null" >
+        is_sys = #{record.isSys},
+      </if>
+      <if test="record.orgSid != null" >
+        org_sid = #{record.orgSid},
+      </if>
+      <if test="record.moduleCategory != null" >
+        module_category = #{record.moduleCategory},
+      </if>
+      <if test="record.createdBy != null" >
+        created_by = #{record.createdBy},
+      </if>
+      <if test="record.createdDt != null" >
+        created_dt = #{record.createdDt},
+      </if>
+      <if test="record.updatedBy != null" >
+        updated_by = #{record.updatedBy},
+      </if>
+      <if test="record.updatedDt != null" >
+        updated_dt = #{record.updatedDt},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update sys_m_role
+    set role_sid = #{record.roleSid},
+      role_name = #{record.roleName},
+      role_code = #{record.roleCode},
+      role_desc = #{record.roleDesc},
+      status = #{record.status},
+      role_type = #{record.roleType},
+      data_scope = #{record.dataScope},
+      is_sys = #{record.isSys},
+      org_sid = #{record.orgSid},
+      module_category = #{record.moduleCategory},
+      created_by = #{record.createdBy},
+      created_dt = #{record.createdDt},
+      updated_by = #{record.updatedBy},
+      updated_dt = #{record.updatedDt},
+      version = #{record.version}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Role" >
+    update sys_m_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName},
+      </if>
+      <if test="roleCode != null" >
+        role_code = #{roleCode},
+      </if>
+      <if test="roleDesc != null" >
+        role_desc = #{roleDesc},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="roleType != null" >
+        role_type = #{roleType},
+      </if>
+      <if test="dataScope != null" >
+        data_scope = #{dataScope},
+      </if>
+      <if test="isSys != null" >
+        is_sys = #{isSys},
+      </if>
+      <if test="orgSid != null" >
+        org_sid = #{orgSid},
+      </if>
+      <if test="moduleCategory != null" >
+        module_category = #{moduleCategory},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        created_dt = #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt = #{updatedDt},
+      </if>
+      <if test="version != null" >
+        version = #{version},
+      </if>
+    </set>
+    where role_sid = #{roleSid}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Role" >
+    update sys_m_role
+    set role_name = #{roleName},
+      role_code = #{roleCode},
+      role_desc = #{roleDesc},
+      status = #{status},
+      role_type = #{roleType},
+      data_scope = #{dataScope},
+      is_sys = #{isSys},
+      org_sid = #{orgSid},
+      module_category = #{moduleCategory},
+      created_by = #{createdBy},
+      created_dt = #{createdDt},
+      updated_by = #{updatedBy},
+      updated_dt = #{updatedDt},
+      version = #{version}
+    where role_sid = #{roleSid}
+  </update>
+
+
+
+  <select id="findRolesByUserSid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_m_role A , sys_m_user_role R where A.ROLE_SID = R.ROLE_SID and
+    R.USER_SID=#{userSid}
+  </select>
+
+</mapper>

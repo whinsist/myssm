@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.ExamMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.pojo.Exam" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="region_cd" property="regionCd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.username != null" >
+         and username = #{condition.username}
+      </if>
+      <if test="condition.regionCd != null" >
+         and region_cd = #{condition.regionCd}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, username, region_cd
+  </sql>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_exam
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_exam
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_exam
+    where id = #{id}
+  </delete>
+  <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    delete from sys_exam
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Exam" >
+    insert into sys_exam (id, username, region_cd)
+    values (#{id}, #{username}, #{regionCd})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Exam" >
+    insert into sys_exam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="regionCd != null" >
+        region_cd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="username != null" >
+        #{username},
+      </if>
+      <if test="regionCd != null" >
+        #{regionCd},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sys_exam
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update sys_exam
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username},
+      </if>
+      <if test="record.regionCd != null" >
+        region_cd = #{record.regionCd},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update sys_exam
+    set id = #{record.id},
+      username = #{record.username},
+      region_cd = #{record.regionCd}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Exam" >
+    update sys_exam
+    <set >
+      <if test="username != null" >
+        username = #{username},
+      </if>
+      <if test="regionCd != null" >
+        region_cd = #{regionCd},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.pojo.Exam" >
+    update sys_exam
+    set username = #{username},
+      region_cd = #{regionCd}
+    where id = #{id}
+  </update>
+</mapper>

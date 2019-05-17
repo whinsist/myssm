@@ -1,0 +1,57 @@
+<%@ page language="java" pageEncoding="utf-8"%>
+<script type="text/javascript">
+	$(function() {
+		//登陆
+		$("#loginButton").click(function() {
+			//参数校验
+			var loginFlag = loginCheck();
+			if (!loginFlag) {
+				return;
+			}
+            var userName = $("#username").val();
+			var passWord = $("#password").val();
+            var captchaKey = $("#captchaKey").val();
+            var captcha = $("#captcha").val();
+
+            var params = {"account":userName, "password":passWord, "captchaKey":captchaKey, "captcha":captcha};
+
+			//验证用户名密码是否正确
+			$.ajax({
+				type: "POST",
+				url: "${pageContext.request.contextPath}/v1/common/login.do",
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify(params),
+				success: function (data) {
+					var code = data.code;
+					if (code == 200) {
+						<%--location.href = "${pageContext.request.contextPath}/admin/main.do";--%>
+						location.href = "${pageContext.request.contextPath}/v1/back/page/main/index";
+					} else{
+						$.message("warn", data.message);
+					}
+				}
+			});
+		});
+
+		//登录绑定回车事件
+		$(document).keydown(function(event) {
+			if (event.keyCode == 13) {
+				$('#loginButton').click();
+			}
+		});
+		//登录验证
+		function loginCheck() {
+			var loginName = $("#username").val();
+			var pwd = $("#password").val();
+			if (loginName == null || loginName == "") {
+				$.message("warn", Constant['PhoneNull']);
+				return false;
+			}
+			if (pwd == null || pwd == "") {
+				$.message("warn", Constant['LoginPwdNull']);
+				return false;
+			}
+			return true;
+		}
+	});
+</script>
