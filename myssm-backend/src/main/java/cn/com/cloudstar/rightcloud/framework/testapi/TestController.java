@@ -3,6 +3,7 @@ package cn.com.cloudstar.rightcloud.framework.testapi;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 
+import cn.com.cloudstar.rightcloud.framework.common.constants.WebConstants.MsgCd;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.BaseGridReturn;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.RestResult;
@@ -17,6 +18,7 @@ import cn.com.cloudstar.rightcloud.framework.interceptor.helper.UserThreadLocal;
 import cn.com.cloudstar.rightcloud.system.dao.ExamMapper;
 import cn.com.cloudstar.rightcloud.system.pojo.Exam;
 import cn.com.cloudstar.rightcloud.system.pojo.User;
+import cn.com.cloudstar.rightcloud.system.service.MqService;
 import cn.com.cloudstar.rightcloud.system.service.UserService;
 
 import org.apache.commons.codec.binary.Base64;
@@ -50,8 +52,11 @@ public class TestController {
     @Autowired
     private ExamMapper examMapper;
 
-    @RequestMapping("/index")
-    public String index(ModelMap model){
+    @Autowired
+    private MqService mqService;
+
+    @RequestMapping("/captcha")
+    public String captcha(ModelMap model){
         Map<String, Object> map = new HashMap<>();
         map.put("info", "2233");
         map.put("time", DateUtil.dateFormat(new Date()));
@@ -76,7 +81,6 @@ public class TestController {
     @GetMapping("/page")
     @ResponseBody
     public RestResult test_page(HttpServletResponse response, HttpServletRequest request) {
-
         Criteria criteria = new Criteria();
         WebUtil.preparePageParams(request, criteria, "user_sid asc");
 //        PageHelper.orderBy("user_sid asc");
@@ -99,7 +103,6 @@ public class TestController {
     @GetMapping("/interceptor")
     @ResponseBody
     public RestResult interceptor(HttpServletResponse response, HttpServletRequest request) {
-
         Criteria criteria = new Criteria();
         WebUtil.preparePageParams(request, criteria, "user_sid asc");
         List<Exam> exams = examMapper.selectByParams(criteria);
@@ -109,8 +112,6 @@ public class TestController {
 
         User threadLocalUser = UserThreadLocal.get();
         System.out.println("threadLocalUser---"+threadLocalUser.getRealName());
-
-
         return new RestResult(null);
     }
 
@@ -118,15 +119,22 @@ public class TestController {
     @GetMapping("/i18n")
     @ResponseBody
     public RestResult i18n(HttpServletResponse response, HttpServletRequest request) {
-//        String message = WebUtil.getMessage(MsgCd.INFO_INSERT_SUCCESS);
-//        String messageUs = WebUtil.getMessage(MsgCd.INFO_INSERT_SUCCESS, null, Locale.US);
-//        String messageCustom = WebUtil.getMessage(MsgCd.INFO_INSERT_SUCCESS, null, new Locale("web", "BASE64"));
-
+        String message = WebUtil.getMessage(MsgCd.INFO_INSERT_SUCCESS);
+        String messageUs = WebUtil.getMessage(MsgCd.INFO_INSERT_SUCCESS, null, Locale.US);
+        String messageCustom = WebUtil.getMessage(MsgCd.INFO_INSERT_SUCCESS, null, new Locale("web", "BASE64"));
         String messageZh = WebUtil.getMessage("test.message", new String[]{"中文"});
-        String messageUs = WebUtil.getMessage("test.message", new String[]{"美国"}, Locale.US);
+        String messageUs2 = WebUtil.getMessage("test.message", new String[]{"美国"}, Locale.US);
         return new RestResult(Status.SUCCESS, messageUs);
     }
 
+
+
+    @GetMapping("/mq")
+    @ResponseBody
+    public ResultObject sendMQMessage(HttpServletResponse response, HttpServletRequest request) {
+        mqService.sendScheduleSyncEnvMessage();
+        return ResultObjectUtil.success();
+    }
 
 
 }

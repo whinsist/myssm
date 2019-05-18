@@ -1,4 +1,4 @@
-package cn.com.cloudstar.rightcloud.framework.testapi.util.email;
+package cn.com.cloudstar.rightcloud.framework.testtreeutil.email;
 
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Attachment;
 import cn.com.cloudstar.rightcloud.framework.common.util.MailUtil;

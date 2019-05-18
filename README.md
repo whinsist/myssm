@@ -19,6 +19,9 @@
 5、增加.gitignore 文件
 测试dbutil http://localhost:8081/api/v1
 
+6、测试rabbitmq
+测试mq消息发送  注意 1先初始化交换机  2初始化队列  3队列上绑定Routing key和交换机 
+
 
 
 

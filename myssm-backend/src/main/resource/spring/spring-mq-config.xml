@@ -23,50 +23,38 @@
     <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成-->
     <rabbit:admin connection-factory="connectionFactory"/>
 
-    <!--定义queue-->
-    <rabbit:queue id="host-log" name="host-log"/>
-    <rabbit:queue id="app-log" name="app-log"/>
-    <rabbit:queue id="cluster-log" name="cluster-log"/>
+    <!--如果只是发送消息下面一句话都可以-->
+    <!--<rabbit:template id="scheduleAmqpTemplate" message-converter="jackson2JsonMessageConverter"
+        connection-factory="connectionFactory" exchange="schedule_exchange"
+        retry-template="retryTemplate" reply-timeout="15000"/>-->
 
-    <!-- 定义direct exchange，绑定queue -->
-    <rabbit:direct-exchange name="cloudExchange">
-        <rabbit:bindings>
-            <rabbit:binding queue="cluster-log" key="log.cluster"/>
-            <rabbit:binding queue="host-log" key="log.host"/>
-            <rabbit:binding queue="app-log" key="log.app"/>
-        </rabbit:bindings>
-    </rabbit:direct-exchange>
+    <!-- 注意：1先初始化交换机  2初始化队列  3队列上绑定Routing key和交换机 -->
+    <rabbit:queue id="receiveschedule.syncenv.queue" name="receiveschedule.syncenv.queue"/>
+    <rabbit:queue id="to.schedule.queue" name="to.schedule.queue"/>
 
-    <!-- 定时任务队列-->
-    <rabbit:queue id="schedule_queue" name="schedule_queue"/>
     <rabbit:topic-exchange name="schedule_exchange">
         <rabbit:bindings>
-            <rabbit:binding queue="schedule_queue" pattern="op.*"/>
+            <rabbit:binding queue="to.schedule.queue" pattern="op.*"/>
+            <rabbit:binding queue="receiveschedule.syncenv.queue" pattern="syncenv.*"/>
         </rabbit:bindings>
     </rabbit:topic-exchange>
     <rabbit:template id="scheduleAmqpTemplate" message-converter="jackson2JsonMessageConverter"
-                     connection-factory="connectionFactory" exchange="schedule_exchange"
-                     retry-template="retryTemplate" reply-timeout="15000"/>
+        connection-factory="connectionFactory" exchange="schedule_exchange"
+        retry-template="retryTemplate" reply-timeout="15000"/>
 
-    <!--定义rabbit template用于数据的接收和发送-->
-    <rabbit:template id="cloudAmqpTemplate" message-converter="jackson2JsonMessageConverter"
-                     connection-factory="connectionFactory" exchange="cloudExchange"
-                     retry-template="retryTemplate"/>
-
-    <!-- ansible 相关通信通道定义 -->
-    <rabbit:queue id="platform.log.control" name="platform.log.control"/>
-    <rabbit:queue id="platform.syncenv.control" name="platform.syncenv.control"/>
-    <rabbit:queue id="platform.syncscript.control" name="platform.syncscript.control"/>
-    <!-- 绑定exchange与queue -->
-    <rabbit:topic-exchange name="ansible.control.platform">
-        <rabbit:bindings>
-            <rabbit:binding queue="platform.log.control" pattern="platform.log.control.*"/>
-            <rabbit:binding queue="platform.syncenv.control" pattern="syncenv.*"/>
-            <rabbit:binding queue="platform.syncscript.control" pattern="syncscript.*"/>
-        </rabbit:bindings>
-    </rabbit:topic-exchange>
+    <rabbit:listener-container max-concurrency="10" concurrency="2"
+        connection-factory="connectionFactory"
+        message-converter="jackson2JsonMessageConverter">
+        <rabbit:listener queues="receiveschedule.syncenv.queue" ref="syncEvnCallbackListener" method="listen"/>
+        <rabbit:listener queues="to.schedule.queue" ref="scheduleReceiveSyncEnvListener" method="listen"/>
+    </rabbit:listener-container>
 
 
+
+
+
+
+    <!-- 公用 -->
     <!--设置重试策略-->
     <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
         <property name="backOffPolicy">

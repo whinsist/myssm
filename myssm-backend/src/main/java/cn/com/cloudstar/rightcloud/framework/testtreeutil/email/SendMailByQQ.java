@@ -1,4 +1,4 @@
-package cn.com.cloudstar.rightcloud.framework.testapi.util.email;
+package cn.com.cloudstar.rightcloud.framework.testtreeutil.email;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
