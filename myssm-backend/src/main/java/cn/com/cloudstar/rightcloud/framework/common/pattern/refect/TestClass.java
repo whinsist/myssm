@@ -44,6 +44,11 @@ public class TestClass {
 		//Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{});
 		Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{String.class,double.class});
 		System.out.println("获取构造方法："+constructor);
+
+
+		// 自动化修改了
+		// 自动化1
+		// 自动化2
 	}
 		
 }
