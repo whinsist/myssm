@@ -44,6 +44,10 @@ public class TestClass {
 		//Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{});
 		Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{String.class,double.class});
 		System.out.println("获取构造方法："+constructor);
+
+		//主线修改
+		//主线1
+		//主线2
 	}
 		
 }
