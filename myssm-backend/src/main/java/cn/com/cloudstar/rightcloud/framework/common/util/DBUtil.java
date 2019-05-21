@@ -4,8 +4,10 @@
 
 package cn.com.cloudstar.rightcloud.framework.common.util;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.base.Strings;
+
+import com.alibaba.druid.pool.DruidDataSource;
+
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -72,20 +74,20 @@ public class DBUtil {
                 String openfalcon_url = p.getProperty("openfalcon.jdbc.url");
 
                 DruidDataSource openFalconDataSource = new DruidDataSource();
-//                openFalconDataSource.setUrl(openfalcon_url);
-//                openFalconDataSource.setUsername(openfalcon_user);
-//                openFalconDataSource.setPassword(openfalcon_password);
-//                openFalconDataSource.setTestOnBorrow(false);
-//                openFalconDataSource.setTestOnReturn(false);
-//                openFalconDataSource.setTestWhileIdle(true);
-//                openFalconDataSource.setValidationQuery("select 'x'");
-//                openFalconDataSource.setMaxActive(20);
-//                openFalconDataSource.setMinIdle(1);
-//                openFalconDataSource.setPoolPreparedStatements(true);
-//                openFalconDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000);
-//                openFalconDataSource.setMinEvictableIdleTimeMillis(300000);
-//                openFalconDataSource.setRemoveAbandoned(true);
-//                openFalconDataSource.setRemoveAbandonedTimeout(3600);
+                openFalconDataSource.setUrl(openfalcon_url);
+                openFalconDataSource.setUsername(openfalcon_user);
+                openFalconDataSource.setPassword(openfalcon_password);
+                openFalconDataSource.setTestOnBorrow(false);
+                openFalconDataSource.setTestOnReturn(false);
+                openFalconDataSource.setTestWhileIdle(true);
+                openFalconDataSource.setValidationQuery("select 'x'");
+                openFalconDataSource.setMaxActive(20);
+                openFalconDataSource.setMinIdle(1);
+                openFalconDataSource.setPoolPreparedStatements(true);
+                openFalconDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000);
+                openFalconDataSource.setMinEvictableIdleTimeMillis(300000);
+                openFalconDataSource.setRemoveAbandoned(true);
+                openFalconDataSource.setRemoveAbandonedTimeout(3600);
 
                 openfalconRunner = new QueryRunner(openFalconDataSource);
             } catch (IOException e) {
@@ -97,7 +99,7 @@ public class DBUtil {
             user = sysProps.getProperty("cloudstar.db.username");
             /* 数据库密码 */
             password = sysProps.getProperty("cloudstar.db.password");
-             /* 数据库名 */
+            /* 数据库名 */
             String dbName = null != sysProps.getProperty("cloudstar.db.dbname") ? sysProps.getProperty("cloudstar.db.dbname") : "rightcloud";
             /* 数据库连接 */
             url = String.format("jdbc:mysql://%s:%s/"+dbName+"?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&useSSL=false"
@@ -105,20 +107,20 @@ public class DBUtil {
         }
 
         DruidDataSource druidDataSource = new DruidDataSource();
-//        druidDataSource.setUrl(url);
-//        druidDataSource.setUsername(user);
-//        druidDataSource.setPassword(password);
-//        druidDataSource.setTestOnBorrow(false);
-//        druidDataSource.setTestOnReturn(false);
-//        druidDataSource.setTestWhileIdle(true);
-//        druidDataSource.setValidationQuery("select 'x'");
-//        druidDataSource.setMaxActive(20);
-//        druidDataSource.setMinIdle(1);
-//        druidDataSource.setPoolPreparedStatements(false);
-//        druidDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000);
-//        druidDataSource.setMinEvictableIdleTimeMillis(300000);
-//        druidDataSource.setRemoveAbandoned(true);
-//        druidDataSource.setRemoveAbandonedTimeout(3600);
+        druidDataSource.setUrl(url);
+        druidDataSource.setUsername(user);
+        druidDataSource.setPassword(password);
+        druidDataSource.setTestOnBorrow(false);
+        druidDataSource.setTestOnReturn(false);
+        druidDataSource.setTestWhileIdle(true);
+        druidDataSource.setValidationQuery("select 'x'");
+        druidDataSource.setMaxActive(20);
+        druidDataSource.setMinIdle(1);
+        druidDataSource.setPoolPreparedStatements(false);
+        druidDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000);
+        druidDataSource.setMinEvictableIdleTimeMillis(300000);
+        druidDataSource.setRemoveAbandoned(true);
+        druidDataSource.setRemoveAbandonedTimeout(3600);
 
         runner = new QueryRunner(druidDataSource);
     }

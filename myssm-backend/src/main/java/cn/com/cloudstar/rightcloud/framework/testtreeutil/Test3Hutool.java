@@ -12,7 +12,7 @@ import cn.hutool.core.convert.Convert;
  * http://hutool.mydoc.io/undefined#text_319389
  * 文档地址： https://hutool.cn/docs/
  */
-public class Test4Hutool {
+public class Test3Hutool {
     public static void main(String[] args) {
 
         int a = 1;

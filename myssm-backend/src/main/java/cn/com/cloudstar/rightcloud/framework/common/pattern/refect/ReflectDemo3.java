@@ -8,7 +8,7 @@ public class ReflectDemo3 {
 
 	public static void main(String[] args) throws Exception {
 		
-		Class clazz = Car.class;
+		Class clazz = CarVoTest.class;
 		
 		Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{});
 		//根据类的默认构造器 来获得一个对象

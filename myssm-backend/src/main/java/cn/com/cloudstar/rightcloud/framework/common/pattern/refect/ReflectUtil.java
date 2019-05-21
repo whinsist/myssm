@@ -8,12 +8,12 @@ import java.lang.reflect.Method;
 public class ReflectUtil {
 
 	public static void main(String[] args) throws Exception {
-		Car car = new Car();
+		CarVoTest car = new CarVoTest();
 		car.setName("测试");
 		car.setBrand("audi");
 		car.setPrice(400000);
-		
-		Car obj = (Car) copyObj(car);
+
+		CarVoTest obj = (CarVoTest) copyObj(car);
 		System.out.println(obj);
 	}
 
