@@ -1,4 +1,4 @@
-package cn.com.cloudstar.rightcloud.framework.common.pattern.refect;
+package cn.com.cloudstar.rightcloud.framework.common.study.pattern.refect;
 
 
 import java.lang.reflect.Constructor;

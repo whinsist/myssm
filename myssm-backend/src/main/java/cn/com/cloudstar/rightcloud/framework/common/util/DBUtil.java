@@ -35,81 +35,13 @@ public class DBUtil {
      */
     private static QueryRunner runner;
 
-    /**
-     * openfalcon数据库查询类
-     */
-    private static QueryRunner openfalconRunner;
 
     static {
-        Properties p = new Properties();
-
-        /* 数据库用户名 */
-        String user = null;
-        /* 数据库密码 */
-        String password = null;
-        /* 数据库连接 */
-        String url = null;
-
-
-        // 如果环境变量中有配置信息，优先使用环境变量中的配置信息；反之，则使用配置文件中的信息
-        Properties sysProps = System.getProperties();
-        if (Strings.isNullOrEmpty(sysProps.getProperty("cloudstar.db.address"))) {
-            InputStream is = ClassLoaderUtil.getResourceAsStream("jdbc.properties", DBUtil.class);
-            try (InputStreamReader reader = new InputStreamReader(is, "UTF-8")) {
-                p.load(reader);
-                /* 数据库用户名 */
-                user = p.getProperty("jdbc.username");
-                /* 数据库密码 */
-                password = p.getProperty("jdbc.password");
-                /* 数据库连接 */
-                url = p.getProperty("jdbc.url");
-
-                /* openfalcon数据库dirver */
-                String openfalcon_driver = p.getProperty("openfalcon.jdbc.driver");
-                /*  openfalcon数据库用户名 */
-                String openfalcon_user = p.getProperty("openfalcon.jdbc.username");
-                /*  openfalcon数据库密码 */
-                String openfalcon_password = p.getProperty("openfalcon.jdbc.password");
-                /*  openfalcon数据库连接 */
-                String openfalcon_url = p.getProperty("openfalcon.jdbc.url");
-
-                DruidDataSource openFalconDataSource = new DruidDataSource();
-                openFalconDataSource.setUrl(openfalcon_url);
-                openFalconDataSource.setUsername(openfalcon_user);
-                openFalconDataSource.setPassword(openfalcon_password);
-                openFalconDataSource.setTestOnBorrow(false);
-                openFalconDataSource.setTestOnReturn(false);
-                openFalconDataSource.setTestWhileIdle(true);
-                openFalconDataSource.setValidationQuery("select 'x'");
-                openFalconDataSource.setMaxActive(20);
-                openFalconDataSource.setMinIdle(1);
-                openFalconDataSource.setPoolPreparedStatements(true);
-                openFalconDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000);
-                openFalconDataSource.setMinEvictableIdleTimeMillis(300000);
-                openFalconDataSource.setRemoveAbandoned(true);
-                openFalconDataSource.setRemoveAbandonedTimeout(3600);
-
-                openfalconRunner = new QueryRunner(openFalconDataSource);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-
-            /* 数据库用户名 */
-            user = sysProps.getProperty("cloudstar.db.username");
-            /* 数据库密码 */
-            password = sysProps.getProperty("cloudstar.db.password");
-            /* 数据库名 */
-            String dbName = null != sysProps.getProperty("cloudstar.db.dbname") ? sysProps.getProperty("cloudstar.db.dbname") : "rightcloud";
-            /* 数据库连接 */
-            url = String.format("jdbc:mysql://%s:%s/"+dbName+"?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&useSSL=false"
-                    , sysProps.getProperty("cloudstar.db.address"), sysProps.getProperty("cloudstar.db.port"));
-        }
 
         DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setUrl(url);
-        druidDataSource.setUsername(user);
-        druidDataSource.setPassword(password);
+        druidDataSource.setUrl(DBCanst.url);
+        druidDataSource.setUsername(DBCanst.user);
+        druidDataSource.setPassword(DBCanst.password);
         druidDataSource.setTestOnBorrow(false);
         druidDataSource.setTestOnReturn(false);
         druidDataSource.setTestWhileIdle(true);
@@ -125,41 +57,7 @@ public class DBUtil {
         runner = new QueryRunner(druidDataSource);
     }
 
-    /**
-     * 查询openFalcon数据库下面表的数据.
-     *
-     * @param sql   查询SQL
-     * @param param SQL参数
-     * @return 结果 map
-     */
-    public static Map queryOpenfalconMap(String sql, Object... param) {
-        Map result = null;
-        try {
-            result = openfalconRunner.query(sql, new MapHandler(), param);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return result;
-    }
-
-    /**
-     * 查询openFalcon数据库下面表的数据.
-     *
-     * @param sql   查询SQL
-     * @param param SQL参数
-     * @return 结果 map
-     */
-    public static List<Map<String, Object>> queryOpenfalconMapList(String sql, Object... param) {
-        List<Map<String, Object>> result = null;
-        try {
-            result = openfalconRunner.query(sql, new MapListHandler(), param);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
 
     /**
      * 查询表.
@@ -173,7 +71,11 @@ public class DBUtil {
     public static <T> List<T> queryBeanList(String sql, Class<T> beanClazz, Object... param) {
         List<T> result = null;
         try {
-            result = runner.query(sql, new BeanListHandler<>(beanClazz), param);
+
+            BeanListHandler<T> beanListHandler = new BeanListHandler(beanClazz);
+
+
+            result = runner.query(sql, beanListHandler, param);
         } catch (SQLException e) {
             e.printStackTrace();
         }

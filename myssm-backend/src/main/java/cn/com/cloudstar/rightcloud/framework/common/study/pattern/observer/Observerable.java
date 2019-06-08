@@ -1,4 +1,4 @@
-package cn.com.cloudstar.rightcloud.framework.common.util.observer;
+package cn.com.cloudstar.rightcloud.framework.common.study.pattern.observer;
 
 /***
  * 抽象被观察者接口

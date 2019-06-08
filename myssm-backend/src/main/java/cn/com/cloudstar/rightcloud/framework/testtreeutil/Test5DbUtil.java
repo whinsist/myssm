@@ -24,17 +24,17 @@ public class Test5DbUtil {
         String sql = "select * from sys_m_user;";
 
 
-        List<JobGroupName> maps = DBUtil.queryBeanList(sql, JobGroupName.class, null);
+        List<TestSysUser> maps = DBUtil.queryBeanList(sql, TestSysUser.class, null);
 
 
-        for (JobGroupName vo : maps) {
+        for (TestSysUser vo : maps) {
             System.out.println(vo);
 
         }
     }
 
     @Data
-    public static class JobGroupName{
+    public static class TestSysUser{
         private Long user_sid;
         private String account;
 
