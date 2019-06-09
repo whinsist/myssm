@@ -1,5 +1,6 @@
 package cn.com.cloudstar.rightcloud.system.controller.common;
 
+import cn.com.cloudstar.rightcloud.framework.common.constants.ContentTypeConstants;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.RestResult;
 import cn.com.cloudstar.rightcloud.framework.common.util.UuidUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.file.FileByteUtil;
@@ -9,6 +10,8 @@ import cn.com.cloudstar.rightcloud.framework.common.util.file.FileDownLoadUtil;
 import cn.com.cloudstar.rightcloud.framework.config.UploadConfig;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Base64Utils;
@@ -85,31 +88,48 @@ public class AttachController {
     }
 
     @GetMapping("/down")
-    public void downLoad(@RequestParam(required = false) String relativeUrl,
+    public void downLoadCommon(@RequestParam(required = false) String relativeUrl,
                          @RequestParam(required = false) String attachmentSid,
                          @Context HttpServletResponse response, HttpServletRequest request) {
         if (StringUtil.isNotBlank(attachmentSid)) {
             //Attachments attachments = attachmentService.selectByPrimaryKey(attachmentSid);
-            //FileUtil.fileDownLoad(response, uploadConfig.getUploadBasePath() +"/"+ attachments.getAttachmentUrl(), attachments.getOriginalName());
+//            FileUtil.fileDownLoad(response, uploadConfig.getUploadBasePath() +"/"+ attachments.getAttachmentUrl(), attachments.getOriginalName());
         } else {
             int lasIndexOf = relativeUrl.lastIndexOf("/");
             String fileName = relativeUrl.substring(lasIndexOf + 1, relativeUrl.length());
             String ext = FileUtil.extName(fileName);
-
-
 //            FileUtil.fileDownLoad(response, uploadConfig.getUploadBasePath() +"/"+ relativeUrl, fileName);
-
-//            FileResponseUtil.downLoad(response, uploadConfig.getUploadBasePath() +"/"+ relativeUrl, "你好师傅师傅师傅水电费."+ext);
-
             byte[] fileData = FileByteUtil.file2byte(uploadConfig.getUploadBasePath() + "/" + relativeUrl);
-            FileDownLoadUtil.downLoadImage(request, response, "你好师傅师傅师傅水电费."+ext, null, fileData);
-
+            FileDownLoadUtil.downLoadImageOrFile(request, response, "你好师傅师傅师傅水电费."+ext, null, fileData);
         }
     }
 
 
+    @GetMapping("/down_pdf")
+    public void downLoadPdf(@Context HttpServletResponse response, HttpServletRequest request) {
+        FileDownLoadUtil.downLoad(request, response, "E:\\temp\\测试.pdf");
+    }
 
-    @ApiOperation(httpMethod = "POST",value = "上传文件",notes = "需要指定路径和文件的base64数据")
+    @GetMapping("/down_xls")
+    public void downLoadXls(@Context HttpServletResponse response, HttpServletRequest request) {
+        FileDownLoadUtil.downLoad(request, response, "E:\\temp\\测试.xls");
+    }
+
+    @GetMapping("/down_html")
+    public void downLoadHtml(@Context HttpServletResponse response, HttpServletRequest request) {
+        FileDownLoadUtil.downLoad(request, response, "E:\\temp\\测试.html");
+    }
+
+    @GetMapping("/down_image")
+    public void downLoadImage(@Context HttpServletResponse response, HttpServletRequest request) {
+        FileDownLoadUtil.downLoad(request, response, "E:\\temp\\1.jpg", "1.jpg", ContentTypeConstants.IMAGE);
+    }
+
+
+
+
+
+
     @PostMapping("/upload_base64")
     public RestResult postBase64(@RequestBody Base64Data base64DataJson){
         try{
@@ -158,27 +178,13 @@ public class AttachController {
 
 
     @ApiModel(value="Base64Data对象")
+    @Data
     public static class Base64Data implements Serializable{
         private String base64Data;
         private String saveDir;
-
-        public String getSaveDir() {
-            return saveDir;
-        }
-
-        public void setSaveDir(String saveDir) {
-            this.saveDir = saveDir;
-        }
-
-        public String getBase64Data() {
-            return base64Data;
-        }
-
-        public void setBase64Data(String base64Data) {
-            this.base64Data = base64Data;
-        }
     }
 
+    @Data
     public static class UploadResponse implements Serializable{
         private String relativeUrl;
         private String attachmentSid;
@@ -186,36 +192,5 @@ public class AttachController {
         private String systemViewUrl;
 
 
-        public String getNginxViewUrl() {
-            return nginxViewUrl;
-        }
-
-        public void setNginxViewUrl(String nginxViewUrl) {
-            this.nginxViewUrl = nginxViewUrl;
-        }
-
-        public String getSystemViewUrl() {
-            return systemViewUrl;
-        }
-
-        public void setSystemViewUrl(String systemViewUrl) {
-            this.systemViewUrl = systemViewUrl;
-        }
-
-        public String getAttachmentSid() {
-            return attachmentSid;
-        }
-
-        public void setAttachmentSid(String attachmentSid) {
-            this.attachmentSid = attachmentSid;
-        }
-
-        public String getRelativeUrl() {
-            return relativeUrl;
-        }
-
-        public void setRelativeUrl(String relativeUrl) {
-            this.relativeUrl = relativeUrl;
-        }
     }
 }

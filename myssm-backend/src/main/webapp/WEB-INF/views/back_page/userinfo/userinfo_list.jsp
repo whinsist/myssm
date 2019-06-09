@@ -72,6 +72,12 @@
 										<i class="ace-icon fa fa-retweet nav-search-icon"></i>
 										重置
 									</button>
+
+									<a href="javascript:void(0);" onclick="downloadPdf()">testDownPdf</a>
+									<a href="javascript:void(0);" onclick="downloadXls()">testDownXls</a>
+									<a href="javascript:void(0);" onclick="downloadHtml()">testDownHtml</a>
+									<a href="javascript:void(0);" onclick="showImage()">showImage</a>
+									<image src="" id="showImage"/>
 								</div>	
 							</div>
 						</div>
@@ -146,6 +152,24 @@
 					$.message('${message.type}','${message.content}');
 				}
 			});
+
+			function downloadPdf() {
+                window.open("${pageContext.request.contextPath}/v1/attach/down_pdf");
+            }
+            function downloadXls() {
+                window.open("${pageContext.request.contextPath}/v1/attach/down_xls");
+            }
+            function downloadHtml() {
+                window.open("${pageContext.request.contextPath}/v1/attach/down_html");
+            }
+            function showImage() {
+                //window.open("${pageContext.request.contextPath}/v1/attach/down_image");
+				if ($("#showImage").attr("src").indexOf("v1") > -1) {
+                    $("#showImage").attr("src", "");
+				} else {
+                    $("#showImage").attr("src", "${pageContext.request.contextPath}/v1/attach/down_image");
+				}
+            }
 		</script>
 		<%@ include file="../common/login.jspf"%>
 	</body>
