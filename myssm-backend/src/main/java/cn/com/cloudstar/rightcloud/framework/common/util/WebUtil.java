@@ -588,11 +588,11 @@ public class WebUtil {
      * @param fieldName 属性
      * @param value     值
      */
-    private static void invokeSet(Object o, String fieldName, Object value) {
+    private static void invokeSet(Object instanceObject, String fieldName, Object value) {
 
-        Method method = getSetMethod(o.getClass(), fieldName);
+        Method method = getSetMethod(instanceObject.getClass(), fieldName);
         try {
-            method.invoke(o, value);
+            method.invoke(instanceObject, value);
         } catch (Exception e) {
             e.printStackTrace();
         }

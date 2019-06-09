@@ -179,21 +179,19 @@ public final class BeanUtil {
 
     /**
      * map转为bean
-     * @param map
-     * @param obj
      */
-    public static void transMap2Bean(Map<String, Object> map, Object obj) {
-        if (obj == null) {
+    public static void transMap2Bean(Map<String, Object> map, Object instance) {
+        if (instance == null) {
             return;
         }
         try {
-            BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+            BeanInfo beanInfo = Introspector.getBeanInfo(instance.getClass());
             PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor property : propertyDescriptors) {
                 String key = property.getName();
                 if (map.containsKey(key)) {
                     // 得到property对应的setter方法
-                    property.getWriteMethod().invoke(obj, map.get(key));
+                    property.getWriteMethod().invoke(instance, map.get(key));
                 }
             }
         } catch (Exception e) {
@@ -202,24 +200,69 @@ public final class BeanUtil {
     }
 
     /**
+     * map转为bean2
+     */
+    public static <T> T mapToBean(Map<String, Object> map, Class<T> clazz) {
+        try {
+            if (map == null || map.size() == 0) {
+                return clazz.newInstance();
+            }
+            Object instance = clazz.newInstance();
+            Method[] methodArr = clazz.getDeclaredMethods();
+            for (Method method : methodArr) {
+                String methodName = method.getName();
+                // 注意：只会通过set方法反射注入值
+                if (methodName.startsWith("set")) {
+                    String propertyName = methodName.substring(3, 4).toLowerCase()+methodName.substring(4);
+                    Object propertyValue = map.get(propertyName);
+                    if (null != propertyValue) {
+                        Object propertyValueClazz = propertyValue.getClass().getName();
+                        Class<?>[] parameterTypes = method.getParameterTypes();
+                        for (Class<?> parameClazz : parameterTypes) {
+                            // 方法参数类型名称
+                            String methodParameterTypeName = parameClazz.getName();
+                            if (!methodParameterTypeName.equals("java.lang.Object") && !methodParameterTypeName.equals(propertyValueClazz)) {
+                                // 参数类型不相等则转为 set方法的类型
+                                if (methodParameterTypeName.equals("java.lang.Long")) {
+                                    propertyValue = Long.parseLong(propertyValue.toString());
+                                } else if (methodParameterTypeName.equals("java.lang.Integer")) {
+                                    propertyValue = Integer.parseInt(propertyValue.toString());
+                                } else if (methodParameterTypeName.equals("java.util.Map")) {
+                                    propertyValue = JsonUtil.fromJson(JsonUtil.toJson(propertyValue), Map.class);
+                                } else {
+                                    throw new RuntimeException("map转为对象参数"+propertyName+"类型不匹配 (方法："+methodName+" 传输类型："+parameClazz+",值："+propertyValue+") 应该是："+methodParameterTypeName);
+                                }
+                            }
+                        }
+                        method.invoke(instance, propertyValue);
+                    }
+                }
+            }
+            return (T) instance;
+        } catch (Exception e) {
+            throw new RuntimeException("转换对象异常", e);
+        }
+    }
+
+    /**
      * bean转为map
-     * @param obj
+     * @param instance
      * @return
      */
-    public static Map<String, Object> transBean2Map(Object obj) {
-        if(obj == null){
+    public static Map<String, Object> transBean2Map(Object instance) {
+        if (instance == null) {
             return null;
         }
         try {
             Map<String, Object> map = new HashMap<>();
-            BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+            BeanInfo beanInfo = Introspector.getBeanInfo(instance.getClass());
             PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor property : propertyDescriptors) {
                 String key = property.getName();
                 // 过滤class属性
                 if (!key.equals("class")) {
                     // 得到property对应的getter方法
-                    Object value = property.getReadMethod().invoke(obj);
+                    Object value = property.getReadMethod().invoke(instance);
                     map.put(key, value);
                 }
             }

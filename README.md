@@ -23,6 +23,11 @@
 
 9、bean转map  map转bean（java.beans.BeanInfo的使用）
 
+10、泛型 GeneratorRead.java
+ // <T> void <T>声明一个参数 void无返回值
+ 
+11、RetryUtil重试工具类
+
 
 
 

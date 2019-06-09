@@ -11,7 +11,7 @@ import io.swagger.models.auth.In;
  * @author Hong.Wu
  * @date: 19:10 2019/06/08
  */
-public class Read {
+public class GeneratorRead {
 
     public static void main(String[] args) {
         List list = new ArrayList();

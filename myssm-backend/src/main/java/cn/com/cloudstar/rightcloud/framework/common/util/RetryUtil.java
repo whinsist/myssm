@@ -23,7 +23,7 @@ public class RetryUtil {
      * @param retryCount retryCount
      * @param function   ExecuteFunction
      */
-    public static void retry(int retryCount, ExecuteFunction function) throws Exception {
+    public static void retry(int retryCount, ExecuteFunction function) {
         retry(retryCount, -1, null, function);
     }
 
@@ -35,8 +35,7 @@ public class RetryUtil {
      * @param timeUnit   timeUnit
      * @param handler    handler
      */
-    public static void retry(int retryCount, long interval, TimeUnit timeUnit, ExecuteFunction handler)
-            throws Exception {
+    public static void retry(int retryCount, long interval, TimeUnit timeUnit, ExecuteFunction handler) {
         retry(retryCount, interval, timeUnit, false, handler);
     }
 
@@ -50,7 +49,7 @@ public class RetryUtil {
      * @param function    function
      */
     public static void retry(int retryCount, long interval, TimeUnit timeUnit, boolean throwIfFail,
-                             ExecuteFunction function) throws Exception {
+                             ExecuteFunction function)  {
         if (function == null) {
             return;
         }
@@ -80,7 +79,7 @@ public class RetryUtil {
     }
 
     public interface ExecuteFunction {
-        void execute() throws Exception;
+        void execute() ;
     }
 
 }

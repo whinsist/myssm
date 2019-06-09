@@ -71,10 +71,7 @@ public class DBUtil {
     public static <T> List<T> queryBeanList(String sql, Class<T> beanClazz, Object... param) {
         List<T> result = null;
         try {
-
-            BeanListHandler<T> beanListHandler = new BeanListHandler(beanClazz);
-
-
+            BeanListHandler<T> beanListHandler = new BeanListHandler<T>(beanClazz);
             result = runner.query(sql, beanListHandler, param);
         } catch (SQLException e) {
             e.printStackTrace();
