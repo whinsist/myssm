@@ -125,6 +125,11 @@ public class AttachController {
         FileDownLoadUtil.downLoad(request, response, "E:\\temp\\1.jpg", "1.jpg", ContentTypeConstants.IMAGE);
     }
 
+    @GetMapping("/down_sshkey")
+    public void downSshKey(@Context HttpServletResponse response, HttpServletRequest request) {
+        byte[] privateKeyBytes = null;//cloudKeyPair.getPrivateKey().getBytes();
+        FileDownLoadUtil.downLoadImageOrFile(request, response, "whtest.pem","text/html;charset=gbk", privateKeyBytes);
+    }
 
 
 

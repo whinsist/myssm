@@ -839,7 +839,9 @@ public class JedisUtil {
         ShardedJedis shardedJedis = null;
         long result = -1;
         try {
+            // 通过ShardedJedisPool获取jedis实例
             shardedJedis = shardedJedisPool.getResource();
+
             result = shardedJedis.hset(key, field, value);
             if (expire > 0) {
                 shardedJedis.expire(key, expire);

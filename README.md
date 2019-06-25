@@ -17,16 +17,21 @@
     测试mq消息发送  注意 1先初始化交换机  2初始化队列  3队列上绑定Routing key和交换机 
 
 
-7、泛型学习
+7、泛型 GeneratorRead.java
+ // <T> void <T>声明一个参数 void无返回值
 
 8、DBUtil的使用
 
 9、bean转map  map转bean（java.beans.BeanInfo的使用）
 
-10、泛型 GeneratorRead.java
- // <T> void <T>声明一个参数 void无返回值
- 
-11、RetryUtil重试工具类
+10、RetryUtil重试工具类
+
+11、DBUtil源码与Spring-rabbit源码收获
+
+12、测试jdk8的lambda表达式
+
+13、ssh密钥 (生成密钥 公钥私钥指纹  下载私钥downSshKey  ssh登录用私钥)
+	
 
 
 
