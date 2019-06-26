@@ -3,6 +3,23 @@ package cn.com.cloudstar.rightcloud.framework.testapi;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import cn.com.cloudstar.rightcloud.framework.common.constants.WebConstants.MsgCd;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.BaseGridReturn;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
@@ -20,23 +37,6 @@ import cn.com.cloudstar.rightcloud.system.pojo.Exam;
 import cn.com.cloudstar.rightcloud.system.pojo.User;
 import cn.com.cloudstar.rightcloud.system.service.MqService;
 import cn.com.cloudstar.rightcloud.system.service.UserService;
-
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Hong.Wu
@@ -135,6 +135,12 @@ public class TestController {
         mqService.sendScheduleSyncEnvMessage();
         return ResultObjectUtil.success();
     }
+
+
+
+
+
+
 
 
 }

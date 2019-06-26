@@ -9,5 +9,5 @@ package cn.com.cloudstar.rightcloud.framework.common.util.excel;
  * @date 2016/5/13
  */
 public enum CellTypeEnum {
-    String, Number, Date, Formula
+    String, Number, Date, Formula, Long
 }

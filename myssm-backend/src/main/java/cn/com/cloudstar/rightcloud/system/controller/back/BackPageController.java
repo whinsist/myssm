@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BackPageController   {
 
     // http://localhost:8081/api/v1/back/page/login
+    // http://localhost:8081/api/v1/back/page/test/fileUpload
 	@RequestMapping("/back/page/{pageName}")
     public String page1(@PathVariable String pageName) {
     	return "back_page/" + pageName;

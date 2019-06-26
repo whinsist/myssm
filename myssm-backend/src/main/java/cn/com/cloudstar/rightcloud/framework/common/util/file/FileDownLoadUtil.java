@@ -19,16 +19,13 @@ import cn.com.cloudstar.rightcloud.framework.common.constants.ContentTypeConstan
 public class FileDownLoadUtil {
 
 
-	public static void downLoadImageOrFile(HttpServletRequest request, HttpServletResponse response, String fileName, String contentType, InputStream is){
-		downLoadImageOrFile(request, response, fileName, contentType, FileByteUtil.inputStream2Byte(is));
-	}
 	/**
 	 *  下载图片或文件
 	 * @param request
 	 * @param response
 	 * @param fileName
 	 * @param contentType
-	 * @param fileData
+	 * @param fileData  如果是输入流则转为byte数组FileByteUtil.inputStream2Byte(is)
 	 * @throws Exception
 	 */
 	public static void downLoadImageOrFile(HttpServletRequest request, HttpServletResponse response, String fileName, String contentType, byte[] fileData){
@@ -61,7 +58,7 @@ public class FileDownLoadUtil {
 		}
 	}
 
-	private static String getFileNameByAgent(String agent, String fileName) throws UnsupportedEncodingException {
+	public static String getFileNameByAgent(String agent, String fileName) throws UnsupportedEncodingException {
 		if (null != agent) {
 			if (-1 != agent.indexOf("MSIE") ||  -1 != agent.indexOf("Trident")) {
 				// ie

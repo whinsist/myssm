@@ -4,25 +4,8 @@
 
 package cn.com.cloudstar.rightcloud.framework.common.util.excel;
 
-import cn.com.cloudstar.rightcloud.framework.common.exception.PropertyAccessException;
-import cn.com.cloudstar.rightcloud.framework.common.util.BeanUtil;
-import cn.com.cloudstar.rightcloud.framework.common.util.StringUtil;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Strings;
-import net.sf.jxls.transformer.XLSTransformer;
-import org.apache.commons.lang.StringUtils;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,6 +20,23 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import cn.com.cloudstar.rightcloud.framework.common.exception.PropertyAccessException;
+import cn.com.cloudstar.rightcloud.framework.common.util.BeanUtil;
+import cn.com.cloudstar.rightcloud.framework.common.util.StringUtil;
 
 public class ExcelUtils {
 
@@ -67,11 +67,10 @@ public class ExcelUtils {
         }
         T rowData;
         Field[] fields = clazz.getDeclaredFields();
-        TableDef t;
-        int cellIndex;
+        TableDef tableDefAnno;
         XSSFRow row;
         XSSFCell cell;
-        String cellVal;
+        Object tempCellVal;
         SheetCtrl ctrl = clazz.getAnnotation(SheetCtrl.class);
         for (int i = sheet.getFirstRowNum() + ctrl.offsetRow(); i <= sheet.getLastRowNum(); i++) {
             row = sheet.getRow(i);
@@ -82,42 +81,51 @@ public class ExcelUtils {
             }
             rowData = clazz.newInstance();
             for (Field field : fields) {
-                t = field.getAnnotation(TableDef.class);
+                tableDefAnno = field.getAnnotation(TableDef.class);
 
-                if (t == null) {
+                if (tableDefAnno == null) {
                     continue;
                 }
-
-                cellIndex = t.column();
-                cell = row.getCell(cellIndex);
-                switch (t.cellType()) {
+                // 得到第某个单元格的数据
+                cell = row.getCell(tableDefAnno.column());
+                switch (tableDefAnno.cellType()) {
                     case String:
-                        cell.setCellType(CellType.STRING);
-                        cellVal = cell.getStringCellValue();
+                        if(cell!=null){
+                            cell.setCellType(CellType.STRING);
+                        }
+                        tempCellVal = cell==null?"":cell.getStringCellValue();
                         break;
                     case Number:
-                        cell.setCellType(CellType.NUMERIC);
-                        cellVal = Double.toString(cell.getNumericCellValue());
+                        if(cell!=null){
+                            cell.setCellType(CellType.NUMERIC);
+                        }
+                        tempCellVal = cell==null?"":Double.toString(cell.getNumericCellValue());
+                        break;
+                    case Long:
+                        if(cell!=null){
+                            cell.setCellType(CellType.STRING);
+                        }
+                        tempCellVal = cell==null ? null :  new Double(cell.getStringCellValue()).longValue();
                         break;
                     case Date:
-                        cellVal = StringUtil.dateFormat(cell.getDateCellValue(), StringUtil.DF_YMD);
+                        tempCellVal = cell==null?"": StringUtil.dateFormat(cell.getDateCellValue(), StringUtil.DF_YMD);
                         break;
                     case Formula:
-                        cellVal = cell.getCellFormula();
+                        tempCellVal = cell==null?"":cell.getCellFormula();
                         break;
                     default:
-                        cellVal = cell.getRawValue();
+                        tempCellVal = cell==null?"":cell.getRawValue();
                 }
-                if (t.keyValue().length != 0) {
-                    for (int j = 0; j < t.keyValue().length; j += 2) {
-                        if (t.keyValue()[j].equals(cellVal)) {
-                            cellVal = t.keyValue()[j + 1];
+                if (tableDefAnno.keyValue().length != 0) {
+                    for (int j = 0; j < tableDefAnno.keyValue().length; j += 2) {
+                        if (tableDefAnno.keyValue()[j].equals(tempCellVal)) {
+                            tempCellVal = tableDefAnno.keyValue()[j + 1];
                             break;
                         }
                     }
                 }
 
-                BeanUtil.setBeanProperty(rowData, field.getName(), StringUtils.trim(cellVal));
+                BeanUtil.setBeanProperty(rowData, field.getName(), tempCellVal);
             }
             sheetList.add(rowData);
         }
@@ -142,7 +150,7 @@ public class ExcelUtils {
         font.setBold(true);
         font.setFontHeightInPoints((short) 14);
 
-       //设置颜色
+        //设置颜色
         styleHeader.setAlignment(HorizontalAlignment.CENTER);
         //边框填充
         styleHeader.setBorderBottom(BorderStyle.DOUBLE); //下边框
@@ -180,15 +188,15 @@ public class ExcelUtils {
                 cellIndex = Integer.parseInt(e.column());
                 cell = row.createCell(cellIndex);
                 Object valueObj = BeanUtil.getBeanProperty(param.get(i), field.getName());
-                if(valueObj instanceof String){
-                    value = (String)valueObj;
-                }else if(valueObj instanceof BigDecimal){
-                    BigDecimal val = ((BigDecimal)valueObj).setScale(2,BigDecimal.ROUND_HALF_UP);
-                    value = val != null?val.toString():"";
-                }else if(valueObj instanceof Date){
-                    value = StringUtil.dateFormat((Date)valueObj, StringUtil.DF_YMD_24);
-                }else{
-                    value = valueObj != null?valueObj.toString():"";
+                if (valueObj instanceof String) {
+                    value = (String) valueObj;
+                } else if (valueObj instanceof BigDecimal) {
+                    BigDecimal val = ((BigDecimal) valueObj).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    value = val != null ? val.toString() : "";
+                } else if (valueObj instanceof Date) {
+                    value = StringUtil.dateFormat((Date) valueObj, StringUtil.DF_YMD_24);
+                } else {
+                    value = valueObj != null ? valueObj.toString() : "";
                 }
                 cell.setCellValue(value);
             }
@@ -198,6 +206,7 @@ public class ExcelUtils {
         //this.workBook.write(out);
         //fout.close();
     }
+
     public void flushOut(OutputStream outputStream) throws IOException {
         this.workBook.write(outputStream);
     }
@@ -313,7 +322,8 @@ public class ExcelUtils {
 
     }
 
-    public <T> void exportExcel(OutputStream out, String templatePath, Map<String, Object> data) throws PropertyAccessException, IOException, InvalidFormatException {
+    public void exportExcel(OutputStream out, String templatePath, Map<String, Object> data)
+            throws PropertyAccessException, IOException, InvalidFormatException {
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(templatePath);
         XLSTransformer transformer = new XLSTransformer();
         Workbook workbook = transformer.transformXLS(is, data);
@@ -394,7 +404,8 @@ public class ExcelUtils {
         //fout.close();
     }
 
-    public <T> void exportExcelAndMerge(OutputStream out, String sheetName, List<T> param, Class<T> clazz , Integer[] mergeData)
+    public <T> void exportExcelAndMerge(OutputStream out, String sheetName, List<T> param, Class<T> clazz,
+                                        Integer[] mergeData)
             throws PropertyAccessException, IOException {
         XSSFSheet sheet = this.workBook.createSheet(sheetName);
 
@@ -462,7 +473,7 @@ public class ExcelUtils {
                 cell.setCellValue(value);
             }
         }
-        sheet.addMergedRegion(new CellRangeAddress(mergeData[0],mergeData[1],mergeData[2],mergeData[3]));
+        sheet.addMergedRegion(new CellRangeAddress(mergeData[0], mergeData[1], mergeData[2], mergeData[3]));
 
         //FileOutputStream fout = new FileOutputStream(filePath);
         this.workBook.write(out);

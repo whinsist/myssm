@@ -73,6 +73,16 @@
 										重置
 									</button>
 
+									<button class="btn btn-white btn-info"  onclick="downloadUsers()">
+										<i class="ace-icon fa fa-retweet nav-search-icon"></i>
+										下载用户
+									</button>
+
+									<input type="file">
+
+
+
+
 									<a href="javascript:void(0);" onclick="downloadPdf()">testDownPdf</a>
 									<a href="javascript:void(0);" onclick="downloadXls()">testDownXls</a>
 									<a href="javascript:void(0);" onclick="downloadHtml()">testDownHtml</a>
@@ -153,17 +163,20 @@
 				}
 			});
 
+			function downloadUsers() {
+                /*window.open("${pageContext.request.contextPath}/v1/back/users/download");*/
+                location.href = "${pageContext.request.contextPath}/v1/back/users/download";
+            }
 			function downloadPdf() {
-                window.open("${pageContext.request.contextPath}/v1/attach/down_pdf");
+                location.href = "${pageContext.request.contextPath}/v1/attach/down_pdf";
             }
             function downloadXls() {
-                window.open("${pageContext.request.contextPath}/v1/attach/down_xls");
+                location.href = "${pageContext.request.contextPath}/v1/attach/down_xls";
             }
             function downloadHtml() {
-                window.open("${pageContext.request.contextPath}/v1/attach/down_html");
+                location.href = "${pageContext.request.contextPath}/v1/attach/down_html";
             }
             function showImage() {
-                //window.open("${pageContext.request.contextPath}/v1/attach/down_image");
 				if ($("#showImage").attr("src").indexOf("v1") > -1) {
                     $("#showImage").attr("src", "");
 				} else {
