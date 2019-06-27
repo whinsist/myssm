@@ -2,7 +2,11 @@ package cn.com.cloudstar.rightcloud.framework.common.study.lambda;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Hong.Wu
@@ -35,6 +39,17 @@ public class LambdaTest1 {
         new Thread(() -> {
             System.out.println("todo");
         }).start();
+
+        List<String> list = Arrays.asList("d", "b", "c", "a");
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String str1, String str2) {
+                return str1.compareTo(str2);
+            }
+        });
+
+        Collections.sort(list, (str1, str2) -> str1.compareTo(str2));
+
         // 前提：熟悉泛型   函数式接口   多练   多用Stream API
         // 任何有函数式接口的地方都可以是lambda表达式
         // 函数式接口：只有一个抽象方法（Object的方法除外）的接口
