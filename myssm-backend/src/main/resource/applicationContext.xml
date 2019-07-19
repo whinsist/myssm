@@ -17,5 +17,7 @@
 
     <import resource="classpath:spring/spring-mq-config.xml"/>
 
+    <import resource="classpath:spring/spring-activiti-config.xml"/>
+
 
 </beans>
