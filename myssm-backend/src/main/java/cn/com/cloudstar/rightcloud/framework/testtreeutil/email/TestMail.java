@@ -14,8 +14,9 @@ import java.util.Map;
 public class TestMail {
     public static void main(String[] args) {
         List<String> toAddressList = new ArrayList<>();
-        toAddressList.add("444089024@qq.com");
-        toAddressList.add("wuhong@cloud-star.com.cn");
+//        toAddressList.add("444089024@qq.com");
+//        toAddressList.add("wuhong@cloud-star.com.cn");
+        toAddressList.add("whinsist@126.com");
 
         List<Attachment> attachtList = new ArrayList<>();
         Attachment att1 = new Attachment();

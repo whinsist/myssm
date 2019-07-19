@@ -50,8 +50,9 @@ public class SendMailByQQ {
     public static void main(String[] args) throws Exception { 
         // 发送文本邮件
         List<String> toAddressList = new ArrayList<>();
-        toAddressList.add("444089024@qq.com");
-        toAddressList.add("wuhong@cloud-star.com.cn");
+//        toAddressList.add("444089024@qq.com");
+//        toAddressList.add("wuhong@cloud-star.com.cn");
+        toAddressList.add("whinsist@126.com");
 
         sendTextEmail(toAddressList);
     } 
