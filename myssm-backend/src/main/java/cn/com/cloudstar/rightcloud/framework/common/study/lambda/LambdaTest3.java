@@ -1,13 +1,17 @@
 package cn.com.cloudstar.rightcloud.framework.common.study.lambda;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ForkJoinPool;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import lombok.Data;
@@ -46,6 +50,24 @@ public class LambdaTest3 {
         System.out.println(any.get());
 
         Map<String, Pu> map =  collect2.stream().collect(Collectors.toMap(Pu::getName, v->v, (k1,k2) -> k1));
+
+
+        // 并行流 顺序流 parallel sequential
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "5");
+        String pp = System.getProperty("java.util.concurrent.ForkJoinPool.common.parallelism");
+        System.out.println("pp---------"+pp);
+
+
+        Optional<Integer> max = Stream.iterate(1, x -> x + 1).limit(10).parallel().peek(x -> {
+            System.out.println(Thread.currentThread().getName());
+        }).max(Integer::compare);
+        System.out.println("max=" + max);
+
+
+        Instant start = Instant.now();
+        LongStream.rangeClosed(0, 10000000000L).parallel().reduce(0, Long :: sum);
+        Instant end = Instant.now();
+        System.out.println("用时："+ Duration.between(start, end).getSeconds());
 
     }
     @Data
