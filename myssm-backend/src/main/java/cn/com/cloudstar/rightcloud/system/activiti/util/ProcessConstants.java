@@ -1,5 +1,6 @@
 package cn.com.cloudstar.rightcloud.system.activiti.util;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -73,15 +74,7 @@ public interface ProcessConstants {
      */
     ThreadLocal<Boolean> PROCESS_FINISHED = new ThreadLocal<>();
 
-    /**
-     * 支持的流程业务类型
-     */
-    List<Map<String, String>> BUSINESS = Lists.newArrayListWithCapacity(8);
 
-    /**
-     * 流程业务类型
-     */
-    Map<String, String> BUSINESS_MAP = Maps.newHashMap();
 
     /**
      * 服务申请

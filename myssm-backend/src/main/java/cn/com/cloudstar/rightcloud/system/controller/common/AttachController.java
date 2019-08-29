@@ -60,6 +60,8 @@ public class AttachController {
     @PostMapping("/upload")
     public RestResult post(@RequestParam("file") MultipartFile[] files,
                            @RequestParam(required = false) String saveDir) throws IOException {
+        System.out.println(files);
+        System.out.println(saveDir);
         saveDir = StringUtil.isBlank(saveDir) ? DEFAULT_DIR : saveDir;
         List<UploadResponse> result = new ArrayList<>();
         for (MultipartFile file: files) {

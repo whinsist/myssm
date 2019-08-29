@@ -31,6 +31,10 @@
 12、测试jdk8的lambda表达式
 
 13、ssh密钥 (生成密钥 公钥私钥指纹  下载私钥downSshKey  ssh登录用私钥)
+
+14、activity增加进系统
+
+15、面试问题：list循环并移除其中元素； 线程安全的单例模式三种；比较自定义对象为什么要重写equals和hashcode方法 
 	
 
 
