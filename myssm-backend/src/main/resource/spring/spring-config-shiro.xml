@@ -61,6 +61,7 @@
                 /v1/captcha/**=anon
                 /v1/attach/**=anon
                 /v1/back/users/import=anon
+                /v1/back/page/test/fileUpload=anon
 
 
 

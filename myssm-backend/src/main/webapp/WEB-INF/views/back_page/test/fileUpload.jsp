@@ -48,6 +48,9 @@
 				<img src="" id="image200" style="border:1px solid gray;"><br/>
 				<img src="" id="image400" style="border:1px solid gray;"><br/>
 			</div>
+
+			<input type="button" id="testRequestUrl" value="testRequestUrl" onclick="testRequestUrl()">
+
 		</div>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/message/jquery.message.js"></script>
@@ -208,6 +211,25 @@
 			}
 			function endTimer(){
 				clearTimeout(timer)
+			}
+
+
+			function testRequestUrl(){
+                var url_ok = "http://zero-fffd-1254344222.cos.ap-chengdu.myqcloud.com/test.txt?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDpUv74l4PM5rCOQw2GI5dx2rQN8ezx5mD%26q-sign-time%3D1570703170%3B1570706770%26q-key-time%3D1570703170%3B1570706770%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3D4094f7c11d35464154912b8504029d07b633362e";
+                var url_faild = "http://zero-fffd-1254344222.cos.ap-chengdu.myqcloud.com/100001441688_1514925_1569807744818.png?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDpUv74l4PM5rCOQw2GI5dx2rQN8ezx5mD%26q-sign-time%3D1570702557%3B1570706157%26q-key-time%3D1570702557%3B1570706157%26q-header-list%3D%26q-url-param-list%3D%26q-signature%3D0f5c4581a8b92092233644b72fc560bfae917368";
+			    $.ajax({
+                    url: url_faild,
+                    type: "GET",
+                    success: function(data){
+                        location.href = url_ok;
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        alert("xhr.status="+xhr.status +" xhr.readyState="+xhr.readyState+"  textStatus="+textStatus);
+                    },
+                    complete : function(XMLHttpRequest,status) {
+                        //alert("complete----------" + status);
+                    }
+                });
 			}
 		</script>
 	</body>

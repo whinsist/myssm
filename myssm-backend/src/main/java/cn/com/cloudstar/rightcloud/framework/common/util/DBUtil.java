@@ -47,6 +47,11 @@ public class DBUtil {
         druidDataSource.setTestWhileIdle(true);
         druidDataSource.setValidationQuery("select 'x'");
         druidDataSource.setMaxActive(20);
+//        druidDataSource.setMaxWait();
+//        druidDataSource.setMaxIdle();
+
+
+
         druidDataSource.setMinIdle(1);
         druidDataSource.setPoolPreparedStatements(false);
         druidDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000);
