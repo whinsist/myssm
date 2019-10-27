@@ -1,5 +1,6 @@
 package cn.com.cloudstar.rightcloud.framework.common.util.file;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -109,6 +110,7 @@ public class FileDownLoadUtil {
 			// 告诉浏览器当前的响应体是个什么类型的数据response.setContentType==response.setHeader("content-Type"
 			// 只要设置成二进制流都可以 不管是pdf或xls
 			if (StringUtils.isBlank(contentType)) {
+				// application/octet-stream 任意文件都可以下载
 				contentType = ContentTypeConstants.STREAM;
 			}
 			response.setContentType(contentType);
@@ -121,6 +123,7 @@ public class FileDownLoadUtil {
 			out = response.getOutputStream();
 			byte[] buff = new byte[2048];
 			int len;
+			// 输入流 - 读到缓冲区 - 输出流
 			while ((len = in.read(buff)) !=  -1) {
 				// 输出缓冲区的内容到浏览器，实现文件下载
 				out.write(buff, 0, len);
@@ -129,20 +132,8 @@ public class FileDownLoadUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			IOUtils.closeQuietly(in);
+			IOUtils.closeQuietly(out);
 		}
 	}
 
