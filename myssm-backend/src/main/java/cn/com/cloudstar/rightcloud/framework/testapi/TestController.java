@@ -56,16 +56,15 @@ public class TestController {
     private MqService mqService;
 
     @RequestMapping("/captcha")
-    public String captcha(ModelMap model){
+    public String captcha(ModelMap model) {
         Map<String, Object> map = new HashMap<>();
         map.put("info", "2233");
         map.put("time", DateUtil.dateFormat(new Date()));
         model.addAttribute("json", JsonUtil.toJson(map));
 
-
         ValidateCode vCode = new ValidateCode(100, 30, 4, 10);
         String captcha = vCode.getCode();
-        String base64Str = "data:image/jpg;base64,"+ Base64.encodeBase64String(vCode.getBuffImgByte());
+        String base64Str = "data:image/jpg;base64," + Base64.encodeBase64String(vCode.getBuffImgByte());
         model.addAttribute("captcha", captcha);
         model.addAttribute("base64Str", base64Str);
         return "/test/index";
@@ -80,39 +79,48 @@ public class TestController {
 
     @GetMapping("/page")
     @ResponseBody
-    public RestResult test_page(HttpServletResponse response, HttpServletRequest request) {
+    public RestResult test_page(HttpServletRequest request) {
         Criteria criteria = new Criteria();
         WebUtil.preparePageParams(request, criteria, "user_sid asc");
-//        PageHelper.orderBy("user_sid asc");
-//        PageHelper.startPage(2, 10);
+        //  注：返回结果list，已经是Page对象，Page对象是一个ArrayList
+        // 原理：使用ThreadLocal来传递和保存Page对象，每次查询，都需要单独设置PageHelper.startPage()方法。
+        // 总记录数count放到Page对象中 是在 dialect.afterCount(count, parameter, rowBounds)方法中
         List<User> users = this.userService.selectByParams(criteria);
         PageInfo<User> pageInfo = new PageInfo<>(users);
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("list", pageInfo.getList());
-        map.put("toatal", pageInfo.getTotal());
-        map.put("pages", pageInfo.getPages());
         BaseGridReturn baseGridReturn = new BaseGridReturn(pageInfo);
 
 
+
         User user = new User();
-        this.userService.selectByPageNumSize(user, 1, 2);
+        List<User> list2 = this.userService.selectByPageNumSize(user, 1, 2);
+        List<User> list3 = this.userService.selectByPageNumSize(user, null, 2);
+
+        User threadLocalUser = UserThreadLocal.get();
+        System.out.println("从本地线程中获取当前用："+threadLocalUser.getRealName());
+
 
         return new RestResult(baseGridReturn);
     }
 
     @GetMapping("/interceptor")
     @ResponseBody
-    public RestResult interceptor(HttpServletResponse response, HttpServletRequest request) {
+    public RestResult interceptor() {
+        // 查询所有
+//        Criteria criteria = new Criteria();
+//        List<Exam> exams = examMapper.selectByParams(criteria);
+//        return new RestResult(exams);
+
+        // 分页查询
         Criteria criteria = new Criteria();
-        WebUtil.preparePageParams(request, criteria, "user_sid asc");
+        criteria.setPageNum(1);
+        criteria.setPageSize(2);
         List<Exam> exams = examMapper.selectByParams(criteria);
-
-        User user = new User();
-        this.userService.selectByPageNumSize(user, 2, 2);
-
-        User threadLocalUser = UserThreadLocal.get();
-        System.out.println("threadLocalUser---"+threadLocalUser.getRealName());
-        return new RestResult(null);
+        PageInfo pageInfo = new PageInfo<>(exams);
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        map.put("总条数", pageInfo.getTotal());
+        map.put("总页数", pageInfo.getPages());
+        map.put("结果集", pageInfo.getList());
+        return new RestResult(map);
     }
 
 
@@ -128,19 +136,12 @@ public class TestController {
     }
 
 
-
     @GetMapping("/mq")
     @ResponseBody
     public ResultObject sendMQMessage(HttpServletResponse response, HttpServletRequest request) {
         mqService.sendScheduleSyncEnvMessage();
         return ResultObjectUtil.success();
     }
-
-
-
-
-
-
 
 
 }
