@@ -775,12 +775,10 @@
             <artifactId>activiti-bpmn-layout</artifactId>
             <version>${activiti.version}</version>
         </dependency>
-
-
-
-
-
     </dependencies>
+
+
+
 
 
 

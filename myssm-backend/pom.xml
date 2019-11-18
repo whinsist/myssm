@@ -54,6 +54,9 @@
         </resources>
 
         <plugins>
+
+            <!--https://www.cnblogs.com/onlymate/p/9900662.html-->
+            <!--编译Java源码，一般只需设置编译的jdk版本 maven-compiler-plugin的配置同时对Java compiler和Language level同时生效 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -64,16 +67,21 @@
                     <encoding>${file.encoding}</encoding>
                 </configuration>
             </plugin>
+
+            <!--打成jar时，设定manifest的参数，比如指定运行的Main class，还有依赖的jar包，加入classpath中-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${maven.jar.plugin.version}</version>
             </plugin>
+
+            <!--用于复制依赖的jar包到指定的文件夹里-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>${maven.dependency.plugin.version}</version>
             </plugin>
+            <!--如果是web项目，就需要打war包，那就需要这个插件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

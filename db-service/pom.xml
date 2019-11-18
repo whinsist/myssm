@@ -21,6 +21,35 @@
 
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.source.version}</source>
+                    <target>${java.target.version}</target>
+                    <encoding>${file.encoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- 测试自定义插件  -->
+            <plugin>
+                <groupId>com.test</groupId>
+                <artifactId>mavenplugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <!-- 这里加入的是相关参数，这些参数必须跟插件实现里面的属性保持一致 -->
+                <configuration>
+                    <application>api</application><!-- 当前应用名称 -->
+                    <sourceFolderPath>${basedir}</sourceFolderPath><!-- 当前应用根目录 -->
+                    <driverName>com.mysql.jdbc.Driver</driverName><!-- 数据库驱动 -->
+                    <dbUrl>jdbc:mysql://10.16.88.189:3306</dbUrl><!-- 数据库连接URL -->
+                    <dbName>iapps</dbName><!-- 数据库名 -->
+                    <classFolderPath>ssss</classFolderPath>
+                </configuration>
+            </plugin>
+
+
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
