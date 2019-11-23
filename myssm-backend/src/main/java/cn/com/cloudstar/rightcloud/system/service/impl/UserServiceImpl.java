@@ -72,12 +72,10 @@ public class UserServiceImpl implements UserService {
     private UserTokenMapper userTokenMapper;
 
 
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserToken login(UserLoginBean user) {
         UserToken userToken = null;
-
         // 验证验证码
         String realCaptcha = JedisUtil.instance().get(user.getCaptchaKey());
         if (StringUtil.isBlank(user.getCaptchaKey())) {
@@ -86,15 +84,13 @@ public class UserServiceImpl implements UserService {
         if (!realCaptcha.equalsIgnoreCase(user.getCaptcha())) {
             throw new BizException("验证码不正确");
         }
-
-
         // 验证用户
         Criteria critera = new Criteria();
         critera.put("account", user.getAccount());
 
         //1、查询用户是否存在
         List<User> list = userMapper.selectByParams(critera);
-        if (list != null && list.size() > 0) {
+        if (CollectionUtil.isNotEmpty(list)) {
             User loginUser = list.get(0);
             //2、判断用户状态
             if (WebConstants.UserStatus.AVAILABILITY.equals(loginUser.getStatus())) {
@@ -108,7 +104,6 @@ public class UserServiceImpl implements UserService {
                     isSuccessFlag = true;
                 }
 
-
                 if (isSuccessFlag) {
                     //4、查询用户在升级系统是是否可用
                     boolean hasAccess = sysconfigService.querySysUpgradeUserFlag(loginUser.getUserSid());
@@ -121,7 +116,9 @@ public class UserServiceImpl implements UserService {
                                 logger.debug("generated user token({}): {}", loginUser.getAccount(), userToken);
                             }
                             userTokenMapper.insertSelective(userToken);
-                            JedisUtil.instance().hset(AuthConstants.CACHE_KEY_USERID, loginUser.getUserSid().toString(), loginUser.getAccount());
+                            JedisUtil.instance()
+                                     .hset(AuthConstants.CACHE_KEY_USERID, loginUser.getUserSid().toString(),
+                                           loginUser.getAccount());
                         } else {
                             //没有权限
                             userToken = new UserToken();
@@ -172,7 +169,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int countByParams(Criteria criteria) {
-        return  this.userMapper.countByParams(criteria);
+        return this.userMapper.countByParams(criteria);
     }
 
 
@@ -199,7 +196,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> selectByPageNumSize(User user, int pageNum, int pageSize) {
+    public List<User> selectByPageNumSize(User user, Integer pageNum, Integer pageSize) {
         return this.userMapper.selectByPageNumSize(user, pageNum, pageSize);
     }
 
@@ -209,7 +206,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteOrUpdateUser(UserEditVo userEditVo) {
         String oper = userEditVo.getOper();
         AssertUtil.notBlank(oper, "未找到对应的操作");
@@ -219,10 +216,10 @@ public class UserServiceImpl implements UserService {
             String[] split = ids.split(",");
             List<Long> deleteIdList = new ArrayList<>();
             for (String id : split) {
-                if(StringUtils.isNotBlank(id)){
-                    List<String> notDeleteIdList = Arrays.asList("100","467");
+                if (StringUtils.isNotBlank(id)) {
+                    List<String> notDeleteIdList = Arrays.asList("100", "467");
                     if (notDeleteIdList.contains(id)) {
-                        throw new BizException("特殊账号不能删除! id="+id);
+                        throw new BizException("特殊账号不能删除! id=" + id);
                     }
                     deleteIdList.add(Long.parseLong(id));
                 }

@@ -2,6 +2,8 @@ package cn.com.cloudstar.rightcloud.system.pojo.jqgrid;
 
 import com.github.pagehelper.PageInfo;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.CriteriaResult;
 import cn.com.cloudstar.rightcloud.system.pojo.User;
@@ -27,7 +29,7 @@ public class JQGridBeanUtil  {
         return gridBean;
     }
 
-    public static JQGridBean buildJQGrid(List<User> dataList) {
+    public static JQGridBean buildJQGrid(List<?> dataList) {
         PageInfo page = new PageInfo<>(dataList);
         JQGridBean  gridBean = new JQGridBean<>();
         gridBean.setPage(page.getPageNum());

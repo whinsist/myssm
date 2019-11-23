@@ -1,5 +1,8 @@
 import org.flywaydb.core.Flyway;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestFlyway {
 
 

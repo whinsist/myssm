@@ -11,6 +11,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import cn.com.cloudstar.rightcloud.framework.common.pojo.AuthUser;
+
 /**
  * 存取登录用户信息
  *
@@ -37,4 +39,12 @@ public class AuthUtil {
     }
 
 
+
+    public static Long getCurrentOrgSid() {
+        AuthUser authUser = RequestContextUtil.getAuthUserInfo();
+        if (authUser == null) {
+            return null;
+        }
+        return authUser.getOrgSid();
+    }
 }

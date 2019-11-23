@@ -65,7 +65,7 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User record);
 
-    List<User> selectByPageNumSize(@Param("user") User User, @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
+    List<User> selectByPageNumSize(@Param("user") User User, @Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
 
     //@PermissionAop
     List<User> selectByPermission(Criteria example);

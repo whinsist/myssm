@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.service.ServiceCategoryMapper">
+    <resultMap id="BaseResultMap"
+               type="cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ServiceCategory">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="service_form" property="serviceForm" jdbcType="VARCHAR"/>
+        <result column="service_type" property="serviceType" jdbcType="VARCHAR"/>
+        <result column="service_form_name" property="serviceFormName" jdbcType="VARCHAR"/>
+        <result column="service_class" property="serviceClass" jdbcType="VARCHAR"/>
+        <result column="service_owner_id" property="serviceOwnerId" jdbcType="BIGINT"/>
+        <result column="service_owner_name" property="serviceOwnerName" jdbcType="VARCHAR"/>
+        <result column="service_name" property="serviceName" jdbcType="VARCHAR"/>
+        <result column="service_desc" property="serviceDesc" jdbcType="VARCHAR"/>
+        <result column="service_icon_path" property="serviceIconPath" jdbcType="VARCHAR"/>
+        <result column="service_config" property="serviceConfig" jdbcType="VARCHAR"/>
+        <result column="service_workflow_id" property="serviceWorkflowId" jdbcType="BIGINT"/>
+        <result column="service_workflow_name" property="serviceWorkflowName" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="org_sid" property="orgSid" jdbcType="BIGINT"/>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+        <result column="res_flag" property="resFlag" jdbcType="VARCHAR" />
+        <result column="service_details" property="serviceDetails" jdbcType="VARCHAR"/>
+        <result column="open_type" property="openType" jdbcType="VARCHAR"/>
+        <result column="service_component" property="serviceComponent" jdbcType="VARCHAR"/>
+        <result column="is_iaas" property="isIaaS" jdbcType="TINYINT"/>
+        <result column="is_Paas" property="isPaaS" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="condition.serviceForm != null">
+                and service_form = #{condition.serviceForm}
+            </if>
+            <if test="condition.serviceType != null">
+                and service_type = #{condition.serviceType}
+            </if>
+            <if test="condition.serviceClass != null">
+                and service_class = #{condition.serviceClass}
+            </if>
+            <if test="condition.serviceOwnerId != null">
+                and service_owner_id = #{condition.serviceOwnerId}
+            </if>
+            <if test="condition.serviceOwnerName != null">
+                and service_owner_name = #{condition.serviceOwnerName}
+            </if>
+            <if test="condition.serviceName != null">
+                and service_name = #{condition.serviceName}
+            </if>
+            <if test="condition.serviceNameLike != null">
+                and service_name like concat('%', #{condition.serviceNameLike},'%')
+            </if>
+            <if test="condition.serviceDesc != null">
+                and service_desc = #{condition.serviceDesc}
+            </if>
+            <if test="condition.serviceIconPath != null">
+                and service_icon_path = #{condition.serviceIconPath}
+            </if>
+            <if test="condition.serviceConfig != null">
+                and service_config = #{condition.serviceConfig}
+            </if>
+            <if test="condition.serviceWorkflowId != null">
+                and service_workflow_id = #{condition.serviceWorkflowId}
+            </if>
+            <if test="condition.createdBy != null">
+                and created_by = #{condition.createdBy}
+            </if>
+            <if test="condition.createdDt != null">
+                and created_dt = #{condition.createdDt}
+            </if>
+            <if test="condition.updatedBy != null">
+                and updated_by = #{condition.updatedBy}
+            </if>
+            <if test="condition.updatedDt != null">
+                and updated_dt = #{condition.updatedDt}
+            </if>
+            <if test="condition.version != null">
+                and version = #{condition.version}
+            </if>
+            <if test="condition.status != null">
+                and status = #{condition.status}
+            </if>
+            <if test="condition.serviceComponent != null">
+                and service_component = #{condition.serviceComponent}
+            </if>
+            <if test="condition.df != null">
+                ${condition.df}
+            </if>
+            and status != 'delete'
+        </trim>
+    </sql>
+    <sql id="Base_Column_List">
+        id, service_form, service_type, service_class, service_owner_id, service_owner_name,
+        service_name, service_desc, service_icon_path, service_config, service_workflow_id,
+        created_by, created_dt, updated_by, updated_dt, version,status,org_sid,price,open_type,
+        res_flag, service_details, service_component
+    </sql>
+
+    <select id="selectByParams" resultMap="BaseResultMap"
+            parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sf_service_category
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sf_service_category
+        where id = #{id}
+    </select>
+
+
+
+</mapper>

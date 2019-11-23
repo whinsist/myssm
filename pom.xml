@@ -775,6 +775,15 @@
             <artifactId>activiti-bpmn-layout</artifactId>
             <version>${activiti.version}</version>
         </dependency>
+        <!-- activiti end -->
+
+        <!-- orika -->
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+
     </dependencies>
 
 

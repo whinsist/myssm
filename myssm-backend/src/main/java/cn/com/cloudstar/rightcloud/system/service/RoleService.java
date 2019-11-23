@@ -21,4 +21,6 @@ public interface RoleService {
      * 根据用户sid查询角色
      */
     List<Role> findRolesByUserSid(Long userSid);
+
+    Role selectByPrimaryKey(Long id);
 }

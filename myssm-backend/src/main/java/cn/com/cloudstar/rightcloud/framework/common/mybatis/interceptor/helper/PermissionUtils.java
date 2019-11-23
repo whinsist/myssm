@@ -17,7 +17,6 @@ public class PermissionUtils {
      * @date 2018/4/17 上午11:45
      */
     public static PermissionAop getPermissionByDelegate(MappedStatement mappedStatement){
-        PermissionAop permissionAop = null;
         try {
             String id = mappedStatement.getId();
             String className = id.substring(0, id.lastIndexOf("."));
@@ -26,12 +25,12 @@ public class PermissionUtils {
             final Method[] method = cls.getMethods();
             for (Method me : method) {
                 if (me.getName().equals(methodName) && me.isAnnotationPresent(PermissionAop.class)) {
-                    permissionAop = me.getAnnotation(PermissionAop.class);
+                    return me.getAnnotation(PermissionAop.class);
                 }
             }
         } catch (Exception e){
-            System.out.println("error:"+e.getMessage());
+            e.printStackTrace();
         }
-        return permissionAop;
+        return null;
     }
 }

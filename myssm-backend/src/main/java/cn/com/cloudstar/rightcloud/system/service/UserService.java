@@ -35,7 +35,7 @@ public interface UserService {
 
     void sendEmail();
 
-    List<User> selectByPageNumSize(User user, int pageNum, int pageSize);
+    List<User> selectByPageNumSize(User user, Integer pageNum, Integer pageSize);
 
     List<User> selectByPermission(Criteria criteria);
 

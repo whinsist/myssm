@@ -29,4 +29,9 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> findRolesByUserSid(Long userSid) {
         return roleMapper.findRolesByUserSid(userSid);
     }
+
+    @Override
+    public Role selectByPrimaryKey(Long id) {
+        return null;
+    }
 }

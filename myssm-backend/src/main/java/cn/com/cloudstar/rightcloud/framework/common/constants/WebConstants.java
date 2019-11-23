@@ -7584,29 +7584,7 @@ public interface WebConstants {
         String unpublish = "unpublish";
     }
 
-    interface OrderStatus {
 
-        /**
-         * 审批中
-         */
-        String APPROVING = "approving";
-
-        /**
-         * 完成
-         */
-        String COMPLETED = "completed";
-
-        /**
-         * 拒绝并关闭
-         */
-        String LEV2_REFUSED = "refused";
-
-        /**
-         * 拒绝
-         */
-        String REJECTED = "rejected";
-
-    }
 
     interface ScriptCategory {
 

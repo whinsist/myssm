@@ -2,11 +2,14 @@ package cn.com.cloudstar.rightcloud.system.vo.act;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
 /**
  *
  * @author yuz
  * @date 2018/8/2
  */
+@Data
 public class ProcessDto implements Serializable {
 
     /**
@@ -42,67 +45,7 @@ public class ProcessDto implements Serializable {
      */
     int actHeight;
 
-    public String getDefineKey() {
-        return defineKey;
-    }
+    private String description;
 
-    public void setDefineKey(String defineKey) {
-        this.defineKey = defineKey;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public int getActLeft() {
-        return actLeft;
-    }
-
-    public void setActLeft(int actLeft) {
-        this.actLeft = actLeft;
-    }
-
-    public int getActTop() {
-        return actTop;
-    }
-
-    public void setActTop(int actTop) {
-        this.actTop = actTop;
-    }
-
-    public int getActWidth() {
-        return actWidth;
-    }
-
-    public void setActWidth(int actWidth) {
-        this.actWidth = actWidth;
-    }
-
-    public int getActHeight() {
-        return actHeight;
-    }
-
-    public void setActHeight(int actHeight) {
-        this.actHeight = actHeight;
-    }
+    private String businessCode;
 }

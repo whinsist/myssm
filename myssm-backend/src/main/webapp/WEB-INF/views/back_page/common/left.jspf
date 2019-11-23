@@ -34,6 +34,63 @@
 				</li> 
 			</ul>	
 		</li>
+
+		<li <c:if test="${!empty menuKey && fn:contains('processList,processAdd',menuKey)}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list"></i>
+				<span class="menu-text">流程管理</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<li <c:if test="${!empty menuKey && fn:contains('processList', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/process/process_list"><i class="menu-icon fa fa-caret-right"></i>流程列表</a>
+					<b class="arrow"></b>
+				</li>
+				<li <c:if test="${!empty menuKey && fn:contains('processAdd', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/process/process_add"><i class="menu-icon fa fa-caret-right"></i>流程增加</a>
+					<b class="arrow"></b>
+				</li>
+			</ul>
+		</li>
+
+		<li <c:if test="${!empty menuKey && fn:contains('serviceCategoryList,serviceOrderList', menuKey)}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list"></i>
+				<span class="menu-text">自服务</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<li <c:if test="${!empty menuKey && fn:contains('serviceCategoryList', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/service/service_category_list"><i class="menu-icon fa fa-caret-right"></i>服务目录</a>
+					<b class="arrow"></b>
+				</li>
+				<li <c:if test="${!empty menuKey && fn:contains('serviceOrderList', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/service/service_order_list"><i class="menu-icon fa fa-caret-right"></i>服务订单</a>
+					<b class="arrow"></b>
+				</li>
+			</ul>
+		</li>
+
+		<li <c:if test="${!empty menuKey && fn:contains('orderAuditPending,orderAuditProcessed', menuKey)}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list"></i>
+				<span class="menu-text">审批管理(组织管理员)</span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<li <c:if test="${!empty menuKey && fn:contains('orderAuditPending', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/order_audit/order_audit_pending"><i class="menu-icon fa fa-caret-right"></i>待处理</a>
+					<b class="arrow"></b>
+				</li>
+				<li <c:if test="${!empty menuKey && fn:contains('orderAuditProcessed', menuKey)}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/v1/back/page/order_audit/order_audit_processed"><i class="menu-icon fa fa-caret-right"></i>已处理</a>
+					<b class="arrow"></b>
+				</li>
+			</ul>
+		</li>
 		
 		 
 		<li <c:if test="${!empty menuKey && fn:contains('decItemList,decItemAdd',menuKey)}">class="active open"</c:if>>
