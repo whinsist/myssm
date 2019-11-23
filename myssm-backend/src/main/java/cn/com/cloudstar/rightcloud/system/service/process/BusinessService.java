@@ -14,8 +14,8 @@ import cn.com.cloudstar.rightcloud.framework.common.pojo.AuthUser;
 import cn.com.cloudstar.rightcloud.framework.common.util.RequestContextUtil;
 import cn.com.cloudstar.rightcloud.system.activiti.util.ProcessConstants;
 import cn.com.cloudstar.rightcloud.system.activiti.util.ProcessHelper;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ServiceOrder;
-import cn.com.cloudstar.rightcloud.system.service.RoleService;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrder;
+import cn.com.cloudstar.rightcloud.system.service.system.RoleService;
 
 /**
  * @author Hong.Wu

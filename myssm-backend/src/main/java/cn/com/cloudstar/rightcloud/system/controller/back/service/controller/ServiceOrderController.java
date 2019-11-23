@@ -13,7 +13,7 @@ import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.rest.ResultObject;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.rest.ResultObjectUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.BeanConvertUtil;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ServiceOrder;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrder;
 import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.response.DescribeServiceOrderDetailResponse;
 import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.response.DescribeServiceOrderResponse;
 import cn.com.cloudstar.rightcloud.system.enums.OrderStatusEnum;

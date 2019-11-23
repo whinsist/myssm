@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.com.cloudstar.rightcloud.system.dao.service.ServiceOrderRecordMapper" >
-  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="order_id" property="orderId" jdbcType="BIGINT" />
     <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
@@ -91,13 +91,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord" useGeneratedKeys="true" keyProperty="id" >
     insert into service_order_record (order_id, order_sn, audit_time, handler, step, info, created_by, created_dt,
       updated_by, updated_dt, version, notice_dt)
     values (#{orderId}, #{auditTime}, #{handler}, #{step}, #{info}, #{createdBy}, #{createdDt},
       #{updatedBy}, #{updatedDt}, #{version}, #{noticeDt})
   </insert>
-  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord" useGeneratedKeys="true" keyProperty="id" >
     insert into service_order_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="orderId != null" >
@@ -248,7 +248,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord" >
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord" >
     update service_order_record
     <set >
       <if test="orderId != null" >
@@ -290,7 +290,7 @@
     </set>
     where id = #{id}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord" >
+  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord" >
     update service_order_record
     set order_id = #{orderId},
       order_sn = #{orderSn},

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ProcessNode;
+import cn.com.cloudstar.rightcloud.system.entity.act.ProcessNode;
 
 /**
  *

@@ -1,19 +1,17 @@
 package cn.com.cloudstar.rightcloud.system.controller.common;
 
 import cn.com.cloudstar.rightcloud.framework.common.constants.AuthConstants;
-import cn.com.cloudstar.rightcloud.framework.common.constants.RestConst;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.AuthUser;
-import cn.com.cloudstar.rightcloud.framework.common.pojo.RestResult;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.rest.ResultObject;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.rest.ResultObjectUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.CookieUtils;
 import cn.com.cloudstar.rightcloud.framework.common.util.RequestContextUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.StringUtil;
-import cn.com.cloudstar.rightcloud.system.pojo.User;
-import cn.com.cloudstar.rightcloud.system.pojo.UserToken;
+import cn.com.cloudstar.rightcloud.system.entity.system.User;
+import cn.com.cloudstar.rightcloud.system.entity.system.UserToken;
 import cn.com.cloudstar.rightcloud.system.pojo.beans.UserLoginBean;
-import cn.com.cloudstar.rightcloud.system.service.UserService;
-import io.swagger.annotations.ApiOperation;
+import cn.com.cloudstar.rightcloud.system.service.system.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Hong.Wu

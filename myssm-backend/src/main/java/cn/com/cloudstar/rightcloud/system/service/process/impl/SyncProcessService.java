@@ -5,14 +5,12 @@ import com.google.common.collect.Lists;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,11 +19,9 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import cn.com.cloudstar.rightcloud.system.activiti.util.ProcessConstants;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ProcessNode;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ServiceOrder;
+import cn.com.cloudstar.rightcloud.system.entity.act.ProcessNode;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrder;
 import cn.com.cloudstar.rightcloud.system.dao.act.ProcessNodeMapper;
-import cn.com.cloudstar.rightcloud.system.pojo.User;
 import cn.com.cloudstar.rightcloud.system.service.process.BusinessService;
 import cn.com.cloudstar.rightcloud.system.service.process.ServiceOrderService;
 import cn.com.cloudstar.rightcloud.system.vo.act.ProcessNodeConfig;

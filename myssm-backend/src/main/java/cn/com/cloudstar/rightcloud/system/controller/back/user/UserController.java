@@ -38,10 +38,10 @@ import cn.com.cloudstar.rightcloud.framework.common.util.JsonUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.WebUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.excel.ExcelUtils;
 import cn.com.cloudstar.rightcloud.framework.common.util.file.FileDownLoadUtil;
-import cn.com.cloudstar.rightcloud.system.pojo.User;
+import cn.com.cloudstar.rightcloud.system.entity.system.User;
 import cn.com.cloudstar.rightcloud.system.pojo.jqgrid.JQGridBean;
 import cn.com.cloudstar.rightcloud.system.pojo.jqgrid.JQGridBeanUtil;
-import cn.com.cloudstar.rightcloud.system.service.UserService;
+import cn.com.cloudstar.rightcloud.system.service.system.UserService;
 import cn.com.cloudstar.rightcloud.system.vo.UserEditVo;
 import cn.com.cloudstar.rightcloud.system.vo.excel.UserExcelVo;
 

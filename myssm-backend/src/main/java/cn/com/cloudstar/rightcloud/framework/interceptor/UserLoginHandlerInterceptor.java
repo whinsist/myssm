@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import cn.com.cloudstar.rightcloud.framework.interceptor.helper.UserThreadLocal;
-import cn.com.cloudstar.rightcloud.system.pojo.User;
-import cn.com.cloudstar.rightcloud.system.service.UserService;
+import cn.com.cloudstar.rightcloud.system.entity.system.User;
+import cn.com.cloudstar.rightcloud.system.service.system.UserService;
 
 @Slf4j
 public class UserLoginHandlerInterceptor implements HandlerInterceptor {

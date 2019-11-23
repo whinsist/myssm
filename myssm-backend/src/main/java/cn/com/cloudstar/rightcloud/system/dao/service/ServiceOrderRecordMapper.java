@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
-import cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord;
 
 
 @Repository

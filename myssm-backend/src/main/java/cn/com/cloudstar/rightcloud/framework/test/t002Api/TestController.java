@@ -32,11 +32,11 @@ import cn.com.cloudstar.rightcloud.framework.common.util.JsonUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.ValidateCode;
 import cn.com.cloudstar.rightcloud.framework.common.util.WebUtil;
 import cn.com.cloudstar.rightcloud.framework.interceptor.helper.UserThreadLocal;
-import cn.com.cloudstar.rightcloud.system.dao.ExamMapper;
-import cn.com.cloudstar.rightcloud.system.pojo.Exam;
-import cn.com.cloudstar.rightcloud.system.pojo.User;
-import cn.com.cloudstar.rightcloud.system.service.MqService;
-import cn.com.cloudstar.rightcloud.system.service.UserService;
+import cn.com.cloudstar.rightcloud.system.dao.test.ExamMapper;
+import cn.com.cloudstar.rightcloud.system.entity.system.User;
+import cn.com.cloudstar.rightcloud.system.entity.test.Exam;
+import cn.com.cloudstar.rightcloud.system.service.mq.MqService;
+import cn.com.cloudstar.rightcloud.system.service.system.UserService;
 
 /**
  * @author Hong.Wu

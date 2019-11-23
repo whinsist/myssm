@@ -2,7 +2,7 @@ package cn.com.cloudstar.rightcloud.system.dao.act;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import cn.com.cloudstar.rightcloud.system.pojo.process.entity.Process;
+import cn.com.cloudstar.rightcloud.system.entity.act.Process;
 import java.util.List;
 
 /**

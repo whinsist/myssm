@@ -1,7 +1,7 @@
 package cn.com.cloudstar.rightcloud.framework.interceptor.helper;
 
 
-import cn.com.cloudstar.rightcloud.system.pojo.User;
+import cn.com.cloudstar.rightcloud.system.entity.system.User;
 
 public class UserThreadLocal {
 

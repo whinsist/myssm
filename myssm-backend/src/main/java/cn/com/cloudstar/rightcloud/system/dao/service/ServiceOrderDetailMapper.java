@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
-import cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderDetail;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderDetail;
 
 /**
  * @author Hong.Wu

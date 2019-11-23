@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.system.SysConfigMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.system.SysConfig">
+        <id column="CONFIG_SID" property="configSid" jdbcType="BIGINT"/>
+        <result column="CONFIG_TYPE" property="configType" jdbcType="VARCHAR"/>
+        <result column="CONFIG_NAME" property="configName" jdbcType="VARCHAR"/>
+        <result column="CONFIG_KEY" property="configKey" jdbcType="VARCHAR"/>
+        <result column="CONFIG_VALUE" property="configValue" jdbcType="VARCHAR"/>
+        <result column="DATA_TYPE" property="dataType" jdbcType="VARCHAR"/>
+        <result column="DISPLAY_TYPE" property="displayType" jdbcType="VARCHAR"/>
+        <result column="UNIT" property="unit" jdbcType="VARCHAR"/>
+        <result column="VALUE_DOMAIN" property="valueDomain" jdbcType="VARCHAR"/>
+        <result column="VALUE_INCREMENT" property="configValue" jdbcType="VARCHAR"/>
+        <result column="SORT_RANK" property="sortRank" jdbcType="BIGINT"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATED_DT" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="UPDATED_DT" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="VERSION" property="version" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="condition.configName != null">
+                and CONFIG_NAME = #{condition.configName}
+            </if>
+            <if test="condition.configType != null">
+                and CONFIG_TYPE = #{condition.configType}
+            </if>
+            <if test="condition.configNameLike != null">
+                and CONFIG_NAME like concat('%', #{condition.configNameLike}, '%')
+            </if>
+            <if test="condition.configKey != null">
+                and CONFIG_KEY = #{condition.configKey}
+            </if>
+            <if test="condition.configKeyLike != null">
+                and CONFIG_KEY like concat('%', #{condition.configKeyLike}, '%')
+            </if>
+            <if test="condition.configValue != null">
+                and CONFIG_VALUE = #{condition.configValue}
+            </if>
+            <if test="condition.dataType != null">
+                and DATA_TYPE = #{condition.dataType}
+            </if>
+            <if test="condition.displayType != null">
+                and DISPLAY_TYPE = #{condition.displayType}
+            </if>
+            <if test="condition.unit != null">
+                and UNIT = #{condition.unit}
+            </if>
+            <if test="condition.valueDomain != null">
+                and VALUE_DOMAIN = #{condition.valueDomain}
+            </if>
+            <if test="condition.valueIncrement != null">
+                and VALUE_INCREMENT = #{condition.valueIncrement}
+            </if>
+            <if test="condition.sortRank != null">
+                and SORT_RANK = #{condition.sortRank}
+            </if>
+            <if test="condition.description != null">
+                and DESCRIPTION = #{condition.description}
+            </if>
+            <if test="condition.createdBy != null">
+                and CREATED_BY = #{condition.createdBy}
+            </if>
+            <if test="condition.createdDt != null">
+                and CREATED_DT = #{condition.createdDt}
+            </if>
+            <if test="condition.updatedBy != null">
+                and UPDATED_BY = #{condition.updatedBy}
+            </if>
+            <if test="condition.updatedDt != null">
+                and UPDATED_DT = #{condition.updatedDt}
+            </if>
+            <if test="condition.version != null">
+                and VERSION = #{condition.version}
+            </if>
+        </trim>
+    </sql>
+    <sql id="Base_Column_List">
+        CONFIG_SID,CONFIG_TYPE, CONFIG_NAME, CONFIG_KEY, CONFIG_VALUE,DATA_TYPE,DISPLAY_TYPE,
+        UNIT,VALUE_DOMAIN,VALUE_INCREMENT,SORT_RANK, DESCRIPTION, CREATED_BY, CREATED_DT,
+        UPDATED_BY, UPDATED_DT, VERSION
+    </sql>
+    <select id="selectByParams" resultMap="BaseResultMap"
+            parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_m_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <include refid="common.Mysql_Pagination_Limit"/>
+    </select>
+
+    <select id="selectConfigTypeByParams" resultMap="BaseResultMap"
+            parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_m_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        group by CONFIG_TYPE
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_m_config
+        where CONFIG_SID = #{configSid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sys_m_config
+        where CONFIG_SID = #{configSid}
+    </delete>
+    <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+        delete from sys_m_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.SysConfig">
+        <selectKey resultType="java.lang.Long" keyProperty="configSid" order="BEFORE">
+            SELECT NEXTVAL('SYS_M_CONFIG')
+        </selectKey>
+        insert into sys_m_config (CONFIG_SID,CONFIG_TYPE, CONFIG_NAME, CONFIG_KEY, CONFIG_VALUE,
+        DATA_TYPE,DISPLAY_TYPE,UNIT,VALUE_DOMAIN,VALUE_INCREMENT,SORT_RANK,
+        DESCRIPTION, CREATED_BY, CREATED_DT, UPDATED_BY, UPDATED_DT, VERSION)
+        values (#{configSid},#{configType}, #{configName}, #{configKey}, #{configValue},
+        #{dataType}, #{displayType},#{unit},#{valueDomain},#{valueIncrement},#{sortRank},
+        #{description},#{createdBy}, #{createdDt}, #{updatedBy}, #{updatedDt}, #{version})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.system.SysConfig">
+        <selectKey resultType="java.lang.Long" keyProperty="configSid" order="BEFORE">
+            SELECT NEXTVAL('SYS_M_CONFIG')
+        </selectKey>
+        insert into sys_m_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            CONFIG_SID,
+            <if test="configName != null">
+                CONFIG_NAME,
+            </if>
+            <if test="configType != null">
+                CONFIG_TYPE,
+            </if>
+            <if test="configKey != null">
+                CONFIG_KEY,
+            </if>
+            <if test="configValue != null">
+                CONFIG_VALUE,
+            </if>
+            <if test="dataType != null">
+                DATA_TYPE,
+            </if>
+            <if test="displayType != null">
+                DISPLAY_TYPE,
+            </if>
+            <if test="unit != null">
+                UNIT,
+            </if>
+            <if test="valueDomain != null">
+                VALUE_DOMAIN,
+            </if>
+            <if test="valueIncrement != null">
+                VALUE_INCREMENT,
+            </if>
+            <if test="sortRank != null">
+                SORT_RANK,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="createdDt != null">
+                CREATED_DT,
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY,
+            </if>
+            <if test="updatedDt != null">
+                UPDATED_DT,
+            </if>
+            <if test="version != null">
+                VERSION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{configSid},
+            <if test="configName != null">
+                #{configName},
+            </if>
+            <if test="configType != null">
+                #{configType},
+            </if>
+            <if test="configKey != null">
+                #{configKey},
+            </if>
+            <if test="configValue != null">
+                #{configValue},
+            </if>
+            <if test="dataType != null">
+                #{dataType},
+            </if>
+            <if test="displayType != null">
+                #{displayType},
+            </if>
+            <if test="unit != null">
+                #{unit},
+            </if>
+            <if test="valueDomain != null">
+                #{valueDomain},
+            </if>
+            <if test="valueIncrement != null">
+                #{valueIncrement},
+            </if>
+            <if test="sortRank != null">
+                #{sortRank},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria"
+            resultType="java.lang.Integer">
+        select count(*) from sys_m_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByParamsSelective" parameterType="map">
+        update sys_m_config
+        <set>
+            <if test="record.configSid != null">
+                CONFIG_SID = #{record.configSid},
+            </if>
+            <if test="record.configType != null">
+                CONFIG_TYPE = #{record.configType},
+            </if>
+            <if test="record.configName != null">
+                CONFIG_NAME = #{record.configName},
+            </if>
+            <if test="record.configKey != null">
+                CONFIG_KEY = #{record.configKey},
+            </if>
+            <if test="record.configValue != null">
+                CONFIG_VALUE = #{record.configValue},
+            </if>
+            <if test="record.dataType != null">
+                DATA_TYPE = #{record.dataType},
+            </if>
+            <if test="record.displayType != null">
+                DISPLAY_TYPE = #{record.displayType},
+            </if>
+            <if test="record.unit != null">
+                UNIT = #{record.unit},
+            </if>
+            <if test="record.valueDomain != null">
+                VALUE_DOMAIN = #{record.valueDomain},
+            </if>
+            <if test="record.valueIncrement != null">
+                VALUE_INCREMENT = #{record.valueIncrement},
+            </if>
+            <if test="record.sortRank != null">
+                SORT_RANK = #{record.sortRank},
+            </if>
+            <if test="record.description != null">
+                DESCRIPTION = #{record.description},
+            </if>
+            <if test="record.createdBy != null">
+                CREATED_BY = #{record.createdBy},
+            </if>
+            <if test="record.createdDt != null">
+                CREATED_DT = #{record.createdDt},
+            </if>
+            <if test="record.updatedBy != null">
+                UPDATED_BY = #{record.updatedBy},
+            </if>
+            <if test="record.updatedDt != null">
+                UPDATED_DT = #{record.updatedDt},
+            </if>
+            <if test="record.version != null">
+                VERSION = #{record.version},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByParams" parameterType="map">
+        update sys_m_config
+        set CONFIG_SID = #{record.configSid},
+        CONFIG_TYPE = #{record.configType},
+        CONFIG_NAME = #{record.configName},
+        CONFIG_KEY = #{record.configKey},
+        CONFIG_VALUE = #{record.configValue},
+        DATA_TYPE = #{record.dataType},
+        DISPLAY_TYPE = #{record.displayType},
+        UNIT = #{record.unit},
+        VALUE_DOMAIN = #{record.valueDomain},
+        VALUE_INCREMENT = #{record.valueIncrement},
+        SORT_RANK = #{record.sortRank},
+        DESCRIPTION = #{record.description},
+        CREATED_BY = #{record.createdBy},
+        CREATED_DT = #{record.createdDt},
+        UPDATED_BY = #{record.updatedBy},
+        UPDATED_DT = #{record.updatedDt},
+        VERSION = #{record.version}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.system.SysConfig">
+        update sys_m_config
+        <set>
+            <if test="configType != null">
+                CONFIG_TYPE = #{configType},
+            </if>
+            <if test="configName != null">
+                CONFIG_NAME = #{configName},
+            </if>
+            <if test="configKey != null">
+                CONFIG_KEY = #{configKey},
+            </if>
+            <if test="configValue != null">
+                CONFIG_VALUE = #{configValue},
+            </if>
+            <if test="dataType != null">
+                DATA_TYPE = #{dataType},
+            </if>
+            <if test="displayType != null">
+                DISPLAY_TYPE = #{displayType},
+            </if>
+            <if test="unit != null">
+                UNIT = #{unit},
+            </if>
+            <if test="valueDomain != null">
+                VALUE_DOMAIN = #{valueDomain},
+            </if>
+            <if test="valueIncrement != null">
+                VALUE_INCREMENT = #{valueIncrement},
+            </if>
+            <if test="sortRank != null">
+                SORT_RANK = #{sortRank},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description},
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY = #{createdBy},
+            </if>
+            <if test="createdDt != null">
+                CREATED_DT = #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY = #{updatedBy},
+            </if>
+            <if test="updatedDt != null">
+                UPDATED_DT = #{updatedDt},
+            </if>
+            <if test="version != null">
+                VERSION = #{version},
+            </if>
+        </set>
+        where CONFIG_SID = #{configSid}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.system.SysConfig">
+        update sys_m_config
+        set CONFIG_TYPE = #{configType},
+        CONFIG_NAME = #{configName},
+        CONFIG_KEY = #{configKey},
+        CONFIG_VALUE = #{configValue},
+        DATA_TYPE = #{dataType},
+        DISPLAY_TYPE = #{displayType},
+        UNIT = #{unit},
+        VALUE_DOMAIN = #{valueDomain},
+        VALUE_INCREMENT = #{valueIncrement},
+        SORT_RANK = #{sortRank},
+        DESCRIPTION = #{description},
+        CREATED_BY = #{createdBy},
+        CREATED_DT = #{createdDt},
+        UPDATED_BY = #{updatedBy},
+        UPDATED_DT = #{updatedDt},
+        VERSION = #{version}
+        where CONFIG_SID = #{configSid}
+    </update>
+</mapper>

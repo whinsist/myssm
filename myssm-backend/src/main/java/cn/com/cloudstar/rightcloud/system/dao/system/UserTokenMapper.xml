@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.system.UserTokenMapper">
+    <resultMap id="BaseResultMap"
+               type="cn.com.cloudstar.rightcloud.system.entity.system.UserToken">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="UUID" property="uuid" jdbcType="VARCHAR"/>
+        <result column="USER_SID" property="userSid" jdbcType="BIGINT"/>
+        <result column="ACCESS_TOKEN" property="accessToken" jdbcType="VARCHAR"/>
+        <result column="ACCESS_EXPIRE" property="accessExpire" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="condition.id != null">
+                and A.ID in (${condition.id})
+            </if>
+            <if test="condition.uuid != null">
+                and A.UUID = #{condition.uuid}
+            </if>
+            <if test="condition.userSid != null">
+                and A.USER_SID = #{condition.userSid}
+            </if>
+            <if test="condition.accessToken != null">
+                and A.ACCESS_TOKEN = #{condition.accessToken}
+            </if>
+            <if test="condition.accessExpire != null">
+                and A.ACCESS_EXPIRE = #{condition.accessExpire}
+            </if>
+        </trim>
+    </sql>
+    <sql id="Base_Column_List">
+        A.ID, A.USER_SID, A.ACCESS_TOKEN, A.ACCESS_EXPIRE
+    </sql>
+    <select id="selectByParams" resultMap="BaseResultMap"
+            parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_m_user_token A
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <include refid="common.Mysql_Pagination_Limit"/>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_m_user_token A
+        where A.ID = #{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from
+        sys_m_user_token
+        where ID = #{id}
+    </delete>
+
+    <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+        delete A from sys_m_user_token A
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+
+    <insert id="insert"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.system.UserToken">
+        insert into sys_m_user_token
+        (UUID, USER_SID, ACCESS_TOKEN, ACCESS_EXPIRE)
+        values (#{uuid},#{userSid}, #{accessToken},#{accessExpire})
+    </insert>
+
+    <insert id="insertSelective"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.system.UserToken">
+        insert into sys_m_user_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                UUID,
+            </if>
+            <if test="userSid != null">
+                USER_SID,
+            </if>
+            <if test="accessToken != null">
+                ACCESS_TOKEN,
+            </if>
+            <if test="accessExpire != null">
+                ACCESS_EXPIRE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">
+                #{uuid},
+            </if>
+            <if test="userSid != null">
+                #{userSid},
+            </if>
+            <if test="accessToken != null">
+                #{accessToken},
+            </if>
+            <if test="accessExpire != null">
+                #{accessExpire},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria"
+            resultType="java.lang.Integer">
+        select count(*) from sys_m_user_token A
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+</mapper>

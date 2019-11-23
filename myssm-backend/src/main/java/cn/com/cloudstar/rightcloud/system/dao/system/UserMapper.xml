@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.system.UserMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.system.User" >
+    <id column="user_sid" property="userSid" jdbcType="BIGINT" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="password64" property="password64" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="org_sid" property="orgSid" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="error_count" property="errorCount" jdbcType="INTEGER" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="service_limit_quantity" property="serviceLimitQuantity" jdbcType="INTEGER" />
+    <result column="apply_reason" property="applyReason" jdbcType="VARCHAR" />
+    <result column="sms_max" property="smsMax" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="skin_theme" property="skinTheme" jdbcType="VARCHAR" />
+    <result column="auth_id" property="authId" jdbcType="VARCHAR" />
+    <result column="auth_type" property="authType" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+    <result column="head_image" property="headImage" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.userType != null" >
+         and user_type = #{condition.userType}
+      </if>
+      <if test="condition.userCode != null" >
+         and user_code = #{condition.userCode}
+      </if>
+      <if test="condition.account != null" >
+         and account = #{condition.account}
+      </if>
+      <if test="condition.password != null" >
+         and password = #{condition.password}
+      </if>
+      <if test="condition.password64 != null" >
+         and password64 = #{condition.password64}
+      </if>
+      <if test="condition.realName != null" >
+         and real_name = #{condition.realName}
+      </if>
+      <if test="condition.sex != null" >
+         and sex = #{condition.sex}
+      </if>
+      <if test="condition.email != null" >
+         and email = #{condition.email}
+      </if>
+      <if test="condition.mobile != null" >
+         and mobile = #{condition.mobile}
+      </if>
+      <if test="condition.title != null" >
+         and title = #{condition.title}
+      </if>
+      <if test="condition.companyId != null" >
+         and company_id = #{condition.companyId}
+      </if>
+      <if test="condition.projectId != null" >
+         and project_id = #{condition.projectId}
+      </if>
+      <if test="condition.orgSid != null" >
+         and org_sid = #{condition.orgSid}
+      </if>
+      <if test="condition.status != null" >
+         and status = #{condition.status}
+      </if>
+      <if test="condition.remark != null" >
+         and remark = #{condition.remark}
+      </if>
+      <if test="condition.errorCount != null" >
+         and error_count = #{condition.errorCount}
+      </if>
+      <if test="condition.lastLoginTime != null" >
+         and last_login_time = #{condition.lastLoginTime}
+      </if>
+      <if test="condition.lastLoginIp != null" >
+         and last_login_ip = #{condition.lastLoginIp}
+      </if>
+      <if test="condition.serviceLimitQuantity != null" >
+         and service_limit_quantity = #{condition.serviceLimitQuantity}
+      </if>
+      <if test="condition.applyReason != null" >
+         and apply_reason = #{condition.applyReason}
+      </if>
+      <if test="condition.smsMax != null" >
+         and sms_max = #{condition.smsMax}
+      </if>
+      <if test="condition.uuid != null" >
+         and uuid = #{condition.uuid}
+      </if>
+      <if test="condition.skinTheme != null" >
+         and skin_theme = #{condition.skinTheme}
+      </if>
+      <if test="condition.authId != null" >
+         and auth_id = #{condition.authId}
+      </if>
+      <if test="condition.authType != null" >
+         and auth_type = #{condition.authType}
+      </if>
+      <if test="condition.createdBy != null" >
+         and created_by = #{condition.createdBy}
+      </if>
+      <if test="condition.createdDt != null" >
+         and created_dt = #{condition.createdDt}
+      </if>
+      <if test="condition.updatedBy != null" >
+         and updated_by = #{condition.updatedBy}
+      </if>
+      <if test="condition.updatedDt != null" >
+         and updated_dt = #{condition.updatedDt}
+      </if>
+      <if test="condition.version != null" >
+         and version = #{condition.version}
+      </if>
+      <if test="condition.accountLike != null" >
+        and account like concat('%', #{condition.accountLike},'%')
+      </if>
+      <if test="condition.mobileLike != null" >
+        and mobile like concat('%', #{condition.mobileLike},'%')
+      </if>
+      <if test="condition.useSidList != null and condition.useSidList.size() > 0">
+        and user_sid in
+        <foreach collection="condition.useSidList" open="(" separator="," close=")" item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_sid, user_type, user_code, account, password, password64, real_name, sex, email, 
+    mobile, title, company_id, project_id, org_sid, status, remark, error_count, last_login_time, 
+    last_login_ip, service_limit_quantity, apply_reason, sms_max, uuid, skin_theme, auth_id, 
+    auth_type, created_by, created_dt, updated_by, updated_dt, version, head_image
+  </sql>
+
+
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_m_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_m_user
+    where user_sid = #{userSid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_m_user
+    where user_sid = #{userSid}
+  </delete>
+  <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    delete from sys_m_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.User" >
+    insert into sys_m_user (user_sid, user_type, user_code, account, password, password64, 
+      real_name, sex, email, mobile, title, company_id, project_id, 
+      org_sid, status, remark, error_count, last_login_time, last_login_ip, 
+      service_limit_quantity, apply_reason, sms_max, uuid, skin_theme, auth_id, 
+      auth_type, created_by, created_dt, updated_by, updated_dt, version
+      )
+    values (#{userSid}, #{userType}, #{userCode}, #{account}, #{password}, #{password64}, 
+      #{realName}, #{sex}, #{email}, #{mobile}, #{title}, #{companyId}, #{projectId}, 
+      #{orgSid}, #{status}, #{remark}, #{errorCount}, #{lastLoginTime}, #{lastLoginIp}, 
+      #{serviceLimitQuantity}, #{applyReason}, #{smsMax}, #{uuid}, #{skinTheme}, #{authId}, 
+      #{authType}, #{createdBy}, #{createdDt}, #{updatedBy}, #{updatedDt}, #{version}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.User" >
+    insert into sys_m_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userSid != null" >
+        user_sid,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="password64 != null" >
+        password64,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="orgSid != null" >
+        org_sid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="errorCount != null" >
+        error_count,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip,
+      </if>
+      <if test="serviceLimitQuantity != null" >
+        service_limit_quantity,
+      </if>
+      <if test="applyReason != null" >
+        apply_reason,
+      </if>
+      <if test="smsMax != null" >
+        sms_max,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="skinTheme != null" >
+        skin_theme,
+      </if>
+      <if test="authId != null" >
+        auth_id,
+      </if>
+      <if test="authType != null" >
+        auth_type,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdDt != null" >
+        created_dt,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userSid != null" >
+        #{userSid},
+      </if>
+      <if test="userType != null" >
+        #{userType},
+      </if>
+      <if test="userCode != null" >
+        #{userCode},
+      </if>
+      <if test="account != null" >
+        #{account},
+      </if>
+      <if test="password != null" >
+        #{password},
+      </if>
+      <if test="password64 != null" >
+        #{password64},
+      </if>
+      <if test="realName != null" >
+        #{realName},
+      </if>
+      <if test="sex != null" >
+        #{sex},
+      </if>
+      <if test="email != null" >
+        #{email},
+      </if>
+      <if test="mobile != null" >
+        #{mobile},
+      </if>
+      <if test="title != null" >
+        #{title},
+      </if>
+      <if test="companyId != null" >
+        #{companyId},
+      </if>
+      <if test="projectId != null" >
+        #{projectId},
+      </if>
+      <if test="orgSid != null" >
+        #{orgSid},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+      <if test="errorCount != null" >
+        #{errorCount},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime},
+      </if>
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp},
+      </if>
+      <if test="serviceLimitQuantity != null" >
+        #{serviceLimitQuantity},
+      </if>
+      <if test="applyReason != null" >
+        #{applyReason},
+      </if>
+      <if test="smsMax != null" >
+        #{smsMax},
+      </if>
+      <if test="uuid != null" >
+        #{uuid},
+      </if>
+      <if test="skinTheme != null" >
+        #{skinTheme},
+      </if>
+      <if test="authId != null" >
+        #{authId},
+      </if>
+      <if test="authType != null" >
+        #{authType},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        #{updatedDt},
+      </if>
+      <if test="version != null" >
+        #{version},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sys_m_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update sys_m_user
+    <set >
+      <if test="record.userSid != null" >
+        user_sid = #{record.userSid},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType},
+      </if>
+      <if test="record.userCode != null" >
+        user_code = #{record.userCode},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password},
+      </if>
+      <if test="record.password64 != null" >
+        password64 = #{record.password64},
+      </if>
+      <if test="record.realName != null" >
+        real_name = #{record.realName},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId},
+      </if>
+      <if test="record.orgSid != null" >
+        org_sid = #{record.orgSid},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark},
+      </if>
+      <if test="record.errorCount != null" >
+        error_count = #{record.errorCount},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        last_login_time = #{record.lastLoginTime},
+      </if>
+      <if test="record.lastLoginIp != null" >
+        last_login_ip = #{record.lastLoginIp},
+      </if>
+      <if test="record.serviceLimitQuantity != null" >
+        service_limit_quantity = #{record.serviceLimitQuantity},
+      </if>
+      <if test="record.applyReason != null" >
+        apply_reason = #{record.applyReason},
+      </if>
+      <if test="record.smsMax != null" >
+        sms_max = #{record.smsMax},
+      </if>
+      <if test="record.uuid != null" >
+        uuid = #{record.uuid},
+      </if>
+      <if test="record.skinTheme != null" >
+        skin_theme = #{record.skinTheme},
+      </if>
+      <if test="record.authId != null" >
+        auth_id = #{record.authId},
+      </if>
+      <if test="record.authType != null" >
+        auth_type = #{record.authType},
+      </if>
+      <if test="record.createdBy != null" >
+        created_by = #{record.createdBy},
+      </if>
+      <if test="record.createdDt != null" >
+        created_dt = #{record.createdDt},
+      </if>
+      <if test="record.updatedBy != null" >
+        updated_by = #{record.updatedBy},
+      </if>
+      <if test="record.updatedDt != null" >
+        updated_dt = #{record.updatedDt},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update sys_m_user
+    set user_sid = #{record.userSid},
+      user_type = #{record.userType},
+      user_code = #{record.userCode},
+      account = #{record.account},
+      password = #{record.password},
+      password64 = #{record.password64},
+      real_name = #{record.realName},
+      sex = #{record.sex},
+      email = #{record.email},
+      mobile = #{record.mobile},
+      title = #{record.title},
+      company_id = #{record.companyId},
+      project_id = #{record.projectId},
+      org_sid = #{record.orgSid},
+      status = #{record.status},
+      remark = #{record.remark},
+      error_count = #{record.errorCount},
+      last_login_time = #{record.lastLoginTime},
+      last_login_ip = #{record.lastLoginIp},
+      service_limit_quantity = #{record.serviceLimitQuantity},
+      apply_reason = #{record.applyReason},
+      sms_max = #{record.smsMax},
+      uuid = #{record.uuid},
+      skin_theme = #{record.skinTheme},
+      auth_id = #{record.authId},
+      auth_type = #{record.authType},
+      created_by = #{record.createdBy},
+      created_dt = #{record.createdDt},
+      updated_by = #{record.updatedBy},
+      updated_dt = #{record.updatedDt},
+      version = #{record.version}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.User" >
+    update sys_m_user
+    <set >
+      <if test="userType != null" >
+        user_type = #{userType},
+      </if>
+      <if test="userCode != null" >
+        user_code = #{userCode},
+      </if>
+      <if test="account != null" >
+        account = #{account},
+      </if>
+      <if test="password != null" >
+        password = #{password},
+      </if>
+      <if test="password64 != null" >
+        password64 = #{password64},
+      </if>
+      <if test="realName != null" >
+        real_name = #{realName},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex},
+      </if>
+      <if test="email != null" >
+        email = #{email},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile},
+      </if>
+      <if test="title != null" >
+        title = #{title},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId},
+      </if>
+      <if test="orgSid != null" >
+        org_sid = #{orgSid},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark},
+      </if>
+      <if test="errorCount != null" >
+        error_count = #{errorCount},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime},
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip = #{lastLoginIp},
+      </if>
+      <if test="serviceLimitQuantity != null" >
+        service_limit_quantity = #{serviceLimitQuantity},
+      </if>
+      <if test="applyReason != null" >
+        apply_reason = #{applyReason},
+      </if>
+      <if test="smsMax != null" >
+        sms_max = #{smsMax},
+      </if>
+      <if test="uuid != null" >
+        uuid = #{uuid},
+      </if>
+      <if test="skinTheme != null" >
+        skin_theme = #{skinTheme},
+      </if>
+      <if test="authId != null" >
+        auth_id = #{authId},
+      </if>
+      <if test="authType != null" >
+        auth_type = #{authType},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        created_dt = #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt = #{updatedDt},
+      </if>
+      <if test="version != null" >
+        version = #{version},
+      </if>
+      <if test="headImage != null" >
+        head_image = #{headImage},
+      </if>
+    </set>
+    where user_sid = #{userSid}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.User" >
+    update sys_m_user
+    set user_type = #{userType},
+      user_code = #{userCode},
+      account = #{account},
+      password = #{password},
+      password64 = #{password64},
+      real_name = #{realName},
+      sex = #{sex},
+      email = #{email},
+      mobile = #{mobile},
+      title = #{title},
+      company_id = #{companyId},
+      project_id = #{projectId},
+      org_sid = #{orgSid},
+      status = #{status},
+      remark = #{remark},
+      error_count = #{errorCount},
+      last_login_time = #{lastLoginTime},
+      last_login_ip = #{lastLoginIp},
+      service_limit_quantity = #{serviceLimitQuantity},
+      apply_reason = #{applyReason},
+      sms_max = #{smsMax},
+      uuid = #{uuid},
+      skin_theme = #{skinTheme},
+      auth_id = #{authId},
+      auth_type = #{authType},
+      created_by = #{createdBy},
+      created_dt = #{createdDt},
+      updated_by = #{updatedBy},
+      updated_dt = #{updatedDt},
+      version = #{version}
+    where user_sid = #{userSid}
+  </update>
+
+
+  <select id="selectByPageNumSize" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_m_user
+  </select>
+
+
+  <select id="selectByPermission" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_m_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+</mapper>

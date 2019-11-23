@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ServiceCategory;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceCategory;
 
 /**
  * ServiceCategoryMapper

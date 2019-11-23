@@ -3,10 +3,8 @@ package cn.com.cloudstar.rightcloud.system.service.process;
 import java.util.List;
 
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ServiceCategory;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.entity.ServiceOrder;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrder;
 import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.request.CreateOrderAuditRequest;
-import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.request.CreateOrderRequest;
 import cn.com.cloudstar.rightcloud.system.controller.back.service.bean.response.DescribeServiceOrderDetailResponse;
 
 /**

@@ -1,21 +1,15 @@
 package cn.com.cloudstar.rightcloud.system.controller.common;
 
 import cn.com.cloudstar.rightcloud.framework.common.cache.JedisUtil;
-import cn.com.cloudstar.rightcloud.framework.common.pojo.AuthUser;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.RestResult;
-import cn.com.cloudstar.rightcloud.framework.common.pojo.rest.ResultObject;
-import cn.com.cloudstar.rightcloud.framework.common.pojo.rest.ResultObjectUtil;
-import cn.com.cloudstar.rightcloud.framework.common.util.RequestContextUtil;
 import cn.com.cloudstar.rightcloud.framework.common.util.ValidateCode;
-import cn.com.cloudstar.rightcloud.system.pojo.User;
-import cn.com.cloudstar.rightcloud.system.service.UserService;
+import cn.com.cloudstar.rightcloud.system.service.system.UserService;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

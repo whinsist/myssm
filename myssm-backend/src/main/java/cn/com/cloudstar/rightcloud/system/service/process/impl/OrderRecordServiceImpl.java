@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.cloudstar.rightcloud.system.dao.service.ServiceOrderRecordMapper;
-import cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord;
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord;
 import cn.com.cloudstar.rightcloud.system.service.process.OrderRecordService;
 
 /**

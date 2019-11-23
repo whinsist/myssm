@@ -8,7 +8,7 @@ import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
 import cn.com.cloudstar.rightcloud.system.controller.back.process.bean.request.CreateProcessNodeRequest;
 import cn.com.cloudstar.rightcloud.system.controller.back.process.bean.request.CreateProcessRequest;
 import cn.com.cloudstar.rightcloud.system.controller.back.process.bean.request.UpdateProcessRequest;
-import cn.com.cloudstar.rightcloud.system.pojo.process.entity.Process;
+import cn.com.cloudstar.rightcloud.system.entity.act.Process;
 import cn.com.cloudstar.rightcloud.system.vo.act.BusinessDto;
 import cn.com.cloudstar.rightcloud.system.vo.act.ProcessActivityDto;
 import cn.com.cloudstar.rightcloud.system.vo.act.ProcessDto;

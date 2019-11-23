@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.system.SysTActionLogMapper">
+    <resultMap id="BaseResultMap"
+               type="cn.com.cloudstar.rightcloud.system.entity.system.SysTActionLog">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="account" property="account" jdbcType="VARCHAR" />
+        <result column="action_method" property="actionMethod" jdbcType="VARCHAR" />
+        <result column="action_time" property="actionTime" jdbcType="TIMESTAMP" />
+        <result column="action_path" property="actionPath" jdbcType="VARCHAR" />
+        <result column="param" property="param" jdbcType="VARCHAR" />
+        <result column="cause" property="cause" jdbcType="VARCHAR" />
+        <result column="remote_ip" property="remoteIp" jdbcType="VARCHAR" />
+        <result column="http_method" property="httpMethod" jdbcType="VARCHAR" />
+        <result column="action_name" property="actionName" jdbcType="VARCHAR" />
+        <result column="lb_ip" property="lbIp" jdbcType="VARCHAR" />
+        <result column="client" property="client" jdbcType="VARCHAR" />
+        <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, account, action_method, action_time, action_path, param, cause, remote_ip, http_method
+    </sql>
+
+    <select id="selectRoleCompanyByAccount" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        GROUP_CONCAT(C.role_name) as role_name,
+        GROUP_CONCAT(D.company_name) as company_name,
+        GROUP_CONCAT(B.company_id) as company_id,
+        (select CODE_DISPLAY from sys_m_code where CODE_CATEGORY = 'ACTION_LOG' and CODE_VALUE = #{actionMethod}) as action_name
+        from sys_m_user A
+        INNER JOIN sys_m_user_role B on (A.user_sid = B.user_sid)
+        INNER JOIN sys_m_role C on (C.role_sid = B.role_sid)
+        LEFT JOIN sys_m_company D on (D.company_id = B.company_id)
+        where A.account = #{account}
+        GROUP BY A.account
+    </select>
+
+
+</mapper>

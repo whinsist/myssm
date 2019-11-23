@@ -1,6 +1,6 @@
 package cn.com.cloudstar.rightcloud.system.service.process;
 
-import cn.com.cloudstar.rightcloud.system.pojo.dto.process.ServiceOrderRecord; /**
+import cn.com.cloudstar.rightcloud.system.entity.act.ServiceOrderRecord; /**
  * @author Hong.Wu
  * @date: 14:22 2019/11/03
  */

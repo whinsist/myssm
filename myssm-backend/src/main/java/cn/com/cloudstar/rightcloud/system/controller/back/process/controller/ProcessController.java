@@ -30,7 +30,7 @@ import cn.com.cloudstar.rightcloud.system.controller.back.process.bean.request.U
 import cn.com.cloudstar.rightcloud.system.pojo.jqgrid.JQGridBean;
 import cn.com.cloudstar.rightcloud.system.pojo.jqgrid.JQGridBeanUtil;
 import cn.com.cloudstar.rightcloud.system.service.process.ProcessService;
-import cn.com.cloudstar.rightcloud.system.pojo.process.entity.Process;
+import cn.com.cloudstar.rightcloud.system.entity.act.Process;
 
 @RestController
 @RequestMapping("/back/process")
