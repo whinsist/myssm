@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.selfservice.ProcessNodeMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.selfservice.ProcessNode">
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="node_name" property="nodeName" />
+        <result column="process_id" property="processId" jdbcType="BIGINT" />
+        <result column="version_id" property="versionId" jdbcType="BIGINT" />
+        <result column="description" property="description" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_dt" property="createdDt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_dt" property="updatedDt" />
+        <result column="node_type" property="nodeType" />
+        <result column="config_data" property="configData" />
+        <result column="sort_num" property="sortNum" />
+        <result column="status" property="status" />
+        <result column="process_identify" property="processIdentify" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,node_name,process_id,version_id,description,created_by,created_dt,
+        updated_by,updated_dt,node_type,config_data,sort_num,`status`,process_identify
+    </sql>
+    <insert id="insertSelective"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ProcessNode"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into process_node
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="nodeName != null">
+                node_name,
+            </if>
+            <if test="processId != null">
+                process_id,
+            </if>
+            <if test="versionId != null">
+                version_id,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="nodeType != null">
+                node_type,
+            </if>
+            <if test="configData != null">
+                config_data,
+            </if>
+            <if test="sortNum != null">
+                sort_num,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="processIdentify != null">
+                process_identify,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="nodeName != null">
+                #{nodeName},
+            </if>
+            <if test="processId != null">
+                #{processId},
+            </if>
+            <if test="versionId != null">
+                #{versionId},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="nodeType != null">
+                #{nodeType},
+            </if>
+            <if test="configData != null">
+                #{configData},
+            </if>
+            <if test="sortNum != null">
+                #{sortNum},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="processIdentify != null">
+                #{processIdentify},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective">
+        update process_node
+        <set>
+            <if test="nodeName != null">
+                node_name = #{nodeName},
+            </if>
+            <if test="processId != null">
+                process_id = #{processId},
+            </if>
+            <if test="versionId != null">
+                version_id = #{versionId},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy},
+            </if>
+            <if test="createdDt != null">
+                created_dt = #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt = #{updatedDt},
+            </if>
+            <if test="nodeType != null">
+                node_type = #{nodeType},
+            </if>
+            <if test="configData != null">
+                config_data = #{configData},
+            </if>
+            <if test="sortNum != null">
+                sort_num = #{sortNum},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="processIdentify != null">
+                process_identify = #{processIdentify},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from process_node where id=#{id}
+    </delete>
+    <delete id="deleteByVersionId" parameterType="java.lang.Long">
+        delete from process_node where version_id=#{versionId}
+    </delete>
+    <delete id="deleteByProcessId" parameterType="java.lang.Long">
+        delete from process_node where process_id=#{processId}
+    </delete>
+    <delete id="clear">
+        delete from process_node where 1=1
+    </delete>
+    <select id="selectByVersionId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from process_node where version_id=#{versionId} and status !=104 and status != 103 order by sort_num asc
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from process_node where id=#{id}
+    </select>
+    <select id="selectAuditNodeByVersionId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from process_node where version_id=#{versionId} and status=3 order by sort_num asc
+    </select>
+    <select id="selectCloseNodeByVersionId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from process_node where version_id=#{versionId} and status=2
+    </select>
+    <select id="selectAuditNodeByProcessIdentify" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from process_node where process_identify=#{processIdentify}
+        order by sort_num asc
+    </select>
+
+</mapper>

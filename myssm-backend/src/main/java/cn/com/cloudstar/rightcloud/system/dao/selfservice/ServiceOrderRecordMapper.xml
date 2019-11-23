@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.selfservice.ServiceOrderRecordMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrderRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+    <result column="handler" property="handler" jdbcType="VARCHAR" />
+    <result column="step" property="step" jdbcType="VARCHAR" />
+    <result column="info" property="info" jdbcType="LONGVARCHAR" />
+    <result column="notice_dt" property="noticeDt" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.orderId != null" >
+         and order_id = #{condition.orderId}
+      </if>
+      <if test="condition.orderSn != null" >
+         and order_sn = #{condition.orderSn}
+      </if>
+      <if test="condition.auditTime != null" >
+         and audit_time = #{condition.auditTime}
+      </if>
+      <if test="condition.handler != null" >
+         and handler = #{condition.handler}
+      </if>
+      <if test="condition.step != null" >
+         and step = #{condition.step}
+      </if>
+      <if test="condition.info != null" >
+         and info = #{condition.info}
+      </if>
+      <if test="condition.createdBy != null" >
+         and created_by = #{condition.createdBy}
+      </if>
+      <if test="condition.createdDt != null" >
+         and created_dt = #{condition.createdDt}
+      </if>
+      <if test="condition.updatedBy != null" >
+         and updated_by = #{condition.updatedBy}
+      </if>
+      <if test="condition.updatedDt != null" >
+         and updated_dt = #{condition.updatedDt}
+      </if>
+      <if test="condition.version != null" >
+         and version = #{condition.version}
+      </if>
+      <if test="condition.noticeDt != null" >
+        and notice_dt = #{condition.noticeDt}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_id, order_sn, audit_time, handler, step, info, created_by, created_dt, updated_by, updated_dt,
+    version, notice_dt
+  </sql>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from service_order_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from service_order_record
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from service_order_record
+    where id = #{id}
+  </delete>
+  <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    delete from service_order_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrderRecord" useGeneratedKeys="true" keyProperty="id" >
+    insert into service_order_record (order_id, order_sn, audit_time, handler, step, info, created_by, created_dt,
+      updated_by, updated_dt, version, notice_dt)
+    values (#{orderId}, #{auditTime}, #{handler}, #{step}, #{info}, #{createdBy}, #{createdDt},
+      #{updatedBy}, #{updatedDt}, #{version}, #{noticeDt})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrderRecord" useGeneratedKeys="true" keyProperty="id" >
+    insert into service_order_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderSn != null" >
+        order_sn,
+      </if>
+      <if test="auditTime != null" >
+        audit_time,
+      </if>
+      <if test="handler != null" >
+        handler,
+      </if>
+      <if test="step != null" >
+        step,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdDt != null" >
+        created_dt,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="noticeDt != null" >
+         notice_dt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId},
+      </if>
+      <if test="orderSn != null" >
+        #{orderSn},
+      </if>
+      <if test="auditTime != null" >
+        #{auditTime},
+      </if>
+      <if test="handler != null" >
+        #{handler},
+      </if>
+      <if test="step != null" >
+        #{step},
+      </if>
+      <if test="info != null" >
+        #{info},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        #{updatedDt},
+      </if>
+      <if test="version != null" >
+        #{version},
+      </if>
+      <if test="noticeDt != null" >
+         #{noticeDt}
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" resultType="java.lang.Integer" >
+    select count(*) from service_order_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update service_order_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId},
+      </if>
+      <if test="record.orderSn != null" >
+        order_sn = #{record.orderSn},
+      </if>
+      <if test="record.time != null" >
+        audit_time = #{record.auditTime},
+      </if>
+      <if test="record.handler != null" >
+        handler = #{record.handler},
+      </if>
+      <if test="record.step != null" >
+        step = #{record.step},
+      </if>
+      <if test="record.info != null" >
+        info = #{record.info},
+      </if>
+      <if test="record.createdBy != null" >
+        created_by = #{record.createdBy},
+      </if>
+      <if test="record.createdDt != null" >
+        created_dt = #{record.createdDt},
+      </if>
+      <if test="record.updatedBy != null" >
+        updated_by = #{record.updatedBy},
+      </if>
+      <if test="record.updatedDt != null" >
+        updated_dt = #{record.updatedDt},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version},
+      </if>
+      <if test="record.noticeDt != null" >
+        notice_dt = #{record.noticeDt},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update service_order_record
+    set id = #{record.id},
+      order_id = #{record.orderId},
+      order_sn = #{record.orderSn},
+      audit_time = #{record.auditTime},
+      handler = #{record.handler},
+      step = #{record.step},
+      info = #{record.info},
+      created_by = #{record.createdBy},
+      created_dt = #{record.createdDt},
+      updated_by = #{record.updatedBy},
+      updated_dt = #{record.updatedDt},
+      version = #{record.version},
+      notice_dt = #{record.noticeDt}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrderRecord" >
+    update service_order_record
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId},
+      </if>
+      <if test="orderSn != null" >
+        order_sn = #{orderSn},
+      </if>
+      <if test="auditTime != null" >
+        audit_time = #{auditTime},
+      </if>
+      <if test="handler != null" >
+        handler = #{handler},
+      </if>
+      <if test="step != null" >
+        step = #{step},
+      </if>
+      <if test="info != null" >
+        info = #{info},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        created_dt = #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt = #{updatedDt},
+      </if>
+      <if test="version != null" >
+        version = #{version},
+      </if>
+      <if test="noticeDt != null" >
+        notice_dt = #{noticeDt},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrderRecord" >
+    update service_order_record
+    set order_id = #{orderId},
+      order_sn = #{orderSn},
+      audit_time = #{auditTime},
+      handler = #{handler},
+      step = #{step},
+      info = #{info},
+      created_by = #{createdBy},
+      created_dt = #{createdDt},
+      updated_by = #{updatedBy},
+      updated_dt = #{updatedDt},
+      version = #{version},
+      notice_dt = #{noticeDt}
+    where id = #{id}
+  </update>
+</mapper>

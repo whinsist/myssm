@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.selfservice.ProcessVersionMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.selfservice.ProcessVersion">
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="process_id" property="processId" jdbcType="BIGINT" />
+        <result column="version_name" property="versionName" />
+        <result column="process_identify" property="processIdentify" />
+        <result column="deployment_id" property="deploymentId" />
+        <result column="version" property="version" />
+        <result column="description" property="description" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_dt" property="createdDt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_dt" property="updatedDt" />
+        <result column="is_default" property="isdefault" />
+        <result column="status" property="status" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,process_id,version_name,process_identify,deployment_id,version,
+        description,created_by,created_dt,updated_by,updated_dt,is_default,`status`
+    </sql>
+    <insert id="insertSelective"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ProcessVersion"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into process_version
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="processId != null">
+                process_id,
+            </if>
+            <if test="versionName != null">
+                version_name,
+            </if>
+            <if test="processIdentify != null">
+                process_identify,
+            </if>
+            <if test="deploymentId != null">
+                deployment_id,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="isdefault != null">
+                is_default,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="processId != null">
+                #{processId},
+            </if>
+            <if test="versionName != null">
+                #{versionName},
+            </if>
+            <if test="processIdentify != null">
+                #{processIdentify},
+            </if>
+            <if test="deploymentId != null">
+                #{deploymentId},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="isdefault != null">
+                #{isdefault},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective">
+        update process_version
+        <set>
+            <if test="processId != null">
+                process_id = #{processId},
+            </if>
+            <if test="versionName != null">
+                version_name = #{versionName},
+            </if>
+            <if test="processIdentify != null">
+                process_identify = #{processIdentify},
+            </if>
+            <if test="deploymentId != null">
+                deployment_id = #{deploymentId},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy},
+            </if>
+            <if test="createdDt != null">
+                created_dt = #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt = #{updatedDt},
+            </if>
+            <if test="isdefault != null">
+                is_default = #{isdefault},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from process_version where id=#{id}
+    </delete>
+    <delete id="deleteByProcessId" parameterType="java.lang.Long">
+        delete from process_version where process_id=#{processId}
+    </delete>
+    <delete id="clear">
+        delete from process_version where 1=1
+    </delete>
+    <select id="selectByProcessId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from process_version where process_id=#{processId}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from process_version where id=#{id}
+    </select>
+
+</mapper>

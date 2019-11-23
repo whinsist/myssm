@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.system.ModuleMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.system.Module" >
+    <id column="module_sid" property="moduleSid" jdbcType="VARCHAR" />
+    <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+    <result column="module_url" property="moduleUrl" jdbcType="VARCHAR" />
+    <result column="module_icon_url" property="moduleIconUrl" jdbcType="VARCHAR" />
+    <result column="parent_sid" property="parentSid" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="module_type" property="moduleType" jdbcType="INTEGER" />
+    <result column="display_flag" property="displayFlag" jdbcType="INTEGER" />
+    <result column="sort_rank" property="sortRank" jdbcType="INTEGER" />
+    <result column="module_category" property="moduleCategory" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.moduleName != null" >
+         and module_name = #{condition.moduleName}
+      </if>
+      <if test="condition.moduleUrl != null" >
+         and module_url = #{condition.moduleUrl}
+      </if>
+      <if test="condition.moduleIconUrl != null" >
+         and module_icon_url = #{condition.moduleIconUrl}
+      </if>
+      <if test="condition.parentSid != null" >
+         and parent_sid = #{condition.parentSid}
+      </if>
+      <if test="condition.permission != null" >
+         and permission = #{condition.permission}
+      </if>
+      <if test="condition.moduleType != null" >
+         and module_type = #{condition.moduleType}
+      </if>
+      <if test="condition.displayFlag != null" >
+         and display_flag = #{condition.displayFlag}
+      </if>
+      <if test="condition.sortRank != null" >
+         and sort_rank = #{condition.sortRank}
+      </if>
+      <if test="condition.moduleCategory != null" >
+         and module_category = #{condition.moduleCategory}
+      </if>
+      <if test="condition.description != null" >
+         and description = #{condition.description}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    module_sid, module_name, module_url, module_icon_url, parent_sid, permission, module_type, 
+    display_flag, sort_rank, module_category, description
+  </sql>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_m_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_m_module
+    where module_sid = #{moduleSid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_m_module
+    where module_sid = #{moduleSid}
+  </delete>
+  <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    delete from sys_m_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Module" >
+    insert into sys_m_module (module_sid, module_name, module_url, module_icon_url, parent_sid, 
+      permission, module_type, display_flag, sort_rank, module_category, description
+      )
+    values (#{moduleSid}, #{moduleName}, #{moduleUrl}, #{moduleIconUrl}, #{parentSid}, 
+      #{permission}, #{moduleType}, #{displayFlag}, #{sortRank}, #{moduleCategory}, #{description}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Module" >
+    insert into sys_m_module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="moduleSid != null" >
+        module_sid,
+      </if>
+      <if test="moduleName != null" >
+        module_name,
+      </if>
+      <if test="moduleUrl != null" >
+        module_url,
+      </if>
+      <if test="moduleIconUrl != null" >
+        module_icon_url,
+      </if>
+      <if test="parentSid != null" >
+        parent_sid,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
+      <if test="moduleType != null" >
+        module_type,
+      </if>
+      <if test="displayFlag != null" >
+        display_flag,
+      </if>
+      <if test="sortRank != null" >
+        sort_rank,
+      </if>
+      <if test="moduleCategory != null" >
+        module_category,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="moduleSid != null" >
+        #{moduleSid},
+      </if>
+      <if test="moduleName != null" >
+        #{moduleName},
+      </if>
+      <if test="moduleUrl != null" >
+        #{moduleUrl},
+      </if>
+      <if test="moduleIconUrl != null" >
+        #{moduleIconUrl},
+      </if>
+      <if test="parentSid != null" >
+        #{parentSid},
+      </if>
+      <if test="permission != null" >
+        #{permission},
+      </if>
+      <if test="moduleType != null" >
+        #{moduleType},
+      </if>
+      <if test="displayFlag != null" >
+        #{displayFlag},
+      </if>
+      <if test="sortRank != null" >
+        #{sortRank},
+      </if>
+      <if test="moduleCategory != null" >
+        #{moduleCategory},
+      </if>
+      <if test="description != null" >
+        #{description},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sys_m_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update sys_m_module
+    <set >
+      <if test="record.moduleSid != null" >
+        module_sid = #{record.moduleSid},
+      </if>
+      <if test="record.moduleName != null" >
+        module_name = #{record.moduleName},
+      </if>
+      <if test="record.moduleUrl != null" >
+        module_url = #{record.moduleUrl},
+      </if>
+      <if test="record.moduleIconUrl != null" >
+        module_icon_url = #{record.moduleIconUrl},
+      </if>
+      <if test="record.parentSid != null" >
+        parent_sid = #{record.parentSid},
+      </if>
+      <if test="record.permission != null" >
+        permission = #{record.permission},
+      </if>
+      <if test="record.moduleType != null" >
+        module_type = #{record.moduleType},
+      </if>
+      <if test="record.displayFlag != null" >
+        display_flag = #{record.displayFlag},
+      </if>
+      <if test="record.sortRank != null" >
+        sort_rank = #{record.sortRank},
+      </if>
+      <if test="record.moduleCategory != null" >
+        module_category = #{record.moduleCategory},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update sys_m_module
+    set module_sid = #{record.moduleSid},
+      module_name = #{record.moduleName},
+      module_url = #{record.moduleUrl},
+      module_icon_url = #{record.moduleIconUrl},
+      parent_sid = #{record.parentSid},
+      permission = #{record.permission},
+      module_type = #{record.moduleType},
+      display_flag = #{record.displayFlag},
+      sort_rank = #{record.sortRank},
+      module_category = #{record.moduleCategory},
+      description = #{record.description}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Module" >
+    update sys_m_module
+    <set >
+      <if test="moduleName != null" >
+        module_name = #{moduleName},
+      </if>
+      <if test="moduleUrl != null" >
+        module_url = #{moduleUrl},
+      </if>
+      <if test="moduleIconUrl != null" >
+        module_icon_url = #{moduleIconUrl},
+      </if>
+      <if test="parentSid != null" >
+        parent_sid = #{parentSid},
+      </if>
+      <if test="permission != null" >
+        permission = #{permission},
+      </if>
+      <if test="moduleType != null" >
+        module_type = #{moduleType},
+      </if>
+      <if test="displayFlag != null" >
+        display_flag = #{displayFlag},
+      </if>
+      <if test="sortRank != null" >
+        sort_rank = #{sortRank},
+      </if>
+      <if test="moduleCategory != null" >
+        module_category = #{moduleCategory},
+      </if>
+      <if test="description != null" >
+        description = #{description},
+      </if>
+    </set>
+    where module_sid = #{moduleSid}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Module" >
+    update sys_m_module
+    set module_name = #{moduleName},
+      module_url = #{moduleUrl},
+      module_icon_url = #{moduleIconUrl},
+      parent_sid = #{parentSid},
+      permission = #{permission},
+      module_type = #{moduleType},
+      display_flag = #{displayFlag},
+      sort_rank = #{sortRank},
+      module_category = #{moduleCategory},
+      description = #{description}
+    where module_sid = #{moduleSid}
+  </update>
+</mapper>

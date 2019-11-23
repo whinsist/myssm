@@ -38,7 +38,7 @@ import cn.com.cloudstar.rightcloud.system.service.system.AuthService;
 import cn.com.cloudstar.rightcloud.system.service.system.RoleService;
 import cn.com.cloudstar.rightcloud.system.service.system.SysConfigService;
 import cn.com.cloudstar.rightcloud.system.service.system.UserService;
-import cn.com.cloudstar.rightcloud.system.vo.UserEditVo;
+import cn.com.cloudstar.rightcloud.system.controller.back.system.bean.request.UserEditVo;
 
 
 /**

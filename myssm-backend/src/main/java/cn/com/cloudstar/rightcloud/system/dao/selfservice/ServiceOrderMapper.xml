@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2018 Cloud-Star, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.selfservice.ServiceOrderMapper">
+
+  <resultMap id="BaseResultMap"
+      type="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrder">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="service_name" property="serviceName" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="VARCHAR"/>
+    <result column="org_sid" property="orgSid" jdbcType="BIGINT" />
+    <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+    <result column="owner_id" property="ownerId" jdbcType="BIGINT"/>
+    <result column="extra_attr" property="extraAttr" jdbcType="LONGVARCHAR" />
+    <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR"/>
+    <result column="open_type" property="openType" jdbcType="VARCHAR"/>
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+    <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+    <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+    <result column="version" property="version" jdbcType="BIGINT"/>
+    <result column="applicant" property="applicant" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="status_name" property="statusName" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="process_flag" property="processFlag" jdbcType="VARCHAR" />
+    <result column="step_name" property="stepName" jdbcType="VARCHAR" />
+    <result column="service_category" property="serviceCategory" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    A.id, A.order_sn, A.name, A.type, A.org_sid, A.service_id, A.owner_id, A.extra_attr,
+    A.status, A.total_amount, A.created_by, A.created_dt, A.updated_by, A.updated_dt, A.version, A.process_flag, A.step_name
+  </sql>
+  <sql id="Example_Where_Clause">
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="condition.orderSn != null" >
+        and a.order_sn = #{condition.orderSn}
+      </if>
+      <if test="condition.name != null">
+        and a.name = #{condition.name}
+      </if>
+      <if test="condition.type != null">
+        and a.type = #{condition.type}
+      </if>
+      <if test="condition.serviceId != null">
+        and a.service_id = #{condition.serviceId}
+      </if>
+      <if test="condition.ownerId != null">
+        and a.owner_id = #{condition.ownerId}
+      </if>
+      <if test="condition.extraAttr != null" >
+        and a.extra_attr = #{condition.extraAttr}
+      </if>
+      <if test="condition.status != null">
+        and a.status = #{condition.status}
+      </if>
+      <if test="condition.totalAmount != null" >
+        and a.total_amount = #{condition.totalAmount}
+      </if>
+      <if test="condition.createdBy != null">
+        and a.created_by = #{condition.createdBy}
+      </if>
+      <if test="condition.createdDt != null">
+        and a.created_dt = #{condition.createdDt}
+      </if>
+      <if test="condition.updatedBy != null">
+        and a.updated_by = #{condition.updatedBy}
+      </if>
+      <if test="condition.updatedDt != null">
+        and a.updated_dt = #{condition.updatedDt}
+      </if>
+      <if test="condition.version != null">
+        and a.version = #{condition.version}
+      </if>
+      <if test="condition.orgSid != null">
+        and a.org_sid = #{condition.orgSid}
+      </if>
+      <if test="condition.orderSnList!=null and condition.orderSnList.size() > 0">
+        and a.order_sn in
+        <foreach collection="condition.orderSnList" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+
+    </trim>
+  </sql>
+
+    <insert id="insertSelective"
+            parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrder"
+            useGeneratedKeys="true" keyProperty="id">
+    insert into service_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderSn != null" >
+        order_sn,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="orgSid != null" >
+        org_sid,
+      </if>
+      <if test="serviceId != null" >
+          service_id,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="extraAttr != null" >
+        extra_attr,
+      </if>
+      <if test="totalAmount != null" >
+        total_amount,
+      </if>
+      <if test="processFlag != null" >
+        process_flag,
+      </if>
+      <if test="stepName != null" >
+        step_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdDt != null" >
+        created_dt,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderSn != null" >
+        #{orderSn},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="orgSid != null" >
+        #{orgSid},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId},
+      </if>
+      <if test="extraAttr != null" >
+        #{extraAttr},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount},
+      </if>
+      <if test="processFlag != null" >
+        #{processFlag},
+      </if>
+      <if test="stepName != null" >
+        #{stepName},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        #{updatedDt},
+      </if>
+      <if test="version != null" >
+        #{version},
+      </if>
+    </trim>
+    </insert>
+
+
+
+  <select id="selectByParams" resultMap="BaseResultMap"
+      parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    , B.real_name as applicant
+    from service_order a
+    LEFT JOIN sys_m_user B ON A.owner_id = B.user_sid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select
+    A.id,
+    A.order_sn,
+    A.name,
+    A.type,
+    A.service_id,
+    A.org_sid,
+    A.owner_id,
+    A.status,
+    A.total_amount,
+    A.created_by,
+    A.created_dt,
+    A.updated_by,
+    A.updated_dt,
+    A.version,
+    A.process_flag,
+    A.step_name,
+    B.open_type as open_type
+    from service_order A
+    LEFT JOIN sf_service_category B on (A.service_id = B.id)
+    where A.id = #{id}
+  </select>
+
+
+  <update id="updateByPrimaryKeySelective"
+      parameterType="cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrder">
+    update service_order
+    <set>
+      <if test="orderSn != null" >
+        order_sn = #{orderSn},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="orgSid != null" >
+        org_sid = #{orgSid},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId},
+      </if>
+      <if test="extraAttr != null" >
+        extra_attr = #{extraAttr},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="totalAmount != null" >
+        total_amount = #{totalAmount},
+      </if>
+      <if test="processFlag != null" >
+        process_flag = #{processFlag},
+      </if>
+      <if test="stepName != null" >
+        step_name = #{stepName},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        created_dt = #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt = #{updatedDt},
+      </if>
+      <if test="version != null" >
+        version = #{version},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+</mapper>

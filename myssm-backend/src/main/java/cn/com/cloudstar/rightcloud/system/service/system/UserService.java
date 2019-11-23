@@ -8,7 +8,7 @@ import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
 import cn.com.cloudstar.rightcloud.system.entity.system.User;
 import cn.com.cloudstar.rightcloud.system.entity.system.UserToken;
 import cn.com.cloudstar.rightcloud.system.pojo.beans.UserLoginBean;
-import cn.com.cloudstar.rightcloud.system.vo.UserEditVo;
+import cn.com.cloudstar.rightcloud.system.controller.back.system.bean.request.UserEditVo;
 
 import java.util.List;
 

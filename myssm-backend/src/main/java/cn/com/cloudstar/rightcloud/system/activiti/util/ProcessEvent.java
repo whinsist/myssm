@@ -18,10 +18,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import cn.com.cloudstar.rightcloud.framework.common.exception.BizException;
-import cn.com.cloudstar.rightcloud.system.entity.act.ProcessNode;
+import cn.com.cloudstar.rightcloud.system.entity.selfservice.ProcessNode;
 import cn.com.cloudstar.rightcloud.system.activiti.util.ProcessHelper.ExpressionsetImplementation;
-import cn.com.cloudstar.rightcloud.system.vo.act.ProcessNodeConfig;
-import cn.com.cloudstar.rightcloud.system.vo.act.ProcessNodeRoleDto;
+import cn.com.cloudstar.rightcloud.system.pojo.vo.act.ProcessNodeConfig;
+import cn.com.cloudstar.rightcloud.system.pojo.vo.act.ProcessNodeRoleDto;
 
 public class ProcessEvent{
     public static StartEvent startEvent(String id, ProcessNode processNode) {

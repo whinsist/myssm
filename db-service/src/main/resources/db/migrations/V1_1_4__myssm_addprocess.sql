@@ -1,4 +1,4 @@
-CREATE TABLE `process` (
+CREATE  TABLE IF NOT EXISTS `process` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '流程ID',
   `process_code` varchar(64) DEFAULT NULL COMMENT '流程编号',
   `process_name` varchar(255) DEFAULT NULL COMMENT '流程名称',
@@ -15,7 +15,7 @@ CREATE TABLE `process` (
 ) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE `process_version` (
+CREATE TABLE IF NOT EXISTS `process_version` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '流程版本ID',
   `process_id` bigint(20) DEFAULT NULL COMMENT '流程ID',
   `version_name` varchar(255) DEFAULT NULL COMMENT '版本名称',
@@ -33,7 +33,7 @@ CREATE TABLE `process_version` (
 ) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE `process_node` (
+CREATE TABLE IF NOT EXISTS `process_node` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '流程节点ID',
   `node_name` varchar(255) DEFAULT NULL COMMENT '节点名称',
   `process_id` bigint(20) DEFAULT NULL COMMENT '流程ID',
@@ -52,7 +52,7 @@ CREATE TABLE `process_node` (
 ) ENGINE=InnoDB AUTO_INCREMENT=591 DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE `sf_service_category` (
+CREATE TABLE IF NOT EXISTS `sf_service_category` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `service_form` varchar(32) DEFAULT NULL COMMENT '服务类别：计算资源、脚本部署、容器集群部署',
   `service_type` varchar(32) DEFAULT NULL COMMENT '服务类型：group（多组合）  unit（单一）',
@@ -83,7 +83,7 @@ CREATE TABLE `sf_service_category` (
 
 
 
-CREATE TABLE `service_order` (
+CREATE TABLE IF NOT EXISTS `service_order` (
   `id` bigint(15) NOT NULL AUTO_INCREMENT COMMENT '申请单ID',
   `order_sn` varchar(64) NOT NULL,
   `name` varchar(256) DEFAULT NULL COMMENT '申请单名称',
@@ -107,7 +107,7 @@ CREATE TABLE `service_order` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1357 DEFAULT CHARSET=utf8mb4 COMMENT='申请单';
 
-CREATE TABLE `service_order_record` (
+CREATE TABLE IF NOT EXISTS `service_order_record` (
   `id` bigint(15) NOT NULL AUTO_INCREMENT COMMENT '记录SID',
   `order_id` bigint(15) DEFAULT NULL COMMENT '申请单ID',
   `order_sn` varchar(64) DEFAULT NULL COMMENT '申请单SN',
@@ -124,7 +124,7 @@ CREATE TABLE `service_order_record` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3024 DEFAULT CHARSET=utf8mb4 COMMENT='申请单处理记录表';
 
-CREATE TABLE `sys_exam` (
+CREATE TABLE IF NOT EXISTS`sys_exam` (
   `id` bigint(15) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `username` varchar(15) DEFAULT NULL COMMENT 'username',
   `region_cd` varchar(64) DEFAULT NULL COMMENT 'region_cd',
