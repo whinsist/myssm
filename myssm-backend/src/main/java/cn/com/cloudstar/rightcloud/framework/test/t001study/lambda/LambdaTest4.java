@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import lombok.Data;
 
@@ -19,7 +20,20 @@ import lombok.Data;
  */
 public class LambdaTest4 {
     public static void main(String[] args) {
-        
+
+        // stream常用api
+        // 中间操作：
+        // 过滤:filter 去重:distinct 排序:sorted 截取:limit skip 转换:map/mapToInt/flatMap peek
+        // 终止操作：
+        // 循环:forEach  计算:min max count average 匹配: anyMatch allMatch noneMatch findFirst findAny 汇聚:reduce  收集器:toArray collect
+
+        String strx = "11,22,33,44";
+        Stream.of(strx.split(",")).map(x -> Integer.valueOf(x)).mapToInt(x -> Integer.valueOf(x)).sum();
+        Stream.of(strx.split(",")).mapToInt(Integer::valueOf).sum();
+
+
+
+
         String query = "item=1&userId=100&name=xx&token=12333";
         Map<String, String> params = Arrays.stream(query.split("&")).map(s -> s.split("="))
                                         .collect(Collectors.toMap(str -> str[0], str -> str[1]));

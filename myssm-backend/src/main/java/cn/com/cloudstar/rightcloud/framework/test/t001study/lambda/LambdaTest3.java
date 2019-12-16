@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -19,6 +21,20 @@ import lombok.Data;
  */
 public class LambdaTest3 {
     public static void main(String[] args) {
+
+        Function<String, String> fn = (str) -> {return str.toUpperCase();};
+        System.out.println(fn.apply("abd"));
+        Consumer<String> consumer = s -> System.out.println("s");
+        consumer.accept("aaaaa");
+
+
+        // 方法的引用
+        // 静态方法的引用  实例方法的引用  对象方法的引用  构造方法的引用
+
+
+
+
+
         // 截取
         Set<Integer> collect = Stream.iterate(1, x -> x + 1)
                                      .limit(50)

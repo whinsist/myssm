@@ -8,13 +8,18 @@ import cn.com.cloudstar.rightcloud.framework.common.util.DBCanst;
 /**
  * @author Hong.Wu
  * @date: 23:37 2019/10/10
+ *
+ * 连接池有连接：直接返回一个连接给用户
+ * 连接池无连接：创建一个连接
+ *
+ * 操作完成后：关闭连接
+ *  在调用close方法时要确认是真正关闭还是只是放入连接池中 是否已经达到可保存数
+ *  如达到最大可保存数：直接关闭
+ *  如未达到最大可保存数：放入连接池中重复利用
  */
 public class TestPool {
 
     public static void main(String[] args) throws Exception {
-
-
-
 
         MyPool myPool = new MyPool();
         myPool.setDriverClassName("com.mysql.jdbc.Driver");
@@ -34,13 +39,12 @@ public class TestPool {
         System.out.println("connection1:" + connection1);
         System.out.println("connection2:" + connection2);
         System.out.println("connection3:" + connection3);
-
         connection1.close();
         connection2.close();
         connection3.close();
 
         System.out.println("================================================================");
-
+        // 因为上面关闭了 下面应该可以从
         Connection connection4 = myPool.getConnection();
         Connection connection5 = myPool.getConnection();
         Connection connection6 = myPool.getConnection();

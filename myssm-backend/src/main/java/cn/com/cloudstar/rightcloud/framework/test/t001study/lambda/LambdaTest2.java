@@ -19,14 +19,15 @@ public class LambdaTest2 {
         // 总结 参数可以进行类型推导即参数类型不用指定 大括号也可以取消 return可以取消
 
         // 无参无返回值
-        Runnable r = () -> {System.out.println("run");};
-        Runnable r2 = () -> System.out.println("run");
         Runnable r3 = new Runnable() {
             @Override
             public void run() {
-                System.out.println("run");
+                System.out.println("不是lambada表达式可以直接new一个接口");
             }
         };
+        Runnable r = () -> {System.out.println("run");};
+        Runnable r2 = () -> System.out.println("run");
+
 
         // 无参有返回值
         Callable<String> c1 = new Callable<String>() {
@@ -50,6 +51,12 @@ public class LambdaTest2 {
         System.out.println("apply="+apply);
 
 //        Preconditions.checkNotNull(apply)
+
+        // 万能格式
+        // 1、先写格式  XXInterface x = () -> {}
+        // 2、看参数
+        // 3、返回值 写body体里的逻辑
+
 
 
     }

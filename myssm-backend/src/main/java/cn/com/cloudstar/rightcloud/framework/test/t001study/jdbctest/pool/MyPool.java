@@ -9,48 +9,60 @@ import java.util.Set;
 
 public class MyPool {
 
-    private String driverClassName;//驱动名字
-    private String url;//数据库地址
-    private String username;//数据库用户名
-    private String password;//数据库密码
+    // 驱动名字
+    private String driverClassName;
+    // 数据库地址
+    private String url;
+    // 数据库用户名
+    private String username;
+    // 数据库密码
+    private String password;
+    // 最大可活动数
+    private int maxActive;
+    // 最大可保存数
+    private int maxIdle;
 
-    private int maxActive;//最大可活动数
-    private int maxIdle;//最大可保存数
-
-    //当前连接活动数
+    // 当前连接活动数
     private static int active = 0;
-    //用来存放连接的连接池
+    // 用来存放连接的连接池
     private static Set<Connection> set = new HashSet<>();
 
     //获取连接
     public Connection getConnection() throws Exception {
         //判断当前连接活动数active是否已经达到最大可活动数maxActive 3
         if (active < maxActive) {
-            //可获取连接，首先看连接池是否有连接
-            if (!set.isEmpty()) {
-                //连接池不为空，直接返回连接池中的一个连接给用户
+            // 可获取连接，首先看连接池是否有连接
+            boolean hasConnection = !set.isEmpty();
+            if (hasConnection) {
+                // 如果连接池有连接，直接返回连接池中的一个连接给用户
                 Iterator<Connection> iterable = set.iterator();
                 Connection connection = iterable.next();
 
-                set.remove(connection);//从连接池删除刚刚获取要返回给用户的连接
-                active++;//当前活动数+1
+                // 从连接池删除刚刚获取要返回给用户的连接
+                set.remove(connection);
+                // 当前活动数+1
+                active ++;
                 System.out.println("==========连接池获取连接===========");
-                //return  connection;
+                // return  connection;
+                // 走代理 不然active不会减1
                 MyInvocaHandler myInvocaHandler = new MyInvocaHandler();
                 return (Connection) myInvocaHandler.bind(connection, maxIdle);
-
-                //return (Connection)ProxyUtil.proxyConnectionInterface(connection);
             } else {
+                // 如果连接池没有连接  创建一个连接返回
                 Class.forName(driverClassName);
                 Connection connection = DriverManager.getConnection(url, username, password);
-
-                active++;//当前活动数+1
+                // 当前活动数+1
+                active ++;
                 System.out.println("==========驱动获取连接==========active=" + active);
+                // return  connection;
 
                 MyInvocaHandler myInvocaHandler = new MyInvocaHandler();
                 return (Connection) myInvocaHandler.bind(connection, maxIdle);
             }
 
+        } else {
+            // 等待超时  报错 TODO
+            System.out.println("check ........");
         }
         return null;
     }
