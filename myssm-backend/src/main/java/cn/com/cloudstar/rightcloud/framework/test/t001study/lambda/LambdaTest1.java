@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Hong.Wu
@@ -54,7 +55,7 @@ public class LambdaTest1 {
 
         // 对于集合比较使用Collections.sort();
         // 集合排序 注意原有两种方式不传比较器(是一个自然排序) 传比较器(new一个你匿名内部类)
-        List<String> list = Arrays.asList("d", "b", "c", "a");
+        List<String> list = Arrays.asList("d5689", "bb", "c213", "a");
         Collections.sort(list, new Comparator<String>() {
             @Override
             public int compare(String str1, String str2) {
@@ -63,6 +64,16 @@ public class LambdaTest1 {
         });
         // lambada str1 str2并没有指定类型 自动推断为String
         Collections.sort(list, (str1, str2) -> str1.compareTo(str2));
+        System.out.println("list----1----"+list);
+        Collections.sort(list, (str1, str2) -> {
+            return str1.length() > str2.length() ? 1 : (str1.length() == str2.length() ? 0: -1);
+        });
+        System.out.println("list----2----"+list);
+        List<String> listx = list.stream().sorted((str1, str2) -> {
+            // 排序规则只能看 如果第一个值大于第二个值是自然排序值为1  即如果返回1表示自然排序(也就是升序)
+            return str1.length() > str2.length() ? 1 : (str1.length() == str2.length() ? 0: -1);
+        }).collect(Collectors.toList());
+        System.out.println("list----1----"+listx);
 
         // 前提：1、熟悉泛型   2、函数式接口   3、多练  多用Stream API
         // 使用场景：任何有函数式接口的地方都可以是lambda表达式
