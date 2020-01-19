@@ -1,5 +1,6 @@
 package cn.com.cloudstar.rightcloud.framework.test.t002Api;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 
@@ -89,6 +90,10 @@ public class TestAllController {
         PageInfo<User> pageInfo = new PageInfo<>(users);
         BaseGridReturn baseGridReturn = new BaseGridReturn(pageInfo);
 
+//        Criteria criteria = new Criteria();
+//        PageHelper.startPage(2, 10);
+//        List<User> users = this.userService.selectByParams(criteria);
+//        PageInfo<User> pageInfo = new PageInfo<>(users);
 
 
         User user = new User();
