@@ -37,6 +37,7 @@ import cn.com.cloudstar.rightcloud.system.dao.system.ExamMapper;
 import cn.com.cloudstar.rightcloud.system.entity.system.User;
 import cn.com.cloudstar.rightcloud.system.entity.system.Exam;
 import cn.com.cloudstar.rightcloud.system.service.mq.MqService;
+import cn.com.cloudstar.rightcloud.system.service.system.UserCacheService;
 import cn.com.cloudstar.rightcloud.system.service.system.UserService;
 
 /**
@@ -55,6 +56,9 @@ public class TestAllController {
 
     @Autowired
     private MqService mqService;
+
+    @Autowired
+    private UserCacheService userCacheService;
 
     @RequestMapping("/captcha")
     public String captcha(ModelMap model) {
@@ -148,5 +152,12 @@ public class TestAllController {
         return ResultObjectUtil.success();
     }
 
+
+    @GetMapping("/cacheData")
+    @ResponseBody
+    public ResultObject cacheData(Long userId) {
+        User user = userCacheService.selectUseCache(userId);
+        return ResultObjectUtil.success(user);
+    }
 
 }
