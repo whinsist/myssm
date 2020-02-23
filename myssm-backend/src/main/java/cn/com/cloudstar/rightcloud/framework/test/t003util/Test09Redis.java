@@ -19,15 +19,13 @@ import cn.com.cloudstar.rightcloud.framework.common.cache.JedisUtil;
 public class Test09Redis {
 
     public static void main(String[] args) {
-//        testString();
-//          testMap();
-//        testList();
-//        testSet();
-
+        testString();
+        testHash();
+        testList();
+        testSet();
 
 //        testJedis();
-        testSentinel();
-
+//        testSentinel();
 
     }
 
@@ -39,7 +37,7 @@ public class Test09Redis {
         //设置 redis 字符串数据
         jedis.set("runoobkey", "www.runoob.com");
         // 获取存储的数据并输出
-        System.out.println("redis 存储的字符串为: "+ jedis.get("runoobkey"));
+        System.out.println("redis 存储的字符串为: " + jedis.get("runoobkey"));
     }
 
 
@@ -62,61 +60,53 @@ public class Test09Redis {
         System.out.println(value);
     }
 
-    private static void testMap() {
-        Map<String, String> userInfo = JedisUtil.instance().hgetall("portal:user:abc");
+    private static void testHash() {
+        //Redis hash 是一个键值(key=>value)对集合。
+        //Redis hash 是一个 string 类型的 field 和 value 的映射表，hash 特别适合用于存储对象。
+        // HMSET "test:Hash:user" username "abc"
+        // HGET "test:Hash:user" username
+        JedisUtil.instance().hset("test:Hash:user", "username", "abc");
+        JedisUtil.instance().hset("test:Hash:user", "age", "20");
 
-        JedisUtil.instance().hset("vra.catalog.icons".getBytes(), "iconId".getBytes(), "内容".getBytes(), 30 * 60);
-        byte[] icon = JedisUtil.instance().hget("vra.catalog.icons".getBytes(), "iconId".getBytes());
-        System.out.println(new String(icon));
-
-        // 2hour
-        JedisUtil.instance().hset("monitor:agent:host", "cloudHostId123", "{jsonstr}", 7200);
-        String monitorAgent = JedisUtil.instance().hget("monitor:agent:host", "cloudHostId123");
-        System.out.println("monitorAgent=" + monitorAgent);
-        JedisUtil.instance().delHSet("monitor:agent:host", "cloudHostId123");
-        System.out.println("monitorAgent=" + monitorAgent);
+        Map<String, String> userInfo = JedisUtil.instance().hgetall("test:Hash:user");
+        System.out.println(userInfo);
+        System.out.println(JedisUtil.instance().hget("test:Hash:user", "username"));
+        System.out.println(JedisUtil.instance().hget("test:Hash:user", "aget"));
     }
 
     private static void testList() {
-        // 存list
-        Long hostId = 0L;
-        JedisUtil.instance().addList("loglist:host:" + hostId, "11111111111");
-        JedisUtil.instance().addList("loglist:host:" + hostId, "22222222222");
-        JedisUtil.instance().addList("test:key:list", "aaaaaa");
-        JedisUtil.instance().addList("test:key:list", "bbbbbb");
+        // lpush test:List:runoobBooks mongodb
+        // lrange test:List:runoobBooks 0 10
+        JedisUtil.instance().addList("test:List:runoobBooks", "redis");
+        JedisUtil.instance().addList("test:List:runoobBooks", "mongodb");
+        JedisUtil.instance().addList("test:List:runoobBooks", "rabitmq");
 
-        List<String> listPort = JedisUtil.instance().getList("loglist:host:" + hostId);
+        List<String> listPort = JedisUtil.instance().getList("test:List:runoobBooks");
         System.out.println(listPort);
 
     }
 
     private static void testSet() {
-        // 对象 属性 值
-        JedisUtil.instance().hset("test:key:setObject", "field", "value", 3600 * 24);
-        JedisUtil.instance().hset("test:key:setObject", "name", "你好", 3600 * 24);
-        JedisUtil.instance().hset("test:key:setObject", "age", "30", 3600 * 24);
-        String testSetValue = JedisUtil.instance().hget("test:key:setObject", "name");
-        System.out.println("testSetValue=" + testSetValue);
-
-        JedisUtil.instance().addSet("setkey", "v1", "v2", "v3", "v2");
-        Set<String> cachePortSet = JedisUtil.instance().getSet("setkey");
-        System.out.println(cachePortSet);
-
-        //JedisUtil.instance().hdel("portal:account:id", "aa");
-
+        // sadd test:Set:setObject redis
+        // DEL test:Set:setObject
+        // smembers test:Set:setObject
+        JedisUtil.instance().addSet("test:Set:setObject", "name", "你好");
+        JedisUtil.instance().addSet("test:Set:setObject", "age", "30");
+        Set<String> sets = JedisUtil.instance().getSet("test:Set:setObject");
+        System.out.println("sets=" + sets);
+        JedisUtil.instance().containsInSet("test:Set:setObject", "你好");
     }
 
     private static void testString() {
         JedisUtil jedisUtil = JedisUtil.instance();
-        jedisUtil.set("test:key:string", "stringvalue");
-        String testStringVal = jedisUtil.get("test:key:string");
-        System.out.println("test:key:string=" + testStringVal);
+        jedisUtil.set("test:String:abc", "stringvalue");
+        String testStringVal = jedisUtil.get("test:String:abc");
+        System.out.println("test:String:abc=" + testStringVal);
 
         // 存string
         JedisUtil.instance().set("key_set", "字符串");
         String str = JedisUtil.instance().get("key_set");
         System.out.println(str);
-
     }
 
 
