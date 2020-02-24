@@ -53,6 +53,9 @@ public class CacheDataManageAop {
         //MyCacheable cacheData = getAnnotationBak(joinPoint);
         // 读取缓存注解
         MyCacheable myCacheable = this.getMethodAnnotation(joinPoint);
+        if (Objects.isNull(myCacheable)) {
+            return joinPoint.proceed(args);
+        }
         // 读取类注解
         CacheConfig cacheConfig = this.getClassAnnotation(joinPoint);
 

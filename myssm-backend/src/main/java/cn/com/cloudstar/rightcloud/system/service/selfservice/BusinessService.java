@@ -150,7 +150,7 @@ public class BusinessService {
         String msgTemplate = "【RightCloud】服务单流程流转提醒，[%s]审批[%s]您的[%s]申请，申请单号：%s，请登录系统查看。";
         String msg = String.format(msgTemplate, assigneeName, auditStatus, businessName, businessId);
 
-        log.info("任务完成消息: {}", msg);
+        //log.info("任务完成消息: {}", msg);
 
         for (String notifyWay : notifyWays) {
             if ("station".equals(notifyWay)) {
@@ -161,5 +161,9 @@ public class BusinessService {
                 // 邮件
             }
         }
+    }
+
+    public void approve(String businssId, Map<String, Object> variables) {
+
     }
 }

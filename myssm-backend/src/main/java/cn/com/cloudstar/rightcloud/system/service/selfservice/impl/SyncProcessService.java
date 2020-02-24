@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import cn.com.cloudstar.rightcloud.system.entity.selfservice.ProcessNode;
 import cn.com.cloudstar.rightcloud.system.entity.selfservice.ServiceOrder;
 import cn.com.cloudstar.rightcloud.system.dao.selfservice.ProcessNodeMapper;
+import cn.com.cloudstar.rightcloud.system.enums.ActivityCanstant;
 import cn.com.cloudstar.rightcloud.system.service.selfservice.BusinessService;
 import cn.com.cloudstar.rightcloud.system.service.selfservice.ServiceOrderService;
 import cn.com.cloudstar.rightcloud.system.pojo.vo.act.ProcessNodeConfig;
@@ -48,23 +49,13 @@ public class SyncProcessService {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void doOpen(DelegateExecution execution) {
-        String businssId = execution.getProcessBusinessKey();
-        Map<String, Object> variables = execution.getVariables();
-
-        log.info("申请单[{}]的审批流程已经全部审批通过，执行服务开通", businssId);
-
-//        businessService.approve(businssId, variables);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
     public List<String> auditCandidateInlineMgts(DelegateExecution execution, String auditIds) {
         String[] auditIdArr = auditIds.split(",");
         String businssId = execution.getProcessBusinessKey();
 
         Map<String, Object> variables = execution.getVariables();
-        log.info("申请单[{}], 组织: [{}], 候选人参数: [{}]",
-                 businssId, variables.get("__org_sid"), auditIds);
+        log.info(ActivityCanstant.PREFIX + "2-1auditCandidateInlineMgts 申请单[{}], 组织: [{}], 候选人参数: [{}]", businssId,
+                 variables.get("__org_sid"), auditIds);
 
         List<String> allCandidateUsers = Lists.newArrayList();
         List<String> roleIds = Lists.newArrayList();
@@ -82,12 +73,11 @@ public class SyncProcessService {
 
         //根据角色查询候选人
         if (roleIds.size() > 0) {
-            List<String> candidateUsers = businessService.queryCandidateUsers(businssId, variables, roleIds);
-            allCandidateUsers.addAll(candidateUsers);
+            allCandidateUsers.addAll(businessService.queryCandidateUsers(businssId, variables, roleIds));
         }
 
         //根据选定用户选择候选人，需要判断权限
-        log.info("申请单[{}], 候选人列表: {}", businssId, JSON.toJSON(allCandidateUsers));
+        //log.info("申请单[{}], 候选人列表: {}", businssId, JSON.toJSON(allCandidateUsers));
 
         String businessCode = (String) variables.get("_business_code");
         ServiceOrder serviceOrder = serviceOrderService.selectByOrderSn(businssId);
@@ -104,7 +94,9 @@ public class SyncProcessService {
     }
 
     public void actTackCreatedCallback(DelegateTask task, String nodeId) {
-        log.info("申请单[{}]的审批任务[{}]已创建", task.getExecution().getProcessBusinessKey(), task.getName());
+        log.info(ActivityCanstant.PREFIX + "2-2actTackCreatedCallback 申请单[{}]的审批任务[{}]已创建  发送消息等等",
+                 task.getExecution().getProcessBusinessKey(),
+                 task.getName());
 
         ProcessNode processNode = processNodeMapper.selectByPrimaryKey(Long.parseLong(nodeId));
 
@@ -122,7 +114,7 @@ public class SyncProcessService {
 
 //
             threadPool.submit(() -> {
-                businessService.taskCreatedMessage(businessId, candidates, execVariables, config.getNotifyWays());
+                //businessService.taskCreatedMessage(businessId, candidates, execVariables, config.getNotifyWays());
             });
         }
     }
@@ -131,7 +123,7 @@ public class SyncProcessService {
         Map<String, Object> execVariables = task.getExecution().getVariables();
         String auditUname = (String) execVariables.get("_audit_uname");
 
-        log.info("[{}]完成了申请单[{}]的审批任务[{}]", auditUname,
+        log.info(ActivityCanstant.PREFIX + "3actTackCompletedCallback [{}]完成了申请单[{}]的审批任务[{}]  发送消息之类的", auditUname,
                  task.getExecution().getProcessBusinessKey(), task.getName());
 
         ProcessNode processNode = processNodeMapper.selectByPrimaryKey(Long.parseLong(nodeId));
@@ -142,10 +134,18 @@ public class SyncProcessService {
             String businessId = task.getExecution().getProcessBusinessKey();
             String usersid = (String) execVariables.get("_apply_usersid");
             threadPool.submit(() -> {
-                businessService.taskCompletedMessage(businessId, auditUname,
-                                                     Long.parseLong(usersid), execVariables, config.getNotifyWays());
+                //businessService.taskCompletedMessage(businessId, auditUname, Long.parseLong(usersid), execVariables, config.getNotifyWays());
             });
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void doOpen(DelegateExecution execution) {
+        String businssId = execution.getProcessBusinessKey();
+        Map<String, Object> variables = execution.getVariables();
+
+        log.info(ActivityCanstant.PREFIX + "4doOpen 申请单[{}]的审批流程已经全部审批通过，create vm ...", businssId);
+
+        businessService.approve(businssId, variables);
+    }
 }

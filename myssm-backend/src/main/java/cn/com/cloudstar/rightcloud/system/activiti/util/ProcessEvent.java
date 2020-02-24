@@ -12,10 +12,13 @@ import org.activiti.bpmn.model.ServiceTask;
 import org.activiti.bpmn.model.StartEvent;
 import org.activiti.bpmn.model.UserTask;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import cn.hutool.core.collection.CollectionUtil;
 
 import cn.com.cloudstar.rightcloud.framework.common.exception.BizException;
 import cn.com.cloudstar.rightcloud.system.entity.selfservice.ProcessNode;
@@ -23,7 +26,8 @@ import cn.com.cloudstar.rightcloud.system.activiti.util.ProcessHelper.Expression
 import cn.com.cloudstar.rightcloud.system.pojo.vo.act.ProcessNodeConfig;
 import cn.com.cloudstar.rightcloud.system.pojo.vo.act.ProcessNodeRoleDto;
 
-public class ProcessEvent{
+public class ProcessEvent {
+
     public static StartEvent startEvent(String id, ProcessNode processNode) {
         StartEvent startEvent = new StartEvent();
         startEvent.setId(id);
@@ -31,14 +35,15 @@ public class ProcessEvent{
         return startEvent;
     }
 
-    public static UserTask taskEvent(String id, ProcessNode processNode) {
-        UserTask userTask = new UserTask();
-        userTask.setId(id);
-        userTask.setName(processNode.getNodeName());
-        userTask.setCandidateUsers(Arrays.asList("zhangsan", "lisi", "100"));
+    public static ExclusiveGateway gatewayEvent(String id, ProcessNode processNode) {
+        ExclusiveGateway exclusiveGateway = new ExclusiveGateway();
+        exclusiveGateway.setId(id);
+        exclusiveGateway.setName(processNode.getNodeName());
+        return exclusiveGateway;
+    }
 
-        ProcessNodeConfig config = JSON.parseObject(
-                processNode.getConfigData(), ProcessNodeConfig.class);
+    public static UserTask taskEvent(String id, ProcessNode processNode) {
+        ProcessNodeConfig config = JSON.parseObject(processNode.getConfigData(), ProcessNodeConfig.class);
 
         List<String> candidateList = Lists.newArrayList();
         List<ProcessNodeRoleDto> candidates = config.getCandidates();
@@ -56,38 +61,43 @@ public class ProcessEvent{
             candidateList.addAll(userList);
         }
 
+        List<String> candidateUsers = new ArrayList<>();
         if (candidateList.size() > 0) {
             String roleIds = candidateList.stream().collect(Collectors.joining(","));
-            String condition = String.format(ExpressionsetImplementation.AuditCandidateInlineMgts, roleIds);
-            userTask.setCandidateUsers(Arrays.asList(condition));
+            String candidateUser = String.format(ExpressionsetImplementation.AuditCandidateInlineMgts, roleIds);
+            candidateUsers.add(candidateUser);
         } else {
             throw new BizException("流程节点未现在审批角色或审批人");
         }
 
-        if (Objects.nonNull(config.getNotifyWays()) && config.getNotifyWays().size() > 0) {
-            List<ActivitiListener> taskListeners = Lists.newArrayList();
-
+        List<ActivitiListener> taskListeners = Lists.newArrayList();
+        if (CollectionUtil.isNotEmpty(config.getNotifyWays())) {
+            String processNodeId = processNode.getId().toString();
             ActivitiListener createdListener = new ActivitiListener();
             createdListener.setEvent("create");
             createdListener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
-            createdListener.setImplementation(String.format(ExpressionsetImplementation.ActTackCreatedCallback, processNode.getId().toString()));
+            // 注意： processNodeId会传到actTackCompletedCallback的参数上
+            createdListener.setImplementation(
+                    String.format(ExpressionsetImplementation.ActTackCreatedCallback, processNodeId));
             taskListeners.add(createdListener);
 
             ActivitiListener completedListener = new ActivitiListener();
             completedListener.setEvent("complete");
             completedListener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
-            completedListener.setImplementation(String.format(ExpressionsetImplementation.ActTackCompletedCallback, processNode.getId().toString()));
+            completedListener.setImplementation(
+                    String.format(ExpressionsetImplementation.ActTackCompletedCallback, processNodeId));
             taskListeners.add(completedListener);
-            userTask.setTaskListeners(taskListeners);
         }
-        return userTask;
-    }
 
-    public static ExclusiveGateway gatewayEvent(String id, ProcessNode processNode) {
-        ExclusiveGateway exclusiveGateway = new ExclusiveGateway();
-        exclusiveGateway.setId(id);
-        exclusiveGateway.setName(processNode.getNodeName());
-        return exclusiveGateway;
+        UserTask userTask = new UserTask();
+        userTask.setId(id);
+        userTask.setName(processNode.getNodeName());
+        //userTask.setCandidateUsers(Arrays.asList("zhangsan", "lisi", "100"));
+        // 创建节点任务 多人任务(即：指定审批人)
+        userTask.setCandidateUsers(candidateUsers);
+        // 单人审批 userTask.setAssignee(assignee);
+        userTask.setTaskListeners(taskListeners);
+        return userTask;
     }
 
     public static ServiceTask serviceOpenEvent(String id, ProcessNode processNode) {

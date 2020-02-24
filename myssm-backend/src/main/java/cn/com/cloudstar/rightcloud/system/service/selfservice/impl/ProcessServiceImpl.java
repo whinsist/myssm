@@ -65,6 +65,7 @@ import cn.com.cloudstar.rightcloud.system.controller.back.selfservice.bean.reque
 import cn.com.cloudstar.rightcloud.system.dao.selfservice.ProcessMapper;
 import cn.com.cloudstar.rightcloud.system.dao.selfservice.ProcessNodeMapper;
 import cn.com.cloudstar.rightcloud.system.dao.selfservice.ProcessVersionMapper;
+import cn.com.cloudstar.rightcloud.system.enums.ActivityCanstant;
 import cn.com.cloudstar.rightcloud.system.enums.ProcessNodeStatusEnum;
 import cn.com.cloudstar.rightcloud.system.enums.ProcessStatusEnum;
 import cn.com.cloudstar.rightcloud.system.entity.system.User;
@@ -134,7 +135,8 @@ public class ProcessServiceImpl implements ProcessService {
                                                                        authUser.getOrgSid());
         if (Objects.nonNull(processCodeExists)) {
             throw new BizException(String.format("[%s]的流程已经存在，不能重复定义",
-                                                 ProcessHelper.BUSINESS_MAP.get(createProcessRequest.getBusinessCode())));
+                                                 ProcessHelper.BUSINESS_MAP.get(
+                                                         createProcessRequest.getBusinessCode())));
         }
 
         IdGen idGen = IdGen.get();
@@ -360,7 +362,7 @@ public class ProcessServiceImpl implements ProcessService {
         variables.put("__process_id", processId);
         variables.put("__org_sid", authUser.getOrgSid().toString());
 
-        log.info("流程启动消息：{}, 申请单: [{}]", startComment, businessId);
+        log.info(ActivityCanstant.PREFIX + "1start、流程启动消息：{}, 申请单: [{}]", startComment, businessId);
 
         runtimeService.startProcessInstanceByKey(processId, businessId, variables);
     }
@@ -673,7 +675,9 @@ public class ProcessServiceImpl implements ProcessService {
         taskService.claim(task.getId(), candidateId);
         taskService.complete(task.getId(), variables);
 
-        log.info("审批任务完成消息：[{}]完成了申请单[{}]的[{}]审批任务", auditUname, businsessId, task.getName());
+        log.info(ActivityCanstant.PREFIX
+                         + "审批任务完成消息：[{}]完成了申请单[{}]的[{}]审批任务 auditCandidateInlineMgts -> actTackCreatedCallback -> actTackCompletedCallback ->",
+                 auditUname, businsessId, task.getName());
     }
 
     @Override
