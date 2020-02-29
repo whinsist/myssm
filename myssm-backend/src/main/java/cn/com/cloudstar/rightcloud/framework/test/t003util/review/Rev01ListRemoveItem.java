@@ -8,7 +8,7 @@ import java.util.List;
  * @author Hong.Wu
  * @date: 21:47 2019/08/28
  */
-public class Rev1TestRemoveListItem {
+public class Rev01ListRemoveItem {
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();
