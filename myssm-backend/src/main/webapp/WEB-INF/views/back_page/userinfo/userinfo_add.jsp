@@ -113,6 +113,30 @@
 							</div>
 
 
+							<div class="row">
+								<div class="col-xs-5">
+									<div class="form-group ">
+										<label class="col-xs-3 control-label">所属组织</label>
+										<div class="col-xs-3 ">
+											<select class="form-control" name="orgSid" id="orgSid">
+												<option value="1">云星数据深圳有限公司</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-5">
+									<div class="form-group ">
+										<label class="col-xs-3 control-label">组织角色</label>
+										<div class="col-xs-3 ">
+											<select class="form-control" name="roleSid" id="roleSid">
+												<option value="101">组织管理员</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
 							<%--<h5 class="page-header alert-info" style="margin: 0px; padding: 10px; margin-bottom: 10px;">账号信息
 								<span id="errorinfo" style="color: red;margin-left: 50px"></span>
 							</h5>--%>
@@ -146,6 +170,8 @@
 					"password": $("#password").val(),
 					"userType": $("#userType").val(),
 					"sex": $("#sex").val(),
+					"orgSid": $("#orgSid").val(),
+					"roleSid": $("#roleSid").val()
                 };
 
                 $.ajax({

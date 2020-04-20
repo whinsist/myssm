@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.system.OrgMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.system.Org" >
+    <id column="org_sid" property="orgSid" jdbcType="BIGINT" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="org_type" property="orgType" jdbcType="VARCHAR" />
+    <result column="owner" property="owner" jdbcType="BIGINT" />
+    <result column="tree_path" property="treePath" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="org_icon" property="orgIcon" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="BIGINT" />
+    <result column="city" property="city" jdbcType="BIGINT" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="contact_position" property="contactPosition" jdbcType="VARCHAR" />
+    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="quota_ctrl" property="quotaCtrl" jdbcType="CHAR" />
+    <result column="quota_mode" property="quotaMode" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="tenant_ids" property="tenantIds" jdbcType="VARCHAR" />
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+    <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.orgName != null" >
+         and A.org_name = #{condition.orgName}
+      </if>
+      <if test="condition.orgCode != null" >
+         and A.org_code = #{condition.orgCode}
+      </if>
+      <if test="condition.orgType != null" >
+         and A.org_type = #{condition.orgType}
+      </if>
+      <if test="condition.owner != null" >
+         and A.owner = #{condition.owner}
+      </if>
+      <if test="condition.treePath != null" >
+         and A.tree_path = #{condition.treePath}
+      </if>
+      <if test="condition.parentId != null" >
+         and A.parent_id = #{condition.parentId}
+      </if>
+      <if test="condition.orgIcon != null" >
+         and A.org_icon = #{condition.orgIcon}
+      </if>
+      <if test="condition.province != null" >
+         and A.province = #{condition.province}
+      </if>
+      <if test="condition.city != null" >
+         and A.city = #{condition.city}
+      </if>
+      <if test="condition.area != null" >
+         and A.area = #{condition.area}
+      </if>
+      <if test="condition.address != null" >
+         and A.address = #{condition.address}
+      </if>
+      <if test="condition.contactName != null" >
+         and A.contact_name = #{condition.contactName}
+      </if>
+      <if test="condition.contactPosition != null" >
+         and A.contact_position = #{condition.contactPosition}
+      </if>
+      <if test="condition.contactPhone != null" >
+         and A.contact_phone = #{condition.contactPhone}
+      </if>
+      <if test="condition.quotaCtrl != null" >
+         and A.quota_ctrl = #{condition.quotaCtrl}
+      </if>
+      <if test="condition.quotaMode != null" >
+         and A.quota_mode = #{condition.quotaMode}
+      </if>
+      <if test="condition.fax != null" >
+         and A.fax = #{condition.fax}
+      </if>
+      <if test="condition.description != null" >
+         and A.description = #{condition.description}
+      </if>
+      <if test="condition.status != null" >
+         and A.status = #{condition.status}
+      </if>
+      <if test="condition.tenantIds != null" >
+         and A.tenant_ids = #{condition.tenantIds}
+      </if>
+      <if test="condition.createdBy != null" >
+         and A.created_by = #{condition.createdBy}
+      </if>
+      <if test="condition.createdDt != null" >
+         and A.created_dt = #{condition.createdDt}
+      </if>
+      <if test="condition.updatedBy != null" >
+         and A.updated_by = #{condition.updatedBy}
+      </if>
+      <if test="condition.updatedDt != null" >
+         and A.updated_dt = #{condition.updatedDt}
+      </if>
+      <if test="condition.version != null" >
+         and A.version = #{condition.version}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    A.org_sid, A.org_name, A.org_code, A.org_type, A.owner, A.tree_path, A.parent_id, A.org_icon, A.province,
+    A.city, A.area, A.address, A.contact_name, A.contact_position, A.contact_phone, A.quota_ctrl, A.quota_mode,
+    A.fax, A.description, A.status, A.tenant_ids, A.created_by, A.created_dt, A.updated_by, A.updated_dt,
+    A.version
+  </sql>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_m_org A
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_m_org A
+    where A.org_sid = #{orgSid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_m_org
+    where org_sid = #{orgSid}
+  </delete>
+  <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    delete from sys_m_org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Org" >
+    insert into sys_m_org (org_sid, org_name, org_code, org_type, owner, tree_path, parent_id, 
+      org_icon, province, city, area, address, contact_name, contact_position, 
+      contact_phone, quota_ctrl, quota_mode, fax, description, status, 
+      tenant_ids, created_by, created_dt, updated_by, updated_dt, version
+      )
+    values (#{orgSid}, #{orgName}, #{orgCode}, #{orgType}, #{owner}, #{treePath}, #{parentId}, 
+      #{orgIcon}, #{province}, #{city}, #{area}, #{address}, #{contactName}, #{contactPosition}, 
+      #{contactPhone}, #{quotaCtrl}, #{quotaMode}, #{fax}, #{description}, #{status}, 
+      #{tenantIds}, #{createdBy}, #{createdDt}, #{updatedBy}, #{updatedDt}, #{version}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Org" >
+    insert into sys_m_org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgSid != null" >
+        org_sid,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="orgType != null" >
+        org_type,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="treePath != null" >
+        tree_path,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="orgIcon != null" >
+        org_icon,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="contactName != null" >
+        contact_name,
+      </if>
+      <if test="contactPosition != null" >
+        contact_position,
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone,
+      </if>
+      <if test="quotaCtrl != null" >
+        quota_ctrl,
+      </if>
+      <if test="quotaMode != null" >
+        quota_mode,
+      </if>
+      <if test="fax != null" >
+        fax,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="tenantIds != null" >
+        tenant_ids,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdDt != null" >
+        created_dt,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgSid != null" >
+        #{orgSid},
+      </if>
+      <if test="orgName != null" >
+        #{orgName},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode},
+      </if>
+      <if test="orgType != null" >
+        #{orgType},
+      </if>
+      <if test="owner != null" >
+        #{owner},
+      </if>
+      <if test="treePath != null" >
+        #{treePath},
+      </if>
+      <if test="parentId != null" >
+        #{parentId},
+      </if>
+      <if test="orgIcon != null" >
+        #{orgIcon},
+      </if>
+      <if test="province != null" >
+        #{province},
+      </if>
+      <if test="city != null" >
+        #{city},
+      </if>
+      <if test="area != null" >
+        #{area},
+      </if>
+      <if test="address != null" >
+        #{address},
+      </if>
+      <if test="contactName != null" >
+        #{contactName},
+      </if>
+      <if test="contactPosition != null" >
+        #{contactPosition},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone},
+      </if>
+      <if test="quotaCtrl != null" >
+        #{quotaCtrl},
+      </if>
+      <if test="quotaMode != null" >
+        #{quotaMode},
+      </if>
+      <if test="fax != null" >
+        #{fax},
+      </if>
+      <if test="description != null" >
+        #{description},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="tenantIds != null" >
+        #{tenantIds},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        #{updatedDt},
+      </if>
+      <if test="version != null" >
+        #{version},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sys_m_org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update sys_m_org
+    <set >
+      <if test="record.orgSid != null" >
+        org_sid = #{record.orgSid},
+      </if>
+      <if test="record.orgName != null" >
+        org_name = #{record.orgName},
+      </if>
+      <if test="record.orgCode != null" >
+        org_code = #{record.orgCode},
+      </if>
+      <if test="record.orgType != null" >
+        org_type = #{record.orgType},
+      </if>
+      <if test="record.owner != null" >
+        owner = #{record.owner},
+      </if>
+      <if test="record.treePath != null" >
+        tree_path = #{record.treePath},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId},
+      </if>
+      <if test="record.orgIcon != null" >
+        org_icon = #{record.orgIcon},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city},
+      </if>
+      <if test="record.area != null" >
+        area = #{record.area},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address},
+      </if>
+      <if test="record.contactName != null" >
+        contact_name = #{record.contactName},
+      </if>
+      <if test="record.contactPosition != null" >
+        contact_position = #{record.contactPosition},
+      </if>
+      <if test="record.contactPhone != null" >
+        contact_phone = #{record.contactPhone},
+      </if>
+      <if test="record.quotaCtrl != null" >
+        quota_ctrl = #{record.quotaCtrl},
+      </if>
+      <if test="record.quotaMode != null" >
+        quota_mode = #{record.quotaMode},
+      </if>
+      <if test="record.fax != null" >
+        fax = #{record.fax},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status},
+      </if>
+      <if test="record.tenantIds != null" >
+        tenant_ids = #{record.tenantIds},
+      </if>
+      <if test="record.createdBy != null" >
+        created_by = #{record.createdBy},
+      </if>
+      <if test="record.createdDt != null" >
+        created_dt = #{record.createdDt},
+      </if>
+      <if test="record.updatedBy != null" >
+        updated_by = #{record.updatedBy},
+      </if>
+      <if test="record.updatedDt != null" >
+        updated_dt = #{record.updatedDt},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update sys_m_org
+    set org_sid = #{record.orgSid},
+      org_name = #{record.orgName},
+      org_code = #{record.orgCode},
+      org_type = #{record.orgType},
+      owner = #{record.owner},
+      tree_path = #{record.treePath},
+      parent_id = #{record.parentId},
+      org_icon = #{record.orgIcon},
+      province = #{record.province},
+      city = #{record.city},
+      area = #{record.area},
+      address = #{record.address},
+      contact_name = #{record.contactName},
+      contact_position = #{record.contactPosition},
+      contact_phone = #{record.contactPhone},
+      quota_ctrl = #{record.quotaCtrl},
+      quota_mode = #{record.quotaMode},
+      fax = #{record.fax},
+      description = #{record.description},
+      status = #{record.status},
+      tenant_ids = #{record.tenantIds},
+      created_by = #{record.createdBy},
+      created_dt = #{record.createdDt},
+      updated_by = #{record.updatedBy},
+      updated_dt = #{record.updatedDt},
+      version = #{record.version}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Org" >
+    update sys_m_org
+    <set >
+      <if test="orgName != null" >
+        org_name = #{orgName},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode},
+      </if>
+      <if test="orgType != null" >
+        org_type = #{orgType},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner},
+      </if>
+      <if test="treePath != null" >
+        tree_path = #{treePath},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId},
+      </if>
+      <if test="orgIcon != null" >
+        org_icon = #{orgIcon},
+      </if>
+      <if test="province != null" >
+        province = #{province},
+      </if>
+      <if test="city != null" >
+        city = #{city},
+      </if>
+      <if test="area != null" >
+        area = #{area},
+      </if>
+      <if test="address != null" >
+        address = #{address},
+      </if>
+      <if test="contactName != null" >
+        contact_name = #{contactName},
+      </if>
+      <if test="contactPosition != null" >
+        contact_position = #{contactPosition},
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone = #{contactPhone},
+      </if>
+      <if test="quotaCtrl != null" >
+        quota_ctrl = #{quotaCtrl},
+      </if>
+      <if test="quotaMode != null" >
+        quota_mode = #{quotaMode},
+      </if>
+      <if test="fax != null" >
+        fax = #{fax},
+      </if>
+      <if test="description != null" >
+        description = #{description},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="tenantIds != null" >
+        tenant_ids = #{tenantIds},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy},
+      </if>
+      <if test="createdDt != null" >
+        created_dt = #{createdDt},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy},
+      </if>
+      <if test="updatedDt != null" >
+        updated_dt = #{updatedDt},
+      </if>
+      <if test="version != null" >
+        version = #{version},
+      </if>
+    </set>
+    where org_sid = #{orgSid}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.Org" >
+    update sys_m_org
+    set org_name = #{orgName},
+      org_code = #{orgCode},
+      org_type = #{orgType},
+      owner = #{owner},
+      tree_path = #{treePath},
+      parent_id = #{parentId},
+      org_icon = #{orgIcon},
+      province = #{province},
+      city = #{city},
+      area = #{area},
+      address = #{address},
+      contact_name = #{contactName},
+      contact_position = #{contactPosition},
+      contact_phone = #{contactPhone},
+      quota_ctrl = #{quotaCtrl},
+      quota_mode = #{quotaMode},
+      fax = #{fax},
+      description = #{description},
+      status = #{status},
+      tenant_ids = #{tenantIds},
+      created_by = #{createdBy},
+      created_dt = #{createdDt},
+      updated_by = #{updatedBy},
+      updated_dt = #{updatedDt},
+      version = #{version}
+    where org_sid = #{orgSid}
+  </update>
+
+
+  <select id="findByUserSid" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria">
+    SELECT
+    <include refid="Base_Column_List" />
+    from sys_m_org A
+    LEFT JOIN sys_m_user_org B ON A.org_sid=B.org_sid
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="condition.userSid != null">
+        and B.user_sid = #{condition.userSid}
+      </if>
+    </trim>
+  </select>
+</mapper>

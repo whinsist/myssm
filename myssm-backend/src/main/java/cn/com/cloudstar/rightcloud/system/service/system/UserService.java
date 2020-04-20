@@ -5,6 +5,7 @@
 package cn.com.cloudstar.rightcloud.system.service.system;
 
 import cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria;
+import cn.com.cloudstar.rightcloud.system.controller.back.system.bean.request.UserAddRequest;
 import cn.com.cloudstar.rightcloud.system.entity.system.User;
 import cn.com.cloudstar.rightcloud.system.entity.system.UserToken;
 import cn.com.cloudstar.rightcloud.system.pojo.beans.UserLoginBean;
@@ -40,4 +41,6 @@ public interface UserService {
     void deleteOrUpdateUser(UserEditVo userEditVo);
 
     void addUser(User user);
+
+    void addUser(UserAddRequest request);
 }

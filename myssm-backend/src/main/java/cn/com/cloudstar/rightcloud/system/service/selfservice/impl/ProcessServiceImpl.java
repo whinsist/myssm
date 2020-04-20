@@ -40,12 +40,14 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import cn.com.cloudstar.rightcloud.framework.common.exception.BizException;
@@ -612,26 +614,29 @@ public class ProcessServiceImpl implements ProcessService {
         TaskQuery taskQuery = taskService.createTaskQuery();
         //TODO fixme 暂时 activity 中保存了用户 id ，所以导致在项目中也可以查看到相同用户的组织管理员待审核记录
         //  修复这个问题需要在 activity 中添加角色，并且角色修改后需要更新 activity 中的数据
+        // 查询审核人是candidateId可以审核的任务   注意：candidateId与流程的 auditCandidateInlineMgts 的返回的审核用户id方法有关
         taskQuery.taskCandidateOrAssigned(candidateId);
         List<Task> tasks = taskQuery.list();
-        if (tasks.size() == 0) {
+        if (CollectionUtil.isEmpty(tasks)) {
             return new BusinessDto(Lists.newArrayList(), Maps.newHashMapWithExpectedSize(0));
         }
 
-        Map<String, String> statusMap = Maps.newHashMap();
+        Set<String> instanceIds = new HashSet<>();
+        Map<String, String> instanceTaskCurrentStatusMap = Maps.newHashMap();
+        for (Task task : tasks) {
+            instanceIds.add(task.getProcessInstanceId());
+            instanceTaskCurrentStatusMap.put(task.getProcessInstanceId(), task.getName());
+        }
 
-        Set<String> instanceIds = tasks.stream().map(task -> {
-            statusMap.put(task.getProcessInstanceId(), task.getName());
-            return task.getProcessInstanceId();
-        }).collect(Collectors.toSet());
-        List<ProcessInstance> instances = runtimeService.createProcessInstanceQuery()
-                                                        .processInstanceIds(instanceIds).list();
 
+
+        List<ProcessInstance> instances = runtimeService.createProcessInstanceQuery().processInstanceIds(instanceIds).list();
+        List<String> businsessIds  = new ArrayList<>();
         Map<String, String> businessStatusMap = Maps.newHashMap();
-        List<String> businsessIds = instances.stream().map(instance -> {
-            businessStatusMap.put(instance.getBusinessKey(), statusMap.get(instance.getId()));
-            return instance.getBusinessKey();
-        }).collect(Collectors.toList());
+        for (ProcessInstance instance : instances) {
+            businsessIds.add(instance.getBusinessKey());
+            businessStatusMap.put(instance.getBusinessKey(), instanceTaskCurrentStatusMap.get(instance.getId()));
+        }
 
         return new BusinessDto(businsessIds, businessStatusMap);
     }

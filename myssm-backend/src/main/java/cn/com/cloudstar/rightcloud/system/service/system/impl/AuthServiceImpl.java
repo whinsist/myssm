@@ -63,26 +63,29 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserToken createJWT(User user) {
-        long accessExpire = 0L;
-        if (AuthConstants.TTL_MILLIS >= 0) {
-            accessExpire = System.currentTimeMillis() + AuthConstants.TTL_MILLIS;
-        }
         if (user.getOrgSid() == null) {
-            user.setOrgSid(1111111L);
+            // user.setOrgSid(1111111L);
+            user.setOrgSid(-1L);
         }
         String uuid = UUID.randomUUID().toString();
         String subject = JsonUtil.toJson(user);
-        String token = JwtUtil.createJWT(uuid,
-                                         user.getAccount(),
-                                         subject,
-                                         System.currentTimeMillis(),
-                                         accessExpire
+        // 1天
+        Long accessExpire = System.currentTimeMillis() + AuthConstants.TTL_MILLIS;
+        String jwtToken = JwtUtil.createJWT(uuid,
+                                            user.getAccount(),
+                                            subject,
+                                            System.currentTimeMillis(),
+                                            accessExpire
         );
+
+        String str = JwtUtil.parseJsonStrData(jwtToken);
+        System.out.println("str --" + str);
+
         UserToken userToken = new UserToken();
         userToken.setUserSid(user.getUserSid());
         userToken.setUuid(uuid);
         userToken.setAccessExpire(accessExpire);
-        userToken.setAccessToken(token);
+        userToken.setAccessToken(jwtToken);
         return userToken;
     }
 

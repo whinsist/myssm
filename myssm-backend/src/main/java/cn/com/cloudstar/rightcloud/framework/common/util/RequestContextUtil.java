@@ -9,6 +9,7 @@ import cn.com.cloudstar.rightcloud.framework.common.cache.JedisUtil;
 import cn.com.cloudstar.rightcloud.framework.common.constants.AuthConstants;
 import cn.com.cloudstar.rightcloud.framework.common.pojo.AuthUser;
 import cn.com.cloudstar.rightcloud.framework.common.util.jwt.JwtUtil;
+
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
@@ -48,7 +50,7 @@ public class RequestContextUtil {
     private static final String USER_SQL =
             "SELECT\n" + "A.USER_SID,\n" + "A.USER_TYPE,\n" + "A.ACCOUNT,\n" + "A.REAL_NAME,\n" +
                     "A.SEX,\n" + "A.EMAIL,\n" + "A.MOBILE,\n" + "A.PROJECT_ID,\n" + "A.STATUS,\n" + "A.REMARK,\n" +
-                    "A.LAST_LOGIN_IP,\n" + "A.UUID,\n" + "A.ORG_SID,\n" +  "A.COMPANY_ID,\n" +
+                    "A.LAST_LOGIN_IP,\n" + "A.UUID,\n" + "A.ORG_SID,\n" + "A.COMPANY_ID,\n" +
                     "B.CODE_DISPLAY AS USER_TYPE_NAME,\n" + "IF (SEX = 1, '女', '男') AS SEX_NAME,\n" +
                     " C.CODE_DISPLAY AS STATUS_NAME\n" + "FROM\n" + "  sys_m_user A\n" +
                     "LEFT JOIN sys_m_code B ON A.USER_TYPE = B.CODE_VALUE AND B.CODE_CATEGORY = 'USER_TYPE'\n" +
@@ -64,7 +66,8 @@ public class RequestContextUtil {
                     "  sys_m_user A\n" +
                     "LEFT JOIN sys_m_code B ON A.USER_TYPE = B.CODE_VALUE AND B.CODE_CATEGORY = 'USER_TYPE'\n" +
                     "LEFT JOIN sys_m_code C ON A. STATUS = C.CODE_VALUE AND C.CODE_CATEGORY = 'USER_STATUS'\n" +
-                    "LEFT JOIN sys_m_org D ON D.ORG_TYPE = 'company' A.COMPANY_ID = D.ORG_SID\n" + "WHERE A.ACCOUNT = ?";
+                    "LEFT JOIN sys_m_org D ON D.ORG_TYPE = 'company' A.COMPANY_ID = D.ORG_SID\n"
+                    + "WHERE A.ACCOUNT = ?";
 
     private static final String PLATFORM_USER_SQL =
             "SELECT\n" + "A.USER_SID,\n" + "A.USER_TYPE,\n" + "A.ACCOUNT,\n" + "A.REAL_NAME,\n" +
@@ -106,9 +109,10 @@ public class RequestContextUtil {
     /**
      * 创建基础的服务类参数.
      *
-     * @param <T>              the type parameter
-     * @param req              HttpRequest
+     * @param <T> the type parameter
+     * @param req HttpRequest
      * @param resBaseInfoClazz 资源层共通参数类
+     *
      * @return the t
      */
     public static <T> T buildResBaseInfo(HttpServletRequest req, Class<T> resBaseInfoClazz) {
@@ -118,15 +122,15 @@ public class RequestContextUtil {
     /**
      * 创建基础的服务类参数.
      *
-     * @param <T>              the type parameter
-     * @param req              HttpServletRequest
+     * @param <T> the type parameter
+     * @param req HttpServletRequest
      * @param resBaseInfoClazz 资源层共通参数类
-     * @param withJsonParam    是否设置JSON配置项<br/>
-     *                         true -> 从request的body中取得参数，直接设置到对象的字段上，但是有前提是REST接口上面，
-     *                         没有使用自动映射参数
+     * @param withJsonParam 是否设置JSON配置项<br/> true -> 从request的body中取得参数，直接设置到对象的字段上，但是有前提是REST接口上面， 没有使用自动映射参数
+     *
      * @return the t
-     * @throws IllegalStateException 如果 {@code withJsonParam} 为true，发生异常由于 {@link HttpServletRequest#getInputStream} 或者 {@link HttpServletRequest#getReader()}
-     *                               在这个Request上已经被调用过
+     *
+     * @throws IllegalStateException 如果 {@code withJsonParam} 为true，发生异常由于 {@link
+     *         HttpServletRequest#getInputStream} 或者 {@link HttpServletRequest#getReader()} 在这个Request上已经被调用过
      */
     public static <T> T buildResBaseInfo(HttpServletRequest req, Class<T> resBaseInfoClazz, boolean withJsonParam) {
         AuthUser authUser = getAuthUserInfo(req);
@@ -165,16 +169,15 @@ public class RequestContextUtil {
      * 获得授权用户
      *
      * @param req the req
+     *
      * @return the auth user info
      */
     public static AuthUser getAuthUserInfo(HttpServletRequest req) {
-
 
         if (true) {
             String token = getToken(req);
             return JsonUtil.fromJson(JwtUtil.parseJsonStrData(token), AuthUser.class);
         }
-
 
         Claims claims = (Claims) req.getAttribute(AuthConstants.CLAIMS_KEY);
         if (claims == null) {
@@ -205,9 +208,10 @@ public class RequestContextUtil {
     /**
      * 创建基础的服务类参数.
      *
-     * @param <T>              the type parameter
-     * @param authUser         授权用户
+     * @param <T> the type parameter
+     * @param authUser 授权用户
      * @param resBaseInfoClazz 资源层参数类
+     *
      * @return the t
      */
     public static <T> T transUserInfo2ResBase(AuthUser authUser, Class<T> resBaseInfoClazz) {
@@ -238,6 +242,7 @@ public class RequestContextUtil {
      * 获得 token.
      *
      * @param httpRequest the http request
+     *
      * @return the token
      */
     public static String getToken(HttpServletRequest httpRequest) {
@@ -268,16 +273,16 @@ public class RequestContextUtil {
     }
 
 
-
-
     public static String getCookieToken(HttpServletRequest httpRequest) {
         Cookie[] cookies = httpRequest.getCookies();
-        for (Cookie cookie:cookies) {
+        if (Objects.isNull(cookies)) {
+            return null;
+        }
+        for (Cookie cookie : cookies) {
             if (cookie.getName().equals("PLATFORM_CMP_TOKEN")) {
                 return cookie.getValue();
             }
         }
-
         return null;
     }
 
@@ -285,6 +290,7 @@ public class RequestContextUtil {
      * 获取授权用户信息
      *
      * @param userAccount 用户account
+     *
      * @return the auth user
      */
     private static AuthUser getAuthUserInfo(String userAccount, String userType, String orgSid) {
@@ -307,7 +313,7 @@ public class RequestContextUtil {
             userMap.put("orgSid", orgSid);
             authUser = JsonUtil.fromJson(JsonUtil.toJson(userMap), AuthUser.class);
             JedisUtil.instance()
-                    .hmset(AuthConstants.CACHE_KEY_USER_PREFIX + userAccount, userMap, AuthConstants.PERIED_TIME);
+                     .hmset(AuthConstants.CACHE_KEY_USER_PREFIX + userAccount, userMap, AuthConstants.PERIED_TIME);
         }
         return authUser;
     }
@@ -327,6 +333,7 @@ public class RequestContextUtil {
      * 获取授权用户信息
      *
      * @param userAccount 用户account
+     *
      * @return the auth user
      */
     public static AuthUser getAuthUserInfo(String userAccount) {
@@ -346,13 +353,13 @@ public class RequestContextUtil {
 
         AuthUser authUser = JsonUtil.fromJson(JsonUtil.toJson(userMap), AuthUser.class);
         JedisUtil.instance()
-                .hmset(AuthConstants.CACHE_KEY_USER_PREFIX + userAccount, userMap, AuthConstants.PERIED_TIME);
+                 .hmset(AuthConstants.CACHE_KEY_USER_PREFIX + userAccount, userMap, AuthConstants.PERIED_TIME);
 
         return authUser;
     }
 
-    public static String getCurrentUserName(){
-        if (SecurityUtils.getSubject().getPrincipal()!=null){
+    public static String getCurrentUserName() {
+        if (SecurityUtils.getSubject().getPrincipal() != null) {
             return SecurityUtils.getSubject().getPrincipal().toString();
         } else {
             return null;
@@ -373,6 +380,7 @@ public class RequestContextUtil {
 
     /**
      * clear cookie for platform's token
+     *
      * @param request
      * @param response
      */
@@ -396,9 +404,9 @@ public class RequestContextUtil {
 
     /**
      * get cookie value by name
+     *
      * @param request
      * @param cookieName
-     * @return
      */
     public static String getCookie(HttpServletRequest request, String cookieName) {
         if (request.getCookies() != null) {
@@ -413,6 +421,7 @@ public class RequestContextUtil {
 
     /**
      * delete cookie by cookieName
+     *
      * @param request
      * @param response
      * @param cookieName
@@ -434,7 +443,7 @@ public class RequestContextUtil {
         }
     }
 
-    public static Long getCurrentUserId(){
+    public static Long getCurrentUserId() {
         return getUserIdFromAccount(getCurrentUserName());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -76,6 +77,7 @@ public class SyncProcessService {
             allCandidateUsers.addAll(businessService.queryCandidateUsers(businssId, variables, roleIds));
         }
 
+
         //根据选定用户选择候选人，需要判断权限
         //log.info("申请单[{}], 候选人列表: {}", businssId, JSON.toJSON(allCandidateUsers));
 
@@ -90,6 +92,9 @@ public class SyncProcessService {
             // 自动审批通过（当审批节点没有候选人）(废弃)
             // autoApprovalWhenNoCandidates(execution.getId(), businssId, variables);
         }
+
+        // 设置审批用户是 admin
+        candidateUsers.add("100");
         return candidateUsers;
     }
 

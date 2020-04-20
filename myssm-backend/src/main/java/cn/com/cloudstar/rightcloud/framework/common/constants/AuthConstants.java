@@ -20,6 +20,8 @@ public class AuthConstants {
     public static final String USER_INFO_PASS = "user:info:pass";
     public static final String HARBOR_PROJECT_ID = "harbor:project:id";
     public static final String CACHE_KEY_ROLE = "system:role:";
+
+    // 它的意思是说1天的时间=24小时 x 60分钟 x 60秒 x 1000毫秒 单位是L。
     public static long TTL_MILLIS = 86400000;
     public static String SUBJECT = "inner";
     public static String SECRET_KEY = Base64.getEncoder().encodeToString("secretKey".getBytes());

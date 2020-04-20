@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cloudstar.rightcloud.system.dao.system.UserOrgMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.cloudstar.rightcloud.system.entity.system.UserOrg" >
+    <id column="org_sid" property="orgSid" jdbcType="BIGINT" />
+    <id column="user_sid" property="userSid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" />
+  </sql>
+  <sql id="Base_Column_List" >
+    org_sid, user_sid
+  </sql>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_m_user_org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.UserOrg" >
+    delete from sys_m_user_org
+    where org_sid = #{orgSid}
+      and user_sid = #{userSid}
+  </delete>
+  <delete id="deleteByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" >
+    delete from sys_m_user_org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.UserOrg" >
+    insert into sys_m_user_org (org_sid, user_sid)
+    values (#{orgSid}, #{userSid})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.UserOrg" >
+    insert into sys_m_user_org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgSid != null" >
+        org_sid,
+      </if>
+      <if test="userSid != null" >
+        user_sid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgSid != null" >
+        #{orgSid},
+      </if>
+      <if test="userSid != null" >
+        #{userSid},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByParams" parameterType="cn.com.cloudstar.rightcloud.framework.common.pojo.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sys_m_user_org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByParamsSelective" parameterType="map" >
+    update sys_m_user_org
+    <set >
+      <if test="record.orgSid != null" >
+        org_sid = #{record.orgSid},
+      </if>
+      <if test="record.userSid != null" >
+        user_sid = #{record.userSid},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByParams" parameterType="map" >
+    update sys_m_user_org
+    set org_sid = #{record.orgSid},
+      user_sid = #{record.userSid}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

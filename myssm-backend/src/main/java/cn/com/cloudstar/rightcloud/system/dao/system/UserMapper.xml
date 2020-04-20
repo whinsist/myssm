@@ -195,7 +195,7 @@
       #{authType}, #{createdBy}, #{createdDt}, #{updatedBy}, #{updatedDt}, #{version}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.User" >
+  <insert id="insertSelective" parameterType="cn.com.cloudstar.rightcloud.system.entity.system.User" useGeneratedKeys="true" keyProperty="userSid" >
     insert into sys_m_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userSid != null" >

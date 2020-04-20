@@ -63,7 +63,7 @@
 			<b class="arrow"></b>
 			<ul class="submenu">
 				<li <c:if test="${!empty menuKey && fn:contains('serviceCategoryList', menuKey)}">class="active"</c:if>>
-					<a href="${pageContext.request.contextPath}/v1/back/page/service/service_category_list"><i class="menu-icon fa fa-caret-right"></i>服务目录</a>
+					<a href="${pageContext.request.contextPath}/v1/back/page/service/service_category_list"><i class="menu-icon fa fa-caret-right"></i>服务目录+申请</a>
 					<b class="arrow"></b>
 				</li>
 				<li <c:if test="${!empty menuKey && fn:contains('serviceOrderList', menuKey)}">class="active"</c:if>>

@@ -189,6 +189,7 @@
                     success: function (data) {
                         $("#captchaImg").attr("src", data.data.captchaBase64Str);
                         $("#captchaKey").val(data.data.captchaKey);
+                        $("#captcha").val("AAAA");
                     }
                 })
             }

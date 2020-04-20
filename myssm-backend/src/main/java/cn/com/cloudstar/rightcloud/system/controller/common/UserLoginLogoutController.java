@@ -79,7 +79,12 @@ public class UserLoginLogoutController {
     @ResponseBody
     public ResultObject currentUser(HttpServletRequest request) {
         AuthUser authUserInfo = RequestContextUtil.getAuthUserInfo(request);
+
+
         User user = this.userService.selectByPrimaryKey(authUserInfo.getUserSid());
+
+
+
         return ResultObjectUtil.success(user);
     }
 

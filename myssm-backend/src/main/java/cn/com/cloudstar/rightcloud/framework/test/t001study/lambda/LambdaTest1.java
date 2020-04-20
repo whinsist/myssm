@@ -75,6 +75,15 @@ public class LambdaTest1 {
         }).collect(Collectors.toList());
         System.out.println("list----1----"+listx);
 
+
+
+
+        // java.lang.Runnable
+        // java.util.concurrent.Callable<V>
+        // java.util.Comparator
+
+
+
         // 前提：1、熟悉泛型   2、函数式接口   3、多练  多用Stream API
         // 使用场景：任何有函数式接口的地方都可以是lambda表达式
         // 函数式接口：只有一个抽象方法（Object的方法除外）的接口
@@ -89,6 +98,9 @@ public class LambdaTest1 {
         // BiFunction：两个输入一个输出(一般输入输出类型不一样)
         // BinaryOperator：两个输入一个输出(输入输出类型一样)
 
+
+        //Arrays.asList("1", "2", "3").stream().map(Function)
+        //Stream.iterate(1, x -> x + 1) UnaryOperator
     }
 
 }
