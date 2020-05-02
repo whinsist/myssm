@@ -1,5 +1,9 @@
 package cn.com.cloudstar.rightcloud.framework.test.t001study.lambda;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +72,15 @@ public class LambdaCommon {
                 Collectors.toList());
         System.out.println(result4);
 
+
+        Map<String,Object> map = Maps.newHashMap();
+        List<String> xxs = Optional.ofNullable((List<String>)map.get("xx")).orElse(Lists.newArrayList());
+
+        Set<String> volumnIds = Sets.newHashSet();
+
+//        volumnIds.stream().filter(s -> {
+//            Optional.ofNullable()
+//        })
 
     }
 
