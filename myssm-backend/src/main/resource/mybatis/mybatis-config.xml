@@ -33,6 +33,11 @@
         <plugin interceptor="cn.com.cloudstar.rightcloud.framework.common.mybatis.interceptor.ResultInterceptor" />
 
 
+        <!--数据加密/解密拦截器-->
+        <plugin interceptor="cn.com.cloudstar.rightcloud.framework.common.mybatis.interceptor.ParameterEncryptInterceptor"/>
+        <plugin interceptor="cn.com.cloudstar.rightcloud.framework.common.mybatis.interceptor.ResultDecryptInterceptor"/>
+
+
     </plugins>
 
     <mappers>
