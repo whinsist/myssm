@@ -66,7 +66,7 @@
         <fst.version>1.63</fst.version>
         <shiro.version>1.4.0</shiro.version>
         <commons-codec.version>1.10</commons-codec.version>
-        <xstream.version>1.4.8</xstream.version>
+        <xstream.version>1.4.10-java7</xstream.version>
         <xmlbeans.version>2.4.0</xmlbeans.version>
         <httpclient.version>3.1</httpclient.version>
         <fasterxml.jackson.version>2.9.4</fasterxml.jackson.version>
