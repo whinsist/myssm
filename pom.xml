@@ -54,7 +54,7 @@
         <json-simple.version>1.1.1</json-simple.version>
         <commons.beanutils.version>1.9.3</commons.beanutils.version>
         <cors-filter.version>2.6</cors-filter.version>
-        <quartz.version>2.2.2</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
         <jedis.version>2.9.0</jedis.version>
         <dbutils.version>1.7</dbutils.version>
         <commons.lang.version>2.6</commons.lang.version>
