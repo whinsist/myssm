@@ -23,7 +23,7 @@ import lombok.Setter;
  * @author Hong.Wu
  * @date: 20:59 2020/02/14
  */
-public class Test19Compare {
+public class Test19ListDstinct {
 
     public static void main(String[] args) throws IOException {
 
