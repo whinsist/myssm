@@ -139,7 +139,9 @@ public interface RestConst {
         /**
          * 未知错误.
          */
-        UNKNOWN_ERROR(29999, "UnknownBusinessError");
+        UNKNOWN_ERROR(29999, "UnknownBusinessError"),
+
+        LIMIT_CHECK_FAILED(20009, "LIMIT_CHECK_FAILED");
 
         private int code;
         private String type;
