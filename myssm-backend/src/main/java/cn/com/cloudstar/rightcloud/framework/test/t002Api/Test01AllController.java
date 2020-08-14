@@ -5,6 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +52,7 @@ import cn.com.cloudstar.rightcloud.system.service.system.UserService;
  */
 @RequestMapping("/test")
 @Controller
-public class TestAllController {
+public class Test01AllController {
 
     @Autowired
     private UserService userService;
@@ -158,6 +164,33 @@ public class TestAllController {
     public ResultObject cacheData(Long userId) {
         User user = userCacheService.selectUseCache(userId);
         return ResultObjectUtil.success(user);
+    }
+
+    @GetMapping("/fileEncoding")
+    public void test() throws Exception {
+        HttpGet request = new HttpGet(
+                "http://192.168.0.104:8086/api/v1/sys_config/config_data?configKey=base.monitor.data.collect.frequency");
+        // add request header
+        request.addHeader("User-Agent", "Mozilla/5.0");
+        request.addHeader("xxx", "");
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpResponse response = client.execute(request);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+        StringBuilder result = new StringBuilder();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            result.append(line);
+        }
+        System.out.println(result);
+        System.out.println("1、发现result是乱码, 打印看一下file.encoding=是GBK" + System.getProperty("file.encoding"));
+        // -Dfile.encoding就是用来改变jdk处理文件等的默认字符编码
+        System.out.println("2、file.encoding=是GBK 说明jvm的linux的默认编码是GBK,");
+        System.out.println(
+                "3、想一想返回的是字节流  如果指定用utf-8读取的话不是乱码，即使用new InputStreamReader(response.getEntity().getContent(), utf-8)");
+        System.out.println("4、设置jvm的默认编码是utf-8, 设置方式 tomcat vm options:-Dfile.encoding=UTF8 但出现了idea控制台中文乱码");
+        System.out.println("4、idea - help - Edit clutom Vmoptons在最后添加一行-Dfile.encoding=UTF-8");
+
+
     }
 
 }
