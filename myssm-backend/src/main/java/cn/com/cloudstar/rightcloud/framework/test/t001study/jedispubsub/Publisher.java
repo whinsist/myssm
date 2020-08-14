@@ -8,9 +8,9 @@ import redis.clients.jedis.Jedis;
  */
 public class Publisher {
     public static void main(String[] args) {
-        Jedis jedis = new Jedis("192.168.93.100");
-        jedis.auth("123456");
+        Jedis jedis = new Jedis("192.168.93.132");
+        //jedis.auth("123456");
         System.out.println("发布消息.. ");
-        jedis.publish("cctv", "在吗");
+        jedis.publish(Subscriber.WEBSOCKET_CHANNEL, "在吗");
     }
 }

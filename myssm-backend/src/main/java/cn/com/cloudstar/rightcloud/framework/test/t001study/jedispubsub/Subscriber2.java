@@ -7,13 +7,13 @@ import redis.clients.jedis.JedisPubSub;
  * @author Hong.Wu
  * @date: 23:35 2020/01/20
  */
-public class Subscriber extends JedisPubSub {
+public class Subscriber2 extends JedisPubSub {
     public static final String WEBSOCKET_CHANNEL = "push-message-channel";
 
     @Override
     public void onMessage(String channel, String message) {
         // 如果有多个订阅者 多个订阅者都能收到
-        System.out.println(channel + "@1--------->" + message);
+        System.out.println(channel + "@2--------->" + message);
     }
 
     public static void main(String[] args) {
@@ -22,6 +22,6 @@ public class Subscriber extends JedisPubSub {
         Jedis jedis = new Jedis("192.168.93.132");
         //jedis.auth("");
         System.out.println("订阅消息..");
-        jedis.subscribe(new Subscriber(), WEBSOCKET_CHANNEL);
+        jedis.subscribe(new Subscriber2(), WEBSOCKET_CHANNEL);
     }
 }
