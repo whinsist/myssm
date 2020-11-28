@@ -9,17 +9,21 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import cn.com.cloudstar.rightcloud.framework.common.util.ssh.res.JschResult;
 
 /**
  * The type JschUtils.
@@ -32,12 +36,15 @@ public class JschUtils {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final int TIMEOUT = 30 * 1000;
+    private final int TIMEOUT_UNIX = 60 * 1000;
     private String host;
     private String user;
     private int port;
     private List<String> result;
     private Session session;
     private String password;
+    private boolean isDone;
+    private Integer exitStatus;
 
     /**
      * Instantiates a new Jsch utils.
@@ -54,9 +61,9 @@ public class JschUtils {
 
     public static void main(String args[]) {
         System.out.println(System.getProperty("java.io.tmpdir"));
-//        JschUtils jschUtils = new JschUtils("root", "10.62.132.15", 22).withKey(".ssh/id_rsa");
-//        String exec = jschUtils.exec("echo hello").getResult(true);
-//        System.out.println(exec);
+        //        JschUtils jschUtils = new JschUtils("root", "10.62.132.15", 22).withKey(".ssh/id_rsa");
+        //        String exec = jschUtils.exec("echo hello").getResult(true);
+        //        System.out.println(exec);
     }
 
     public String getPassword() {
@@ -81,11 +88,10 @@ public class JschUtils {
     public JschUtils withPassword(String password) {
         try {
             logger.info("Connect withPassword | host[{}], user[{}], password[{}], port[{}]",
-                    this.host,
-                    this.user,
-                    password,
-                    this.port
-            );
+                        this.host,
+                        this.user,
+                        password,
+                        this.port);
             // 创建JSch对象
             JSch jsch = new JSch();
             // 根据用户名，主机ip，端口获取一个Session对象
@@ -106,7 +112,30 @@ public class JschUtils {
         this.password = password;
         return this;
     }
+    public JschUtils withPasswordForUnix(String password) throws JSchException  {
 
+        logger.info("Connect withPassword | host[{}], user[{}], password[{}], port[{}]",
+                    this.host,
+                    this.user,
+                    password,
+                    this.port);
+        // 创建JSch对象
+        JSch jsch = new JSch();
+        // 根据用户名，主机ip，端口获取一个Session对象
+        session = jsch.getSession(this.user, this.host, this.port);
+
+        session.setPassword(password); // 设置密码
+        Properties config = new Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config); // 为Session对象设置properties
+
+        session.setTimeout(TIMEOUT_UNIX); // 设置timeout时间
+        session.connect(); // 通过Session建
+
+        result = new ArrayList<>();
+        this.password = password;
+        return this;
+    }
     /**
      * Init with key jsch utils.
      *
@@ -211,6 +240,69 @@ public class JschUtils {
      * @param cmd the cmd
      * @return the string
      */
+    public JschUtils execForUnix(String cmd) {
+        Assert.notNull(session, "JSch session is null.");
+        Assert.isTrue(session.isConnected(), "JSch session is disconnect.");
+        Channel channel = null;
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            channel = session.openChannel("exec");
+
+            ((ChannelExec) channel).setCommand(cmd);
+
+            channel.setInputStream(null);
+            ((ChannelExec) channel).setErrStream(System.err);
+            InputStream in = channel.getInputStream();
+            channel.connect();
+            byte[] tmp = new byte[1024];
+            while (true) {
+                while (in.available() > 0) {
+                    int i = in.read(tmp, 0, 1024);
+                    if (i < 0) {
+                        break;
+                    }
+                    sb.append(new String(tmp, 0, i));
+                }
+                if (channel.isClosed()) {
+                    logger.info("exit-status: " + channel.getExitStatus());
+                    if (channel.getExitStatus() != 0){
+                        logger.info("执行失败");
+                        isDone = false;
+                    }else {
+                        isDone = true;
+                    }
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception ee) {
+                }
+            }
+            channel.disconnect();
+//            session.disconnect();
+            logger.info("DONE");
+
+        } catch (JSchException | IOException e) {
+            logger.error(e.getMessage()+"=====");
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (channel != null) {
+                channel.disconnect();
+            }
+        }
+        result.add(sb.toString());
+        return this;
+    }
+
+
     public JschUtils exec(String cmd) {
         Assert.notNull(session, "JSch session is null.");
         Assert.isTrue(session.isConnected(), "JSch session is disconnect.");
@@ -251,6 +343,71 @@ public class JschUtils {
         result.add(sb.toString());
         return this;
     }
+    /**
+     * Exec string.
+     *
+     * @param cmd the cmd
+     * @return the string
+     */
+//    public JschUtils execWithLineFormat(String cmd) {
+//        return null;
+//    }
+    public JschUtils execWithLineFormatAndStatus(String cmd) {
+        Assert.notNull(session, "JSch session is null.");
+        Assert.isTrue(session.isConnected(), "JSch session is disconnect.");
+        Channel channel = null;
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            channel = session.openChannel("exec");
+
+            ((ChannelExec) channel).setCommand(cmd);
+
+            channel.setInputStream(null);
+            ((ChannelExec) channel).setErrStream(System.err);
+            ((ChannelExec) channel).setPty(true);
+
+            channel.connect();
+            reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
+            String buf;
+            while ((buf = reader.readLine()) != null) {
+                sb.append(buf).append("\n");
+                result.add(buf);
+            }
+
+            while (true) {
+                if (channel.isClosed()) {
+                    exitStatus = channel.getExitStatus();
+                    if (exitStatus != 0) {
+                        //logger.warn("命令执行错误:[exitStatus:{}, cmd : {}]", exitStatus, cmd);
+                    }
+                    break;
+                }
+                try{
+                    Thread.sleep(1000);
+                } catch(Exception e){
+                    e.printStackTrace();
+                    break;
+                }
+            }
+        } catch (JSchException | IOException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (channel != null) {
+                channel.disconnect();
+            }
+        }
+        return this;
+    }
+
 
     /**
      * Gets result.
@@ -293,5 +450,27 @@ public class JschUtils {
             finish();
         }
         return clearResult();
+    }
+
+
+    public JschResult getResultsAndStatus() {
+        finish();
+
+        JschResult jschResult = new JschResult();
+        jschResult.setExitStatus(this.exitStatus);
+        jschResult.setResult(null == result ? new ArrayList() : new ArrayList(result));
+        return jschResult;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void close() {
+        session.disconnect();
     }
 }

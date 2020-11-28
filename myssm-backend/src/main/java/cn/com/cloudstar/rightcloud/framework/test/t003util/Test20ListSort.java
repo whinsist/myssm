@@ -24,7 +24,7 @@ public class Test20ListSort {
 
         dishList.add(new SortItem(5, 5));
 
-        // cpu升序， 如果cpu相同按memery升序  ==========>第一个和第二个相比 返回1表示要反转一下
+        // cpu升序， 如果cpu相同按memery升序  ==========>第一个和第二个相比 返回1表示要反转一下  这个是标准写法
         Collections.sort(dishList, (o1, o2) -> {
             if (o1.getCpu() > o2.getCpu()) {
                 // 希望cpu由小到大, 如果前面一个数大于后面一个数, 要反转一下即返回1

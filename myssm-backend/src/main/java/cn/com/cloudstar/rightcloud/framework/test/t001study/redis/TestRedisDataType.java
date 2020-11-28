@@ -1,33 +1,37 @@
-package cn.com.cloudstar.rightcloud.framework.test.t003util;
+package cn.com.cloudstar.rightcloud.framework.test.t001study.redis;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.JedisSentinelPool;
 
 import cn.com.cloudstar.rightcloud.framework.common.cache.JedisUtil;
+import cn.com.cloudstar.rightcloud.framework.test.t003util.excel.bean.ExBean;
 
 /**
  * @author Hong.Wu
  * @date: 19:01 2019/06/09
  */
-public class Test09Redis {
+public class TestRedisDataType {
 
     public static void main(String[] args) {
-        testString();
-        testHash();
-        testList();
-        testSet();
+//        testString();
+//        testHash();
+//        testList();
+//        testSet();
 
 //        testJedis();
-//        testSentinel();
 
+
+        System.out.println(new String("123").hashCode());
+        System.out.println("123".hashCode());
+
+        System.out.println(new ExBean().hashCode());
+        System.out.println(new ExBean().hashCode());
     }
+
+
 
     private static void testJedis() {
         //连接本地的 Redis 服务
@@ -41,24 +45,7 @@ public class Test09Redis {
     }
 
 
-    private static void testSentinel() {
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(10);
-        jedisPoolConfig.setMaxIdle(5);
-        jedisPoolConfig.setMinIdle(5);
-        // 哨兵信息
-        Set<String> sentinels = new HashSet<>(Arrays.asList("192.168.93.100:26379",
-                                                            "192.168.93.100:26380",
-                                                            "192.168.93.100:26381"));
-        // 创建连接池
-        JedisSentinelPool pool = new JedisSentinelPool("mymaster", sentinels, jedisPoolConfig, "123456");
-        // 获取客户端
-        Jedis jedis = pool.getResource();
-        // 执行两个命令
-        jedis.set("mykey", "你好啊2!");
-        String value = jedis.get("mykey");
-        System.out.println(value);
-    }
+
 
     private static void testHash() {
         //Redis hash 是一个键值(key=>value)对集合。

@@ -33,22 +33,21 @@
             </configuration>
         </plugin>
 
-        <!-- 测试自定义插件  -->
+        <!-- 测试自定义插件
         <plugin>
             <groupId>com.test</groupId>
             <artifactId>mavenplugin</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <!-- 这里加入的是相关参数，这些参数必须跟插件实现里面的属性保持一致 -->
             <configuration>
-                <application>api</application><!-- 当前应用名称 -->
-                <sourceFolderPath>${basedir}</sourceFolderPath><!-- 当前应用根目录 -->
-                <driverName>com.mysql.jdbc.Driver</driverName><!-- 数据库驱动 -->
-                <dbUrl>jdbc:mysql://10.16.88.189:3306</dbUrl><!-- 数据库连接URL -->
-                <dbName>iapps</dbName><!-- 数据库名 -->
+                <application>api</application>
+                <sourceFolderPath>${basedir}</sourceFolderPath>
+                <driverName>com.mysql.jdbc.Driver</driverName>
+                <dbUrl>jdbc:mysql://10.16.88.189:3306</dbUrl>
+                <dbName>iapps</dbName>
                 <classFolderPath>ssss</classFolderPath>
             </configuration>
         </plugin>
-
+        -->
 
         <plugin>
             <groupId>org.flywaydb</groupId>
@@ -57,7 +56,7 @@
             <version>${org.flywaydb.version}</version>
             <configuration>
                 <driver>com.mysql.jdbc.Driver</driver>
-                <url>jdbc:mysql://192.168.93.132:3306/myssm?useUnicode=true&amp;characterEncoding=utf-8</url>
+                <url>jdbc:mysql://192.168.93.132:3308/myssm?useUnicode=true&amp;characterEncoding=utf-8</url>
                 <user>root</user>
                 <password>123456</password>
                 <!-- 设置接受flyway进行版本管理的数据库，多个数据库以逗号分隔 -->

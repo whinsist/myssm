@@ -6,17 +6,22 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.poi.ss.formula.functions.T;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
+
+import cn.com.cloudstar.rightcloud.framework.common.util.JsonUtil;
 
 /**
  * @author Hong.Wu
@@ -38,6 +43,8 @@ public class JsonTest {
         JsonNode path = jsonNode.path("username");
         JsonNode resultValue = jsonNode.findValue("username");
         JsonNode resultPath = jsonNode.findPath("username");
+
+        testJackson();
 
         // 1.jackson
         // 第1步：创建ObjectMapper对象。创建ObjectMapper对象。它是一个可重复使用的对象。
@@ -84,6 +91,36 @@ public class JsonTest {
 //        public static final String toJSONString(Object object, boolean prettyFormat); // 将JavaBean序列化为带格式的JSON文本
 //        public static final Object toJSON(Object javaObject); // 将JavaBean转换为JSONObject或者JSONArray。
 
+    }
+
+    private static void testJackson() {
+//        SystemsInfoVO testVo = new SystemsInfoVO();
+//        testVo.setName("test");
+//        ProcessorsVO processorsVO = new ProcessorsVO();
+//        processorsVO.setProcessorFamily("family");
+//        testVo.setProcessorsVO(processorsVO);
+//        String strJson = toJson(testVo);
+//        SystemsInfoVO systemsInfoVO = JsonUtil.toBean(strJson, SystemsInfoVO.class);
+//        System.out.println(systemsInfoVO);
+//
+//        List<SystemsInfoVO> testList = new ArrayList<>();
+//        SystemsInfoVO testVo2 = new SystemsInfoVO();
+//        testVo2.setName("test222");
+//        testList.add(testVo);
+//        testList.add(testVo2);
+//        String listJson = toJson(testList);
+//
+//        List<SystemsInfoVO> list = JsonUtil.toBean(listJson, List.class);
+//        System.out.println(list);
+//        List<SystemsInfoVO> systemsInfoVOS = JsonUtil.nativeRead(listJson, new TypeReference<List<SystemsInfoVO>>() {
+//        });
+//        System.out.println(systemsInfoVOS);
+//
+//        Map<String, Object> map = JsonUtil.nativeRead(strJson, new TypeReference<Map<String, Object>>() {
+//        });
+//        System.out.println(map);
+//        Map<String, Object> map1 = JsonUtil.toMap(strJson, String.class, Object.class);
+//        System.out.println(map1);
     }
 
     @Data

@@ -1,6 +1,7 @@
 package cn.com.cloudstar.rightcloud.framework.test.t003util.excel.bean;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author Hong.Wu
@@ -55,4 +56,8 @@ public class ExBean {
         this.birth = birth;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this);
+    }
 }

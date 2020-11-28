@@ -386,7 +386,7 @@ public final class FileUtil {
 			 out.write(bytes, 0, read);
 			 out.flush();  
 		     out.close(); 
-		     flag = true;
+		     flag = true;File
 		}
 		return flag;
 	}*/

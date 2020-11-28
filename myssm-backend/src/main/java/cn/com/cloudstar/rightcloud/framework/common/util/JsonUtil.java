@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * JSON的工具类 <p/> <h3>Here is an example:</h3> <p/>
@@ -334,6 +335,23 @@ public class JsonUtil {
      */
     public static ObjectMapper mapper() {
         return MAPPER;
+    }
+
+    public static  <T> T toBean(String json, Class<T> clazz) throws Exception {
+        return MAPPER.readValue(json, clazz);
+    }
+
+
+    public static <T> List<T> toList(String json, Class<T> clazz) throws Exception {
+        return MAPPER.readValue(json, MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
+    }
+
+
+    public static  <K, V> Map<K, V> toMap(String json, Class<K> key, Class<V> value) throws Exception {
+        return MAPPER.readValue(json, MAPPER.getTypeFactory().constructMapType(Map.class, key, value));
+    }
+    public static  <T> T nativeRead(String json, TypeReference<T> type) throws Exception {
+        return MAPPER.readValue(json, type);
     }
 
     public static void main(String args[]) {

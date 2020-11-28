@@ -39,6 +39,7 @@ public class FreeMarkerUtil {
                                                                       String basePackagePath) {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
         cfg.setClassForTemplateLoading(resourceLoaderClass, basePackagePath);
+        cfg.setDefaultEncoding("UTF-8");
         this.setConfiguration(cfg);
         return this;
     }

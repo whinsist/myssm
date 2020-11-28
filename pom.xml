@@ -660,7 +660,7 @@
         </dependency>
 
         <!--VMWare-->
-        <dependency>
+        <!--<dependency>
             <groupId>com.vmware</groupId>
             <artifactId>vim25</artifactId>
             <version>6.0</version>
@@ -669,7 +669,7 @@
             <groupId>com.vmware</groupId>
             <artifactId>apputils</artifactId>
             <version>1.0.0</version>
-        </dependency>
+        </dependency>-->
 
         <!--hutool-->
         <dependency>
