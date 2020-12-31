@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import cn.com.cloudstar.rightcloud.framework.common.exception.RetryException;
 import cn.com.cloudstar.rightcloud.framework.common.util.RetryUtil;
@@ -16,33 +17,36 @@ import cn.com.cloudstar.rightcloud.framework.common.util.RetryUtil;
  */
 public class Test8Retry {
     private static Logger logger = LoggerFactory.getLogger(Test8Retry.class);
+
     public static void main(String[] args) {
 
 
-            AtomicInteger count = new AtomicInteger();
-            int total = 5;
-            final String[] instanceIdArr = {null};
-            RetryUtil.retry(total, 1L, TimeUnit.SECONDS, false, () -> {
-                count.getAndIncrement();
-                logger.info("{}循环检测主机[{}:{}]的信息", (count+"/"+total), "test", "127.0.0.1");
+        int total = 5;
+        AtomicInteger count = new AtomicInteger();
+        AtomicReference<String> reference = new AtomicReference<>();
+        RetryUtil.retry(total, 1L, TimeUnit.SECONDS, false, () -> {
+            count.getAndIncrement();
+            String info = String.format("%s循环检测主机[%s]的信息", (count + "/" + total), "127.0.0.1");
+            System.out.println(info);
+            String instanceId = getInstanceId();
+            if (instanceId == null) {
+                throw new RuntimeException("累计" + count + "次 主机instanceId未查询到");
+            } else {
+                reference.set(instanceId);
+            }
+        });
 
-                instanceIdArr[0] = getInstanceId();
-                if (instanceIdArr[0] == null) {
-                    throw new RetryException("主机instanceId未查询到, 继续");
-                }
-            });
-
-            System.out.println("instanceId="+instanceIdArr[0]);
-
-
+        // 如果throwIfFail=true total满之后不走下面的语句
+        // 一般做法是throwIfFail=false, 然后在下面取得值然后判断之是否为空
+        System.out.println("instanceId=" + reference.get());
 
 
     }
 
 
     public static String getInstanceId() {
-        Integer random = new Random().nextInt(10);
-        if (random < 5) {
+        Integer random = new Random().nextInt(100);
+        if (random < 90) {
             return null;
         }
         return random.toString();
