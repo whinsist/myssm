@@ -1,9 +1,11 @@
 package cn.com.cloudstar.rightcloud.framework.test.t001study.redis;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cn.hutool.core.collection.CollectionUtil;
 import redis.clients.jedis.Jedis;
 
 import cn.com.cloudstar.rightcloud.framework.common.cache.JedisUtil;
@@ -21,30 +23,39 @@ public class TestRedisDataType {
 //        testList();
 //        testSet();
 
-//        testJedis();
+        testJedis();
 
 
-        System.out.println(new String("123").hashCode());
-        System.out.println("123".hashCode());
+//        System.out.println(new String("123").hashCode());
+//        System.out.println("123".hashCode());
+//
+//        System.out.println(new ExBean().hashCode());
+//        System.out.println(new ExBean().hashCode());
 
-        System.out.println(new ExBean().hashCode());
-        System.out.println(new ExBean().hashCode());
+
+//
     }
-
 
 
     private static void testJedis() {
         //连接本地的 Redis 服务
-        Jedis jedis = new Jedis("192.168.93.100");
+        Jedis jedis = new Jedis("192.168.93.129");
         jedis.auth("123456");
         System.out.println("连接成功");
         //设置 redis 字符串数据
         jedis.set("runoobkey", "www.runoob.com");
         // 获取存储的数据并输出
         System.out.println("redis 存储的字符串为: " + jedis.get("runoobkey"));
+
+        Long del = jedis.del("mytext.incr");
+        System.out.println("del=========" + del);
+        for (int i = 0; i < 10; i++) {
+            long incr = jedis.incr("mytext.incr");
+            System.out.println(incr);
+        }
+
+        String first = CollectionUtil.getFirst(Arrays.asList("11"));
     }
-
-
 
 
     private static void testHash() {
