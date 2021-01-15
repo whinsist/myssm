@@ -1,13 +1,18 @@
-package cn.com.cloudstar.rightcloud.framework.test.t003util;
+package cn.com.cloudstar.rightcloud.framework.test.t003util.httpclient;
 
 import com.alibaba.fastjson.JSON;
 import com.jcraft.jsch.Session;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.CharsetUtil;
@@ -28,21 +33,20 @@ import cn.com.cloudstar.rightcloud.framework.common.util.stream.StreamUtil;
  * @author Hong.Wu
  * @date: 4:24 2020/07/11
  */
-public class Test21HttpClientMutilDemo {
+public class TestHutoolHttpClient {
 
     public static void main(String[] args) {
-//        test1HttpUrlConnection();
-        
+
         test2Hutool();
-        
+
     }
 
     private static void test2Hutool() {
         //https://www.bookstack.cn/read/hutool/c749f7a45b09ce9d.md
         //GET请求
-//        String url = "http://sso-project.rc.com:8088/employee-mock.json";
-//        String content = HttpUtil.get(url);
-//        System.out.println(content);
+        String url = "http://sso-project.rc.com:8088/employee-mock.json";
+        String content = HttpUtil.get(url);
+        System.out.println(content);
 
 //        String result1= HttpUtil.get("https://www.baidu.com", CharsetUtil.CHARSET_UTF_8);
 
@@ -83,46 +87,13 @@ public class Test21HttpClientMutilDemo {
         List<User> users = JSONUtil.toList(jsonArray, User.class);
 //        List list = JSONUtil.toBean(jsonArray.toString(), List.class);
 
-
-
-
-
-
-
         System.out.println("---------");
     }
-    private static void test1HttpUrlConnection() {
-        try {
-            String request_url = "http://www.baidu.com";
-            String postData = "{}";
-            String method = "GET";
-            HttpURLConnection connection = (HttpURLConnection) new URL(request_url).openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("x-amz-date", "ss");
-            connection.setRequestProperty("Authorization", "ss");
-            // 设定传送的内容类型application/x-java-serialized-object是可序列化的java对象
-            // (如果不设此项,在传送序列化对象时,当WEB服务默认的不是这种类型时可能抛java.io.EOFException)
-            connection.setRequestProperty("Content-Type", "application/json");
-            // http正文内，因此需要设为true, 默认情况下是false;
-            connection.setDoOutput(true);
-            // post发送body数据
-            if (postData != null) {
-                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-                wr.write(postData);
-                wr.flush();
-            }
-            int code = connection.getResponseCode();
-            System.out.println("code : " + code);
-            if (code == HttpURLConnection.HTTP_OK) {
-                String content = StreamUtil.convertStreamToString(connection.getInputStream(), true);
-                System.out.println(content);
-            } else {
-                System.out.println(connection.getResponseMessage() + connection.getResponseCode());
-                String content = StreamUtil.convertStreamToString(connection.getErrorStream(), true);
-                System.out.println(content);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
+
+
+
+
+
+
 }

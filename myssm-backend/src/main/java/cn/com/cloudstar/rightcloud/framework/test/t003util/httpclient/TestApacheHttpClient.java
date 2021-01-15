@@ -1,4 +1,4 @@
-package cn.com.cloudstar.rightcloud.framework.test.t003util;
+package cn.com.cloudstar.rightcloud.framework.test.t003util.httpclient;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -29,7 +29,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test11HttpClientUploadFile {
+public class TestApacheHttpClient {
 
     private static final String uploadUrl = "http://localhost:8081/api/v1/attach/upload";
 
