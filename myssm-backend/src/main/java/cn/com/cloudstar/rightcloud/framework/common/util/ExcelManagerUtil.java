@@ -1,4 +1,4 @@
-package cn.com.cloudstar.rightcloud.framework.test.t003util.excel;
+package cn.com.cloudstar.rightcloud.framework.common.util;
 
 import net.sf.jxls.exception.ParsePropertyException;
 import net.sf.jxls.transformer.XLSTransformer;
@@ -33,18 +33,20 @@ import javax.servlet.http.HttpServletResponse;
  * @author Hong.Wu
  * @date: 5:30 2020/04/01
  *
- * 先目前支持的是xlsx
+ *         先目前支持的是xlsx
  */
 public class ExcelManagerUtil {
 
     /*每个sheet的最多行数 （不包括头部）     注： xls最大行数65536*/
     private static final int SheetMaxRowsExcludeHead = 65535;
 
-    private static final String DefaultExportExcelPath = "e:/temp/default.xlsx";
-
-
     public static void exportExcel(String fileName, String[] titles, List<String> list, int width,
                                    HttpServletResponse response) {
+        exportExcel(fileName, titles, list, width, response, null);
+    }
+
+    public static void exportExcel(String fileName, String[] titles, List<String> list, int width,
+                                   HttpServletResponse response, String exportExcelPath) {
 
         try {
             // 创建一个EXCEL
@@ -111,7 +113,7 @@ public class ExcelManagerUtil {
                 workBook.write(out);
                 out.close();
             } else {
-                FileOutputStream fout = new FileOutputStream(DefaultExportExcelPath);
+                FileOutputStream fout = new FileOutputStream(exportExcelPath);
                 workBook.write(fout);
                 fout.close();
             }
