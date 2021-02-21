@@ -58,7 +58,7 @@ public class SystemUtil {
         return executeCmd(command);
     }
 
-    private static String executeCmd(String cmd) {
+    public static String executeCmd(String cmd) {
         if (StringUtil.isNullOrEmpty(cmd)) {
             throw new IllegalArgumentException("输入执行命令不能为空!");
         }
