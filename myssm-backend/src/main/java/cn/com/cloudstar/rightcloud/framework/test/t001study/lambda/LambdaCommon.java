@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,8 +62,8 @@ public class LambdaCommon {
 
         // 元素抽取
         // 初始化测试数据
-        User user1 = new User(1, "张三", Arrays.asList("java", "c", "音乐"));
-        User user2 = new User(2, "李四", Arrays.asList("c++", "c", "游戏"));
+        User user1 = new User(1, "张三", Arrays.asList("java", "c", "音乐"), new BigDecimal("12.3"));
+        User user2 = new User(2, "李四", Arrays.asList("c++", "c", "游戏"),new BigDecimal("12.4"));
         ArrayList<User> users = new ArrayList<>();
         users.add(user1);
         users.add(user2);
@@ -76,26 +77,49 @@ public class LambdaCommon {
         Map<String,Object> map = Maps.newHashMap();
         List<String> xxs = Optional.ofNullable((List<String>)map.get("xx")).orElse(Lists.newArrayList());
 
-        Set<String> volumnIds = Sets.newHashSet();
 
-//        volumnIds.stream().filter(s -> {
-//            Optional.ofNullable()
-//        })
+//        3.求和
+//        分基本类型和大数类型求和，基本类型先mapToInt，然后调用sum方法，大数类型使用reduce调用BigDecimal::add方法
+        //求和 - 基本类型
+        int sumAge = users.stream().mapToInt(User::getId).sum();
+        //求和 - BigDecimal
+        BigDecimal totalQuantity = users.stream().map(User::getMoney).reduce(BigDecimal.ZERO, BigDecimal::add);
+        System.out.println(totalQuantity);
+        // 上面的求和不能过滤bigDecimal对象为null的情况，可能会报空指针，这种情况，我们可以用filter方法过滤，或者重写求和方法
+        BigDecimal totalQuantity2 = users.stream().map(User::getMoney).reduce(BigDecimal.ZERO, BigDecimalUtils::sum);
 
     }
 
+    public static class BigDecimalUtils {
 
+        public static BigDecimal ifNullSet0(BigDecimal in) {
+            if (in != null) {
+                return in;
+            }
+            return BigDecimal.ZERO;
+        }
+
+        public static BigDecimal sum(BigDecimal ...in){
+            BigDecimal result = BigDecimal.ZERO;
+            for (int i = 0; i < in.length; i++){
+                result = result.add(ifNullSet0(in[i]));
+            }
+            return result;
+        }
+    }
     @Data
     public static class User {
 
         private int id;
         private String name;
         private List<String> hobby;
+        private BigDecimal money;
 
-        public User(int id, String name, List<String> hobby) {
+        public User(int id, String name, List<String> hobby, BigDecimal money) {
             this.id = id;
             this.name = name;
             this.hobby = hobby;
+            this.money = money;
         }
 
         @Override

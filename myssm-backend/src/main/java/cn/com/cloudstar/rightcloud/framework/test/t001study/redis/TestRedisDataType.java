@@ -1,11 +1,16 @@
 package cn.com.cloudstar.rightcloud.framework.test.t001study.redis;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import cn.hutool.core.collection.CollectionUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import redis.clients.jedis.Jedis;
 
 import cn.com.cloudstar.rightcloud.framework.common.cache.JedisUtil;
@@ -20,10 +25,11 @@ public class TestRedisDataType {
     public static void main(String[] args) {
 //        testString();
 //        testHash();
-//        testList();
+        testList();
 //        testSet();
 
-        testJedis();
+//        testJedis();
+//        testCallLua();
 
 
 //        System.out.println(new String("123").hashCode());
@@ -39,7 +45,7 @@ public class TestRedisDataType {
 
     private static void testJedis() {
         //连接本地的 Redis 服务
-        Jedis jedis = new Jedis("192.168.93.129");
+        Jedis jedis = new Jedis("192.168.93.133", 6379);
         jedis.auth("123456");
         System.out.println("连接成功");
         //设置 redis 字符串数据
@@ -54,8 +60,38 @@ public class TestRedisDataType {
             System.out.println(incr);
         }
 
-        String first = CollectionUtil.getFirst(Arrays.asList("11"));
+        System.out.println("IsvProductQuotauuid_b3b9o2ln的值：" + "1"+jedis.get("IsvProductQuotauuid_b3b9o2ln_1"));
+
+
     }
+
+    public static void testCallLua(){
+        Jedis jedis = new Jedis("192.168.93.133", 6379);
+        jedis.auth("123456");
+        System.out.println("连接成功");
+        String luaStr = "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}";
+        Object result = jedis.eval(luaStr, Lists.newArrayList("userName","age"), Lists.newArrayList("Jack","20"));
+        System.out.println(result);
+
+
+        String lua = "local num = redis.call('incr', KEYS[1])\n" +
+                "if tonumber(num) == 1 then\n" +
+                "\tredis.call('expire', KEYS[1], ARGV[1])\n" +
+                "\treturn 1\n" +
+                "elseif tonumber(num) > tonumber(ARGV[2]) then\n" +
+                "\treturn 0\n" +
+                "else \n" +
+                "\treturn 1\n" +
+                "end\n";
+        Object result2 = jedis.evalsha(jedis.scriptLoad(lua), Arrays.asList("localhost"), Arrays.asList("10", "2"));
+        System.out.println(result2);
+
+        String lua3 = "local num = redis.call('incr', KEYS[1])";
+        Object result3 = jedis.evalsha(jedis.scriptLoad(lua3));
+        System.out.println(result2);
+    }
+
+
 
 
     private static void testHash() {
@@ -75,12 +111,24 @@ public class TestRedisDataType {
     private static void testList() {
         // lpush test:List:runoobBooks mongodb
         // lrange test:List:runoobBooks 0 10
-        JedisUtil.instance().addList("test:List:runoobBooks", "redis");
-        JedisUtil.instance().addList("test:List:runoobBooks", "mongodb");
-        JedisUtil.instance().addList("test:List:runoobBooks", "rabitmq");
+//        JedisUtil.instance().addList("test:List:runoobBooks", "redis");
+//        JedisUtil.instance().addList("test:List:runoobBooks", "mongodb");
+//        JedisUtil.instance().addList("test:List:runoobBooks", "rabitmq");
+//        List<String> listPort = JedisUtil.instance().getList("test:List:runoobBooks");
+//        System.out.println(listPort);
 
-        List<String> listPort = JedisUtil.instance().getList("test:List:runoobBooks");
-        System.out.println(listPort);
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", "user");
+        map.put("id", 222);
+        map.put("name", "test2");
+
+        Jedis jedis = new Jedis("192.168.93.100", 6380);
+        jedis.auth("123456");
+        jedis.rpush("logstash-list", JSON.toJSONString(map));
+
+
+        List<String> list = jedis.lrange("logstash-list", 0, -1);
+        System.out.println(list);
 
     }
 
