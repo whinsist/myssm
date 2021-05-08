@@ -64,7 +64,7 @@
         <kryo.version>2.24.0</kryo.version>
         <kryo.serializers.version>0.26</kryo.serializers.version>
         <fst.version>1.63</fst.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.6.0</shiro.version>
         <commons-codec.version>1.10</commons-codec.version>
         <xstream.version>1.4.8</xstream.version>
         <xmlbeans.version>2.4.0</xmlbeans.version>
